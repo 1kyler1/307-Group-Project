@@ -1,1 +1,4 @@
-This is my react app
+This is our 307 group Project
+
+Developers: 
+Kyler Nord
