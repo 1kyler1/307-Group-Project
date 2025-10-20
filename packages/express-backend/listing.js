@@ -25,7 +25,10 @@ const ListingSchema = new mongoose.Schema(
 	  description: "body text/caption of the listing",
 	}
 	date: { type: Date, default: Date.now },
-	//add image
+	img: {
+		type: String, //placeholder
+		description: "user-provided image associated with the listing",
+	}
   },
   { collection: "listings" }
 );
