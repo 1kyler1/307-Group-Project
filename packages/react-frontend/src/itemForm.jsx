@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export default function itemForm(props) {
+export default function ItemForm(props) {
 
 
     const [form, setForm] = useState({item:'', description:''});

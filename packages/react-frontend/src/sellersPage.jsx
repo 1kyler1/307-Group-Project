@@ -6,7 +6,7 @@ export default function sellersPage() {
     const [listings, setListings] = useState([]);
 
   function handleFormSubmit(newItem) {
-    // For now, just store locally (MVP)
+    
     setListings([...listings, newItem]);
   }
 
