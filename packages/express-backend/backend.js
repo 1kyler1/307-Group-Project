@@ -1,70 +1,61 @@
 // backend.js
+import "dotenv/config";
+import "dotenv/config";
 import express from "express";
+import mongoose from "mongoose";
 import cors from "cors";
-import userServices from "./user-services.js";
+import multer from "multer";
+import path from "path";
+import { fileURLToPath } from "url";
+import Item from "./models/listing.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
-const port = 8000;
-
-app.use(cors());
+app.use(cors());                    
 app.use(express.json());
 
-// 1) GET /users
-app.get("/users", (req, res) => {
-  const { name, job } = req.query;
-  userServices
-    .getUsers(name, job)
-    .then((docs) => res.send({ users_list: docs }))
-    .catch((err) => {
-      console.error("GET /users error:", err);
-      res.status(500).send("Internal server error.");
-    });
-});
+// serve uploaded images
+const uploadsDir = path.join(__dirname, "uploads");
+app.use("/uploads", express.static(uploadsDir));
 
-// 2) GET /users/:id
-app.get("/users/:id", (req, res) => {
-  userServices
-    .findUserById(req.params.id)
-    .then((doc) => (doc ? res.send(doc) : res.status(404).send("Resource not found.")))
-    .catch(() => res.status(404).send("Resource not found."));
+// multer storage for images
+const storage = multer.diskStorage({
+  destination: (_req, _file, cb) => cb(null, uploadsDir),
+  filename: (_req, file, cb) => {
+    const unique = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, unique + path.extname(file.originalname));
+  },
 });
+const upload = multer({ storage });
 
-// 3) POST /users  (create)
-app.post("/users", (req, res) => {
-  const { name, job } = req.body || {};
-  if (!name || !job) {
-    return res.status(400).send("Missing required fields: name and job.");
+// connect DB
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => console.log("MongoDB connected"))
+  .catch((e) => console.error("Mongo error:", e));
+
+
+// API routes
+app.post("/api/items", upload.single("image"), async (req, res) => {
+  try {
+    const { title, description, location } = req.body;
+    if (!title?.trim() || !description?.trim() || !location?.trim())
+      return res.status(400).json({ error: "Missing required fields." });
+
+    const imageUrl = req.file ? `/uploads/${req.file.filename}` : undefined;
+    const item = await Item.create({ title, description, location, imageUrl });
+    res.status(201).json(item);
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: "Server error" });
   }
-
-  userServices
-    .addUser({ name, job })
-    .then((created) => res.status(201).send(created))
-    .catch((err) => {
-      console.error("POST /users error:", err);
-      if (err?.name === "ValidationError") {
-        return res.status(400).send(err.message);
-      }
-      res.status(500).send("Internal server error.");
-    });
 });
 
-app.delete("/users/:id", (req, res) => {
-  userServices
-    .removeUserById(req.params.id)
-    .then((deleted) => {
-      if (!deleted) return res.status(404).send("Resource not found.");
-      res.status(204).send();
-    })
-    .catch((err) => {
-      console.error("DELETE /users/:id error:", err);
-      res.status(500).send("Internal server error.");
-    });
+app.get("/api/items", async (_req, res) => {
+  const items = await Item.find().sort({ createdAt: -1 });
+  res.json(items);
 });
 
-app.listen(port, () => {
-  console.log(
-    `Example app listening at http://localhost:${port}`
-  );
-}); 
-
-
+const port = process.env.PORT || 4000;
+app.listen(port, () => console.log(`API on http://localhost:${port}`));
