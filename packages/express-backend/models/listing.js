@@ -1,38 +1,15 @@
 import mongoose from "mongoose";
 
-const ListingSchema = new mongoose.Schema(
+import mongoose from "mongoose";
+
+const ItemSchema = new mongoose.Schema(
   {
-    title: {
-      type: String,
-      required: true,
-      trim: true,
-	  description: "headline of the listing",
-    },
-	author: {
-      type: String,
-      required: true,
-      trim: true,
-	  description: "user/username of who posted the listing",
-    },
-    place: {
-      type: String,
-      required: true,
-      trim: true,
-	  description: "location of the object being listed",
-    },
-	desc: {
-	  type: String,
-	  description: "body text/caption of the listing",
-	}
-	date: { type: Date, default: Date.now },
-	img: {
-		type: String, //placeholder
-		description: "user-provided image associated with the listing",
-	}
+    title: { type: String, required: true },
+    description: { type: String, required: true },
+    location: { type: String, required: true },
+    imageUrl: { type: String },
   },
-  { collection: "listings" }
+  { timestamps: true }
 );
 
-const Listing = mongoose.model("Listing", ListingSchema);
-
-export default Listing;
+export default mongoose.model("Item", ItemSchema);
