@@ -32,14 +32,14 @@ import NewItemFormPage from "./CreateListingPage";
 export default function MyApp() {
   return (
     <div>
-      {/* Optional Navigation */}
+      
       <nav style={{ marginBottom: "1rem" }}>
         <Link to="/">Home</Link> |{" "}
         <Link to="/login">Login</Link> |{" "}
         <Link to="/new-item">New Item</Link>
       </nav>
 
-      {/* Routes */}
+      
       <Routes>
         <Route path="/" element={<h1>Welcome to the app!</h1>} />
         <Route
