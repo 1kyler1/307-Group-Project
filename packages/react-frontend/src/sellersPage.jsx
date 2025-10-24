@@ -14,6 +14,7 @@ export default function sellersPage() {
     return (
         <div>
             <h1>Sellers Page</h1>
+            <h2>Current Listings</h2>
             
             <ItemForm handleSubmit={handleFormSubmit} />
 
@@ -24,6 +25,7 @@ export default function sellersPage() {
                 </li>
                 ))}
             </ul>
+            <h3 button = './Form'>Create New listing</h3>
 
         </div>
     );

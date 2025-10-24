@@ -28,6 +28,7 @@ import React from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import Login from "./LogIn";
 import NewItemFormPage from "./CreateListingForum";
+import SellersPage from "./sellersPage";
 
 export default function MyApp() {
   return (
@@ -37,6 +38,7 @@ export default function MyApp() {
         <Link to="/">Home</Link> |{" "}
         <Link to="/login">Login</Link> |{" "}
         <Link to="/new-item">New Item</Link>
+        <Link to="/user-Page">Sellers Page</Link>
       </nav>
 
       
@@ -47,6 +49,8 @@ export default function MyApp() {
           element={<Login handleSubmit={(data) => console.log("Login data:", data)} />}
         />
         <Route path="/new-item" element={<NewItemFormPage />} />
+        <Route path="/user-page" element ={<SellersPage />} />
+
       </Routes>
     </div>
   );

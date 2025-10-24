@@ -6,20 +6,20 @@ export default function ItemForm(props) {
     const [form, setForm] = useState({item:'', description:''});
     function handleSubmit(event) {
         const { name, value } = event.target;
-        setForm({...listing, [name]: value});
+        setForm({...form, [name]: value});
     }
 
     function submitForm() {
 
         props.handleSubmit(form);
-        setForm({item: '', iescription: ''});
+        setForm({item: '', description: ''});
 
     }
 
     return (
 
         <form>
-            <label htmlFor="name">Name</label>
+            <label htmlFor="name">Item</label>
             <input
                 type="text"
                 name="item"
@@ -27,7 +27,7 @@ export default function ItemForm(props) {
                 value={form.title}
                 onChange={handleSubmit}
             />
-            <label htmlFor="job">Job</label>
+            <label htmlFor="description">Description</label>
         <input
             type="text"
             name="description"
