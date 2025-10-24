@@ -4,7 +4,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "cd packages/react-frontend && npm run dev"
+    "dev": "cd packages/react-frontend && npm run dev",
+    "prettier": "prettier --write .",
+    "check-prettier": "prettier --check ."
   },
   "author": "",
   "license": "ISC",
