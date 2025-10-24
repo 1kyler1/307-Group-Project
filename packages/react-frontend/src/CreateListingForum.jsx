@@ -13,37 +13,35 @@
 //     description.trim() !== "" &&
 //     location.trim() !== "";
 
-  
-
 //   // const handleSubmitClick = () => {
 //   //   if (!isComplete) return; // guard (should already be disabled)
 //   //   setSubmitted(true);
 //   // };
 //   const handleSubmitClick = async () => {
 //     if (!isComplete) return;
-  
+
 //     const formData = new FormData();
 //     formData.append("title", title);
 //     formData.append("description", description);
 //     formData.append("location", location);
 //     if (imageFile) formData.append("image", imageFile); // this must match multer field name in backend
-  
+
 //     try {
 //       const res = await fetch("/api/items", {
 //         method: "POST",
 //         body: formData, // no need to set headers, fetch handles it for FormData
 //       });
-  
+
 //       if (!res.ok) {
 //         const err = await res.json();
 //         console.error("Error:", err);
 //         alert("Failed to save item");
 //         return;
 //       }
-  
+
 //       const savedItem = await res.json();
 //       console.log("Saved item:", savedItem);
-  
+
 //       // Reset form or show success message
 //       setTitle("");
 //       setDescription("");
@@ -144,7 +142,6 @@
 //   );
 // }
 
-
 import React, { useState } from "react";
 
 export default function NewItemFormPage() {
@@ -242,7 +239,7 @@ export default function NewItemFormPage() {
               Image
             </label>
             <input
-              key={resetKey}               // 🔁 forces input to reset after submit
+              key={resetKey} // 🔁 forces input to reset after submit
               id="image"
               type="file"
               accept="image/*"
@@ -253,7 +250,10 @@ export default function NewItemFormPage() {
 
           {/* Description */}
           <div>
-            <label className="block text-sm font-medium mb-1" htmlFor="description">
+            <label
+              className="block text-sm font-medium mb-1"
+              htmlFor="description"
+            >
               Description
             </label>
             <textarea
@@ -271,7 +271,10 @@ export default function NewItemFormPage() {
 
           {/* Location */}
           <div>
-            <label className="block text-sm font-medium mb-1" htmlFor="location">
+            <label
+              className="block text-sm font-medium mb-1"
+              htmlFor="location"
+            >
               Location
             </label>
             <input
@@ -292,7 +295,7 @@ export default function NewItemFormPage() {
             <button
               type="button"
               onClick={handleSubmitClick}
-              disabled={!isComplete}  // ✅ allow re-submit after success
+              disabled={!isComplete} // ✅ allow re-submit after success
               className={`w-full rounded-2xl font-medium py-3 transition ${
                 !isComplete
                   ? "bg-gray-300 text-gray-500 cursor-not-allowed"

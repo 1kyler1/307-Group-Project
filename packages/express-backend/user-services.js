@@ -13,26 +13,29 @@ mongoose.set("debug", true);
 //   .catch((error) => console.log(error));
 
 mongoose.connection.on("connected", () => {
-    console.log("✅ Mongo connected:", mongoose.connection.host, mongoose.connection.port);
-  });
-  mongoose.connection.on("error", (err) => {
-    console.error("❌ Mongo error:", err.message);
-  });
-  
-  await mongoose.connect("mongodb://127.0.0.1:27017/users");
+  console.log(
+    "✅ Mongo connected:",
+    mongoose.connection.host,
+    mongoose.connection.port,
+  );
+});
+mongoose.connection.on("error", (err) => {
+  console.error("❌ Mongo error:", err.message);
+});
 
+await mongoose.connect("mongodb://127.0.0.1:27017/users");
 
-  function getUsers(name, job) {
-    if (name === undefined && job === undefined) {
-      return userModel.find();                 
-    } else if (name && !job) {
-      return findUserByName(name);             
-    } else if (job && !name) {
-      return findUserByJob(job);               
-    } else {
-      return userModel.find({ name, job });    
-    }
+function getUsers(name, job) {
+  if (name === undefined && job === undefined) {
+    return userModel.find();
+  } else if (name && !job) {
+    return findUserByName(name);
+  } else if (job && !name) {
+    return findUserByJob(job);
+  } else {
+    return userModel.find({ name, job });
   }
+}
 
 function findUserById(id) {
   return userModel.findById(id);
@@ -53,8 +56,8 @@ function findUserByJob(job) {
 }
 
 function removeUserById(id) {
-    return userModel.findByIdAndDelete(id);
-  }
+  return userModel.findByIdAndDelete(id);
+}
 
 export default {
   addUser,

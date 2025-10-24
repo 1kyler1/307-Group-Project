@@ -13,7 +13,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-app.use(cors());                    
+app.use(cors());
 app.use(express.json());
 
 // serve uploaded images
@@ -31,10 +31,10 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // connect DB
-mongoose.connect(process.env.MONGODB_URI)
+mongoose
+  .connect(process.env.MONGODB_URI)
   .then(() => console.log("MongoDB connected"))
   .catch((e) => console.error("Mongo error:", e));
-
 
 // API routes
 app.post("/api/items", upload.single("image"), async (req, res) => {
