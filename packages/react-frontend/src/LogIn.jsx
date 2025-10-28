@@ -1,6 +1,6 @@
 // src/LogIn.jsx
 import React, { useState } from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, Link, useNavigate } from "react-router-dom";
 
 function Login(props) {
   const [person, setPerson] = useState({
@@ -8,6 +8,7 @@ function Login(props) {
     password: "",
   });
 
+  const navigate = useNavigate();
   const [error, setError] = useState(null);
 
   function handleChange(event) {
@@ -36,6 +37,7 @@ function Login(props) {
     if (user) {
       console.log("Login successful:", user);
       setPerson({ username: "", password: "" });
+      navigate("/listings");
     } else {
       setPerson({ username: "", password: "" });
       setError("Invalid username or password.");
