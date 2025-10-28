@@ -1,5 +1,6 @@
 // src/CreateAccount.jsx
 import React, { useState } from "react";
+import { Routes, Route, Link } from "react-router-dom";
 
 function CreateAccount(props) {
   const [person, setPerson] = useState({
@@ -20,7 +21,12 @@ function CreateAccount(props) {
     if (!person.username.trim() || !person.password.trim()) {
       setPerson({ username: "", password: "" });
       setError("Username and password cannot be empty.");
-    }
+	  console.log("Username and password cannot be empty.");
+    }else if (person.password.length < 8){
+		setPerson({ username: "", password: "" });
+        setError("Password must be 8 or more characters.");
+		console.log("Password must be 8 or more characters.");
+	}
   }
 
   return (
@@ -44,12 +50,13 @@ function CreateAccount(props) {
         type="password"
         name="password"
         id="password"
-		placeholder="Enter a password"
+		placeholder="Enter a password (at least 8 characters)"
         value={person.password}
         onChange={handleChange}
       />
       <input type="button" value="Sign up" onClick={submitAccount} />
     </form>
+	  Already have an account? <Link to="/login">Login</Link>
 	</div>
 	</div>
   );
