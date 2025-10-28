@@ -24,6 +24,7 @@
 import React from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import Login from "./LogIn";
+import createAccount from "./createAccount";
 import NewItemFormPage from "./CreateListingForum";
 
 export default function MyApp() {
@@ -31,6 +32,7 @@ export default function MyApp() {
     <div>
       <nav style={{ marginBottom: "1rem" }}>
         <Link to="/">Home</Link> | <Link to="/login">Login</Link> |{" "}
+		<Link to="/create-account">Create an account</Link> |{" "}
         <Link to="/new-item">New Item</Link>
       </nav>
 
