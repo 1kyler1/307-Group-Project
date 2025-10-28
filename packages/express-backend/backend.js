@@ -63,7 +63,6 @@ app.post("/api/users", async (req, res) => {
     const { username, password } = req.body;
     if (!username?.trim() || !password?.trim())
       return res.status(400).json({ error: "Missing username or password." });
-    // Here you would normally hash the password and store the user in the database
     if (password.length < 8)
       return res
         .status(400)
