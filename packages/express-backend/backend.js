@@ -8,12 +8,13 @@ import multer from "multer";
 import path from "path";
 import { fileURLToPath } from "url";
 import Item from "./models/listing.js";
+import User from "./user.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-app.use(cors());                    
+app.use(cors());
 app.use(express.json());
 
 // serve uploaded images
@@ -31,10 +32,10 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // connect DB
-mongoose.connect(process.env.MONGODB_URI)
+mongoose
+  .connect(process.env.MONGODB_URI)
   .then(() => console.log("MongoDB connected"))
   .catch((e) => console.error("Mongo error:", e));
-
 
 // API routes
 app.post("/api/items", upload.single("image"), async (req, res) => {
@@ -55,6 +56,29 @@ app.post("/api/items", upload.single("image"), async (req, res) => {
 app.get("/api/items", async (_req, res) => {
   const items = await Item.find().sort({ createdAt: -1 });
   res.json(items);
+});
+
+app.post("/api/users", async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    if (!username?.trim() || !password?.trim())
+      return res.status(400).json({ error: "Missing username or password." });
+    if (password.length < 8)
+      return res
+        .status(400)
+        .json({ error: "Password must be at least 8 characters long." });
+    // Simulate user creation
+    const newUser = await User.create({ username, password });
+    res.status(201).json({ message: "User created", user: newUser });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+app.get("/api/users", async (_req, res) => {
+  const users = await User.find();
+  res.json(users);
 });
 
 const port = process.env.PORT || 4000;

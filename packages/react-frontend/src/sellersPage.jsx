@@ -2,8 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { Link } from "react-router-dom";
 
 export default function sellersPage() {
-
-    const [listings, setListings] = useState([]);
+  const [listings, setListings] = useState([]);
 
     useEffect(() => {
         fetch("http://localhost:4000/api/items")
@@ -14,6 +13,9 @@ export default function sellersPage() {
           .catch((err) => console.error("Error fetching items:", err));
       }, []);
       
+  function handleFormSubmit(newItem) {
+    setListings([...listings, newItem]);
+  }
 
     return (
         <div>
