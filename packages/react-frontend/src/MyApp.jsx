@@ -21,8 +21,6 @@
 //   return <CreateListingPage />;
 // }
 
-
-
 // import React from "react";
 // import { Routes, Route, Link } from "react-router-dom";
 // import Login from "./LogIn";
@@ -63,8 +61,9 @@ export default function MyApp() {
     <div>
       <nav style={{ marginBottom: "1rem" }}>
         <Link to="/">Home</Link> | <Link to="/login">Login</Link> |{" "}
-		<Link to="/create-account">Create an account</Link> |{" "}
-        <Link to="/new-item">New Item</Link> | <Link to="/listings">Listings</Link>
+        <Link to="/create-account">Create an account</Link> |{" "}
+        <Link to="/new-item">New Item</Link> |{" "}
+        <Link to="/listings">Listings</Link>
       </nav>
 
       <Routes>
@@ -75,10 +74,14 @@ export default function MyApp() {
             <Login handleSubmit={(data) => console.log("Login data:", data)} />
           }
         />
-		<Route path="/create-account" element={
-			<CreateAccount handleSubmit={(data) => console.log("New acct data:", data)} />
-			}
-			/>
+        <Route
+          path="/create-account"
+          element={
+            <CreateAccount
+              handleSubmit={(data) => console.log("New acct data:", data)}
+            />
+          }
+        />
         <Route path="/new-item" element={<NewItemFormPage />} />
         <Route path="/listings" element={<Listings />} />
       </Routes>

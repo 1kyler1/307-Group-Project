@@ -150,7 +150,7 @@ export default function NewItemFormPage() {
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");
   const [submitted, setSubmitted] = useState(false);
-  const [resetKey, setResetKey] = useState(0); 
+  const [resetKey, setResetKey] = useState(0);
 
   const isComplete =
     title.trim() !== "" &&
@@ -158,11 +158,10 @@ export default function NewItemFormPage() {
     description.trim() !== "" &&
     location.trim() !== "";
 
-  
   const handleImageChange = (e) => {
     const file = e.target.files?.[0] || null;
     setImageFile(file);
-    setSubmitted(false); 
+    setSubmitted(false);
   };
 
   const handleSubmitClick = async () => {
@@ -193,7 +192,6 @@ export default function NewItemFormPage() {
       setImageFile(null);
       setSubmitted(true);
 
-      
       setResetKey((k) => k + 1);
     } catch (error) {
       console.error("Network error:", error);
@@ -239,7 +237,7 @@ export default function NewItemFormPage() {
               Image
             </label>
             <input
-              key={resetKey} 
+              key={resetKey}
               id="image"
               type="file"
               accept="image/*"
@@ -295,7 +293,7 @@ export default function NewItemFormPage() {
             <button
               type="button"
               onClick={handleSubmitClick}
-              disabled={!isComplete} 
+              disabled={!isComplete}
               className={`w-full rounded-2xl font-medium py-3 transition ${
                 !isComplete
                   ? "bg-gray-300 text-gray-500 cursor-not-allowed"

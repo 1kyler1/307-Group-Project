@@ -19,7 +19,9 @@ export default function ListingCard({ item }) {
             onError={(e) => {
               e.currentTarget.style.display = "none";
               const parent = e.currentTarget.parentElement;
-              if (parent) parent.innerHTML = '<div class="image-fallback">Image unavailable</div>';
+              if (parent)
+                parent.innerHTML =
+                  '<div class="image-fallback">Image unavailable</div>';
             }}
           />
         ) : (
@@ -30,17 +32,16 @@ export default function ListingCard({ item }) {
       </div>
 
       {/* Details at the bottom */}
-       <div className="listing-field left-field">
+      <div className="listing-field left-field">
         <span className="listing-label">Description:</span>
         <span className="listing-value">{item.description}</span>
-       </div>
+      </div>
 
       {/* Location */}
       <div className="listing-field left-field">
         <span className="listing-label">Location:</span>
         <span className="listing-value">{item.location}</span>
       </div>
-      
     </div>
   );
 }

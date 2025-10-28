@@ -16,14 +16,6 @@ function Login(props) {
     setError(null);
   }
 
-  // function submitLogin() {
-  //   props.handleSubmit(person);
-  //   if (!person.username.trim() || !person.password.trim()) {
-  //     setPerson({ username: "", password: "" });
-  //     setError("Username and password cannot be empty.");
-  //   }
-  // }
-
   async function submitLogin() {
     const response = await fetch("/api/users", {
       method: "GET",

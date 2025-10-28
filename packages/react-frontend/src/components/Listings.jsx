@@ -1,6 +1,6 @@
 //Listings.jsx
 import React, { useEffect, useState } from "react";
-import ListingCard from "./listingCard"; 
+import ListingCard from "./listingCard";
 
 export default function Listings() {
   const [items, setItems] = useState([]);
@@ -10,7 +10,9 @@ export default function Listings() {
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetch("/api/items", { headers: { Accept: "application/json" } });
+        const res = await fetch("/api/items", {
+          headers: { Accept: "application/json" },
+        });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
         setItems(Array.isArray(data) ? data : []);
