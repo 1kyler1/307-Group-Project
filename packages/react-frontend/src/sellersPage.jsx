@@ -1,16 +1,19 @@
 import React, {useState, useEffect} from 'react';
-import NewItemFormPage from './CreateListingForum';
 import { Link } from "react-router-dom";
 
 export default function sellersPage() {
 
     const [listings, setListings] = useState([]);
 
-  function handleFormSubmit(newItem) {
-    
-    setListings([...listings, newItem]);
-  }
-
+    useEffect(() => {
+        fetch("http://localhost:4000/api/items")
+          .then((res) => res.json())
+          .then((data) => {
+            setListings(data);
+          })
+          .catch((err) => console.error("Error fetching items:", err));
+      }, []);
+      
 
     return (
         <div>
@@ -18,15 +21,24 @@ export default function sellersPage() {
             <h2>Current Listings</h2>
             
 
-            <ul>
-                {listings.map((item, index) => (
-                <li key={index}>
-                    {item.item} — {item.description}
+             <ul>
+                {listings.map((item) => (
+                <li key={item._id}>
+                    <strong>{item.title}</strong> — {item.description} ({item.location})
+                    {item.imageUrl && (
+                    <div>
+                        <img
+                        src={`http://localhost:4000${item.imageUrl}`}
+                        alt={item.title}
+                        style={{ width: "200px", marginTop: "10px" }}
+                        />
+                    </div>
+                    )}
                 </li>
                 ))}
             </ul>
 
-            <Link to="/create">
+            <Link to="/redirect-to-create">
                 <button>Create new listing</button>
             </Link>
 

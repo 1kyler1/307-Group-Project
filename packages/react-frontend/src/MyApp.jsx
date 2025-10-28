@@ -50,7 +50,7 @@ export default function MyApp() {
         />
         <Route path="/new-item" element={<NewItemFormPage />} />
         <Route path="/user-page" element ={<SellersPage />} />
-        <Route path="/create" element={<NewItemFormPage />} />
+        <Route path="/redirect-to-create" element={<NewItemFormPage />} />
 
       </Routes>
     </div>
