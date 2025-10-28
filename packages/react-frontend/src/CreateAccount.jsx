@@ -56,7 +56,7 @@ function CreateAccount(props) {
       />
       <input type="button" value="Sign up" onClick={submitAccount} />
     </form>
-	  Already have an account? <Link to="/login">Login</Link>
+	  Already have an account? <Link to="/login">Log in</Link>
 	</div>
 	</div>
   );

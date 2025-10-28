@@ -1,5 +1,6 @@
 // src/LogIn.jsx
 import React, { useState } from "react";
+import { Routes, Route, Link } from "react-router-dom";
 
 function Login(props) {
   const [person, setPerson] = useState({
@@ -24,6 +25,11 @@ function Login(props) {
   }
 
   return (
+  <div className="min-h-screen w-full bg-gray-50 flex items-center justify-center p-6">
+    <div className="w-full max-w-xl bg-white rounded-2xl shadow-lg p-6 sm:p-8">
+       <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight mb-6">
+          Log in
+        </h1>
     <form>
       <label htmlFor="username">Username</label>
       <input
@@ -43,6 +49,9 @@ function Login(props) {
       />
       <input type="button" value="Login" onClick={submitLogin} />
     </form>
+	Don't have an account? <Link to="/create-account">Sign up</Link>
+	</div>
+	</div>
   );
 }
 
