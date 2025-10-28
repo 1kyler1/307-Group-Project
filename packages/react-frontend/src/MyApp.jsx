@@ -21,17 +21,48 @@
 //   return <CreateListingPage />;
 // }
 
+
+
+// import React from "react";
+// import { Routes, Route, Link } from "react-router-dom";
+// import Login from "./LogIn";
+// import NewItemFormPage from "./CreateListingForum";
+
+// export default function MyApp() {
+//   return (
+//     <div>
+//       <nav style={{ marginBottom: "1rem" }}>
+//         <Link to="/">Home</Link> | <Link to="/login">Login</Link> |{" "}
+//         <Link to="/new-item">New Item</Link>
+//       </nav>
+
+//       <Routes>
+//         <Route path="/" element={<h1>Welcome to the app!</h1>} />
+//         <Route
+//           path="/login"
+//           element={
+//             <Login handleSubmit={(data) => console.log("Login data:", data)} />
+//           }
+//         />
+//         <Route path="/new-item" element={<NewItemFormPage />} />
+//       </Routes>
+//     </div>
+//   );
+// }
+
+// MyApp.jsx
 import React from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import Login from "./LogIn";
 import NewItemFormPage from "./CreateListingForum";
+import Listings from "./components/Listings";
 
 export default function MyApp() {
   return (
     <div>
       <nav style={{ marginBottom: "1rem" }}>
-        <Link to="/">Home</Link> | <Link to="/login">Login</Link> |{" "}
-        <Link to="/new-item">New Item</Link>
+        <Link to="/">Home</Link> | <Link to="/login">Login</Link> | {" "}
+        <Link to="/new-item">New Item</Link> | <Link to="/listings">Listings</Link>
       </nav>
 
       <Routes>
@@ -43,6 +74,7 @@ export default function MyApp() {
           }
         />
         <Route path="/new-item" element={<NewItemFormPage />} />
+        <Route path="/listings" element={<Listings />} />
       </Routes>
     </div>
   );
