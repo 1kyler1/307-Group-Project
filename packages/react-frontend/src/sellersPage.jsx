@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import ItemForm from './itemForm';
+import NewItemFormPage from './CreateListingForum';
+import { Link } from "react-router-dom";
 
 export default function sellersPage() {
 
@@ -16,7 +17,6 @@ export default function sellersPage() {
             <h1>Sellers Page</h1>
             <h2>Current Listings</h2>
             
-            <ItemForm handleSubmit={handleFormSubmit} />
 
             <ul>
                 {listings.map((item, index) => (
@@ -25,7 +25,11 @@ export default function sellersPage() {
                 </li>
                 ))}
             </ul>
-            <h3 button = './Form'>Create New listing</h3>
+
+            <Link to="/create">
+                <button>Create new listing</button>
+            </Link>
+
 
         </div>
     );
