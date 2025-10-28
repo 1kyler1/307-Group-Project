@@ -24,7 +24,7 @@
 import React from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import Login from "./LogIn";
-import createAccount from "./createAccount";
+import CreateAccount from "./createAccount";
 import NewItemFormPage from "./CreateListingForum";
 
 export default function MyApp() {
@@ -44,6 +44,10 @@ export default function MyApp() {
             <Login handleSubmit={(data) => console.log("Login data:", data)} />
           }
         />
+		<Route path="/create-account" element={
+			<CreateAccount handleSubmit={(data) => console.log("New acct data:", data)} />
+			}
+			/>
         <Route path="/new-item" element={<NewItemFormPage />} />
       </Routes>
     </div>
