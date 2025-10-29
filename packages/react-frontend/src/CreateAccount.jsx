@@ -1,13 +1,15 @@
 // src/CreateAccount.jsx
 import { set } from "mongoose";
 import React, { useState } from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, Link, useNavigate } from "react-router-dom";
 
 function CreateAccount(props) {
   const [person, setPerson] = useState({
     username: "",
     password: "",
   });
+
+  const navigate = useNavigate();
 
   const [error, setError] = useState(null);
 
@@ -57,6 +59,7 @@ function CreateAccount(props) {
     if (response.ok) {
       console.log("Account created successfully:", data);
       setPerson({ username: "", password: "" });
+      navigate("/login");
     } else {
       console.error("Error creating account:", data.error);
     }

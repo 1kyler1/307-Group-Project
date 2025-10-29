@@ -14,7 +14,9 @@ import MyApp from "./MyApp";
 import "./main.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <BrowserRouter>
-    <MyApp />
-  </BrowserRouter>,
+  <React.StrictMode>
+    <BrowserRouter>
+      <MyApp />
+    </BrowserRouter>
+  </React.StrictMode>,
 );
