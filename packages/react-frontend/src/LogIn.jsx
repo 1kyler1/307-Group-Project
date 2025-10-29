@@ -37,7 +37,7 @@ function Login(props) {
     if (user) {
       console.log("Login successful:", user);
       setPerson({ username: "", password: "" });
-      navigate("/listings");
+      navigate("/user-page");
     } else {
       setPerson({ username: "", password: "" });
       setError("Invalid username or password.");
