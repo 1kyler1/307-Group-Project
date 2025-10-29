@@ -66,7 +66,7 @@ export default function MyApp() {
         <Link to="/">Home</Link> | <Link to="/login">Login</Link> |{" "}
         <Link to="/create-account">Create an account</Link> |{" "}
         <Link to="/new-item">New Item</Link> |{" "}
-        <Link to="/listings">Listings</Link>
+        
         <Link to="/user-Page">Sellers Page</Link>
       </nav>
 
