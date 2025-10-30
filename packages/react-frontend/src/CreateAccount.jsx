@@ -94,6 +94,7 @@ function CreateAccount(props) {
         </form>
         Already have an account? <Link to="/login">Log in</Link>
       </div>
+      {error && <p className="text-xl font-bold text-red-900">{error}</p>}
     </div>
   );
 }
