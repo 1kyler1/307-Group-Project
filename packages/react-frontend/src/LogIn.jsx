@@ -72,6 +72,7 @@ function Login(props) {
         </form>
         Don't have an account? <Link to="/create-account">Sign up</Link>
       </div>
+      {error && <p className="text-xl font-bold text-red-900">{error}</p>}
     </div>
   );
 }
