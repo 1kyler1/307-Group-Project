@@ -1,12 +1,17 @@
 // // listingCard.jsx
 import "./ListingCard.css";
 
+async function handleDelete(id) {
+  await fetch(`/api/items/${id}`, { method: "DELETE" });
+  window.location.reload();
+}
 export default function ListingCard({ item }) {
   const isRaw = item.imageUrl?.toLowerCase().endsWith(".dng");
 
   return (
     <div className="listing-card">
       {/* Title on top */}
+      <button className="delete-button" onClick={() => handleDelete(item._id)}>Delete</button>
       <h2 className="listing-title">{item.title}</h2>
 
       {/* Image in the middle */}

@@ -81,5 +81,19 @@ app.get("/api/users", async (_req, res) => {
   res.json(users);
 });
 
+
+app.delete("/api/items/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedItem = await Item.findByIdAndDelete(id);
+    if (!deletedItem) {
+      return res.status(400).json({ error: "Item not found" });
+    }
+    res.json({ message: "Item deleted successfully", item: deletedItem });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
 const port = process.env.PORT || 4000;
 app.listen(port, () => console.log(`API on http://localhost:${port}`));
