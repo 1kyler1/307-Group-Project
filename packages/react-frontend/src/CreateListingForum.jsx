@@ -149,6 +149,7 @@ export default function NewItemFormPage() {
   const [imageFile, setImageFile] = useState(null);
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");
+  const [tags, setTags] = useState([]);
   const [submitted, setSubmitted] = useState(false);
   const [resetKey, setResetKey] = useState(0);
 
@@ -166,11 +167,12 @@ export default function NewItemFormPage() {
 
   const handleSubmitClick = async () => {
     if (!isComplete) return;
-
+	
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", description);
     formData.append("location", location);
+	formData.append("tags", tags);
     if (imageFile) formData.append("image", imageFile);
 
     try {
@@ -189,6 +191,7 @@ export default function NewItemFormPage() {
       setTitle("");
       setDescription("");
       setLocation("");
+	  setTags([]);
       setImageFile(null);
       setSubmitted(true);
 
@@ -283,6 +286,29 @@ export default function NewItemFormPage() {
               onChange={(e) => {
                 setLocation(e.target.value);
                 setSubmitted(false);
+              }}
+              className="w-full rounded-xl border border-gray-300 focus:border-gray-900 focus:ring-0 px-4 py-2.5 outline-none"
+            />
+          </div>
+		  
+		  {/* Tags */}
+          <div>
+            <label
+              className="block text-sm font-medium mb-1"
+              htmlFor="tags"
+            >
+              Tags
+            </label>
+            <input
+              id="tags"
+              type="text"
+              placeholder="Enter tags (seperated by commas) for others to find your item!"
+              value={tags}
+              onChange={(e) => {
+              //setTags(e.target.value.split(",").filter(item => (item !== "")&&(item !== " ")));
+			  setTags(e.target.value);
+			 // newTags = e.target.value;
+			  setSubmitted(false);
               }}
               className="w-full rounded-xl border border-gray-300 focus:border-gray-900 focus:ring-0 px-4 py-2.5 outline-none"
             />
