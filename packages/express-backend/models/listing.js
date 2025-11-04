@@ -6,6 +6,7 @@ const ItemSchema = new mongoose.Schema(
     imageUrl: { type: String },
     description: { type: String, required: true },
     location: { type: String, required: true },
+	tags: { type: array, items: { type: String } }
   },
   { timestamps: true },
 );
