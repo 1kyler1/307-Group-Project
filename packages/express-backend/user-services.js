@@ -14,13 +14,13 @@ mongoose.set("debug", true);
 
 mongoose.connection.on("connected", () => {
   console.log(
-    "✅ Mongo connected:",
+    
     mongoose.connection.host,
     mongoose.connection.port,
   );
 });
 mongoose.connection.on("error", (err) => {
-  console.error("❌ Mongo error:", err.message);
+  console.error("Mongo error:", err.message);
 });
 
 await mongoose.connect("mongodb://127.0.0.1:27017/users");

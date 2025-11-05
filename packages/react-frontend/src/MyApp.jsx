@@ -56,7 +56,7 @@ import CreateAccount from "./createAccount";
 import NewItemFormPage from "./CreateListingForum";
 import Listings from "./components/Listings";
 import SellersPage from "./sellersPage";
-
+import ListingDetailPage from "./listing_page/ListingDetailPage";
 
 
 export default function MyApp() {
@@ -89,7 +89,8 @@ export default function MyApp() {
         <Route path="/new-item" element={<NewItemFormPage />} />
         <Route path="/user-page" element ={<SellersPage />} />
         <Route path="/redirect-to-create" element={<NewItemFormPage />} />
-
+        <Route path="/listing/:id" element={<ListingDetailPage />} />
+        
         <Route path="/listings" element={<Listings />} />
       </Routes>
     </div>

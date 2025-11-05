@@ -58,6 +58,17 @@ app.get("/api/items", async (_req, res) => {
   res.json(items);
 });
 
+app.get("/api/items/:id", async(req,res) => { // single item
+    try {
+      const item = await Item.findById(req.params.id);
+      if (!item) return res.status(404).json({ error: "Item not found" });
+      res.json(item);
+    } catch (e) {
+      console.error(e);
+      res.status(500).json({ error: "Server error" });
+    }
+})
+
 app.post("/api/users", async (req, res) => {
   try {
     const { username, password } = req.body;

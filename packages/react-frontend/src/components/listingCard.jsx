@@ -1,10 +1,13 @@
 // // listingCard.jsx
 import "./ListingCard.css";
+import { Link } from "react-router-dom";
+
 
 export default function ListingCard({ item }) {
   const isRaw = item.imageUrl?.toLowerCase().endsWith(".dng");
 
   return (
+    <Link to={`/listing/${item.id}`} className = "listing-link">
     <div className="listing-card">
       {/* Title on top */}
       <h2 className="listing-title">{item.title}</h2>
@@ -43,5 +46,6 @@ export default function ListingCard({ item }) {
         <span className="listing-value">{item.location}</span>
       </div>
     </div>
+    </Link>
   );
 }
