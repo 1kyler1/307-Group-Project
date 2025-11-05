@@ -5,7 +5,7 @@ export default function NewItemFormPage() {
   const [imageFile, setImageFile] = useState(null);
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");
-  const [tags, setTags] = useState([]);
+  const [tags, setTags] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [resetKey, setResetKey] = useState(0);
 
@@ -24,20 +24,21 @@ export default function NewItemFormPage() {
   const handleSubmitClick = async () => {
     if (!isComplete) return;
 	
-	
-	const newTags = tags.split(",").filter(item => (item !== "")&&(item !== " "));
-	console.log(newTags);
+	let newTags = tags.split(",")
+	    .map(item => item.trim().toLowerCase())
+		.filter(item => (item !== ""));
+	newTags = newTags.filter((item, index) => newTags.indexOf(item) === index);
+	//console.log(newTags);
 	
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", description);
     formData.append("location", location);
-	//formData.append("tags", tags);
 	newTags.forEach(t => { 
-	    console.log(t);
-		formData.append('tags[]', t); 
+	    formData.append("tags", t); 
 	});
     if (imageFile) formData.append("image", imageFile);
+    //console.log(formData);
 
     try {
       const res = await fetch("/api/items", { method: "POST", body: formData });
@@ -55,7 +56,7 @@ export default function NewItemFormPage() {
       setTitle("");
       setDescription("");
       setLocation("");
-	  setTags([]);
+	  setTags("");
       setImageFile(null);
       setSubmitted(true);
 
@@ -169,8 +170,8 @@ export default function NewItemFormPage() {
               placeholder="Enter tags (seperated by commas) for others to find your item!"
               value={tags}
               onChange={(e) => {
-			  setTags(e.target.value);
-			  setSubmitted(false);
+				setTags(e.target.value);
+				setSubmitted(false);
               }}
               className="w-full rounded-xl border border-gray-300 focus:border-gray-900 focus:ring-0 px-4 py-2.5 outline-none"
             />

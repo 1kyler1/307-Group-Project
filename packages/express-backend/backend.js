@@ -40,12 +40,12 @@ mongoose
 // API routes
 app.post("/api/items", upload.single("image"), async (req, res) => {
   try {
-    const { title, description, location } = req.body;
+    const { title, description, location, tags } = req.body;
     if (!title?.trim() || !description?.trim() || !location?.trim())
       return res.status(400).json({ error: "Missing required fields." });
 
     const imageUrl = req.file ? `/uploads/${req.file.filename}` : undefined;
-    const item = await Item.create({ title, description, location, imageUrl });
+    const item = await Item.create({ title, description, location, tags, imageUrl });
     res.status(201).json(item);
   } catch (e) {
     console.error(e);
