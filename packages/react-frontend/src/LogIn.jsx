@@ -18,30 +18,33 @@ function Login(props) {
   }
 
   async function submitLogin() {
-    const response = await fetch("/api/users", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await response.json();
-    const user = data.find(
-      (u) => u.username === person.username && u.password === person.password,
-    );
-    if (!person.username.trim() || !person.password.trim()) {
+    if (person.username.trim() === "" || person.password.trim() === "") {
       setPerson({ username: "", password: "" });
       setError("Username and password cannot be empty.");
       console.log("Username and password cannot be empty.");
       return;
     }
-    if (user) {
-      console.log("Login successful:", user);
-      setPerson({ username: "", password: "" });
-      navigate("/user-page");
-    } else {
-      setPerson({ username: "", password: "" });
-      setError("Invalid username or password.");
-      console.log("Invalid username or password.");
+    try {
+      const response = await fetch("/api/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(person),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        console.log("Login successful:", data);
+        navigate("/user-page");
+      } else {
+        setPerson({ username: "", password: "" });
+        setError(data.error || "Login failed.");
+        console.log("Login failed:", data.error);
+      }
+    } catch (e) {
+      console.error(e);
+      setError("Server error");
     }
   }
 
@@ -72,6 +75,7 @@ function Login(props) {
         </form>
         Don't have an account? <Link to="/create-account">Sign up</Link>
       </div>
+      {error && <p className="text-xl font-bold text-red-900">{error}</p>}
     </div>
   );
 }

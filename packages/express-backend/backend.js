@@ -1,6 +1,5 @@
 // backend.js
 import "dotenv/config";
-import "dotenv/config";
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
@@ -9,6 +8,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import Item from "./models/listing.js";
 import User from "./user.js";
+import bcrypt from "bcrypt";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -67,9 +67,37 @@ app.post("/api/users", async (req, res) => {
       return res
         .status(400)
         .json({ error: "Password must be at least 8 characters long." });
-    // Simulate user creation
-    const newUser = await User.create({ username, password });
-    res.status(201).json({ message: "User created", user: newUser });
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    const newUserSecured = await User.create({
+      username,
+      password: hashedPassword,
+    });
+
+    res.status(201).json({ message: "User created", user: newUserSecured });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+app.post("/api/users/login", async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    if (!username?.trim() || !password?.trim())
+      return res.status(400).json({ error: "Missing username or password." });
+
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(400).json({ error: "Invalid username or password." });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ error: "Invalid username or password." });
+    }
+    res.status(200).json({ message: "Login successful", user });
   } catch (e) {
     console.error(e);
     res.status(500).json({ error: "Server error" });

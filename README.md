@@ -8,6 +8,8 @@ Ronan Valadez
 David Hayrapetyan
 
 **Contributing:**  
-Using Prettier for our formatter  
-ESLint is our linter  
-For IDE, install extensions from VScode
+Formatter: Prettier  
+Linter: ESLint  
+For IDE, install extensions from VScode  
+Cloud database: MongoDB Atlas  
+.env file on everyone's local machines containing the MongoDB URI
