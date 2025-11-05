@@ -7,6 +7,11 @@ const ItemSchema = new mongoose.Schema(
     description: { type: String, required: true },
     location: { type: String, required: true },
 	tags: { type: 'array', items: { type: String } }
+    owner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: false,
+    },
   },
   { timestamps: true },
 );
