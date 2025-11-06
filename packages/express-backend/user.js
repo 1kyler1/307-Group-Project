@@ -19,6 +19,12 @@ const UserSchema = new mongoose.Schema(
           throw new Error("Invalid job, must be at least 2 characters.");
       },
     },
+    listings: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Item",
+      },
+    ],
   },
   { collection: "users_list" },
 );
