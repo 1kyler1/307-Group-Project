@@ -1,37 +1,35 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Listings from './components/Listings';
+import Listings from "./components/Listings";
 
 export default function SellersPage() {
-    const [listings, setListings] = useState([]);
+  const [listings, setListings] = useState([]);
 
-    useEffect(() => {
-        fetch("http://localhost:4000/api/items")
-          .then((res) => res.json())
-          .then((data) => {
-            setListings(data);
-          })
-          .catch((err) => console.error("Error fetching items:", err));
-      }, []);
-      
-  
-    return (
-        <div>
-            <h1>Sellers Page</h1>
-            <h2>Current Listings</h2>
-            
+  useEffect(() => {
+    fetch("http://localhost:4000/api/items")
+      .then((res) => res.json())
+      .then((data) => {
+        setListings(data);
+      })
+      .catch((err) => console.error("Error fetching items:", err));
+  }, []);
 
-            <Listings items={listings} />
+  function logout() {
+    localStorage.removeItem("token");
+    window.location.href = "/login";
+  }
 
+  return (
+    <div>
+      <h1>Sellers Page</h1>
+      <button onClick={logout}>Log Out</button>
+      <h2>Current Listings</h2>
 
-            <Link to="/redirect-to-create">
-                <button>Create new listing</button>
-            </Link>
+      <Listings items={listings} />
 
-
-        </div>
-    );
-
-
-
+      <Link to="/redirect-to-create">
+        <button>Create new listing</button>
+      </Link>
+    </div>
+  );
 }

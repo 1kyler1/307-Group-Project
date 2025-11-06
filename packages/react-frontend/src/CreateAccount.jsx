@@ -59,7 +59,8 @@ function CreateAccount(props) {
     if (response.ok) {
       console.log("Account created successfully:", data);
       setPerson({ username: "", password: "" });
-      navigate("/login");
+      localStorage.setItem("token", data.token);
+      navigate("/user-page");
     } else {
       console.error("Error creating account:", data.error);
     }
