@@ -9,7 +9,7 @@ import { fileURLToPath } from "url";
 import Item from "./models/listing.js";
 import User from "./user.js";
 import bcrypt from "bcrypt";
-
+import jwt from "jsonwebtoken";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -31,6 +31,50 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
+function generateAccessToken(username) {
+  return new Promise((resolve, reject) => {
+    jwt.sign(
+      { username: username },
+      process.env.TOKEN_SECRET,
+      { expiresIn: "1d" },
+      (error, token) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(token);
+        }
+      },
+    );
+  });
+}
+
+function verifyAccessToken(req, res, next) {
+  const authHeader = req.headers.authorization || req.headers["authorization"];
+
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ error: "Access token required. 1" });
+  }
+
+  const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : null;
+
+  if (!token) return res.status(401).json({ error: "Access token required." });
+
+  try {
+    const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
+    req.user = decoded;
+    next();
+  } catch (e) {
+    return res.status(403).json({ error: "Invalid or expired token." });
+  }
+}
+
+function safeUserData(user) {
+  return {
+    _id: user._id,
+    username: user.username,
+  };
+}
+
 // connect DB
 mongoose
   .connect(process.env.MONGODB_URI)
@@ -38,20 +82,31 @@ mongoose
   .catch((e) => console.error("Mongo error:", e));
 
 // API routes
-app.post("/api/items", upload.single("image"), async (req, res) => {
-  try {
-    const { title, description, location } = req.body;
-    if (!title?.trim() || !description?.trim() || !location?.trim())
-      return res.status(400).json({ error: "Missing required fields." });
+app.post(
+  "/api/items",
+  verifyAccessToken,
+  upload.single("image"),
+  async (req, res) => {
+    console.log("Authenticated user:", req.user);
+    try {
+      const { title, description, location } = req.body;
+      if (!title?.trim() || !description?.trim() || !location?.trim())
+        return res.status(400).json({ error: "Missing required fields." });
 
-    const imageUrl = req.file ? `/uploads/${req.file.filename}` : undefined;
-    const item = await Item.create({ title, description, location, imageUrl });
-    res.status(201).json(item);
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({ error: "Server error" });
-  }
-});
+      const imageUrl = req.file ? `/uploads/${req.file.filename}` : undefined;
+      const item = await Item.create({
+        title,
+        description,
+        location,
+        imageUrl,
+      });
+      res.status(201).json(item);
+    } catch (e) {
+      console.error(e);
+      res.status(500).json({ error: "Server error" });
+    }
+  },
+);
 
 app.get("/api/items", async (_req, res) => {
   const items = await Item.find().sort({ createdAt: -1 });
@@ -74,8 +129,20 @@ app.post("/api/users", async (req, res) => {
       username,
       password: hashedPassword,
     });
+    const token = await generateAccessToken(username);
+    if (!token)
+      return res
+        .status(500)
+        .json({ error: "Could not generate access token." });
+    else console.log("Generated token for user:", username, "Token:", token);
 
-    res.status(201).json({ message: "User created", user: newUserSecured });
+    res.status(201).json({
+      message: "User created",
+      user: safeUserData(newUserSecured),
+      token,
+      tokenType: "Bearer",
+      expiresIn: "1d",
+    });
   } catch (e) {
     console.error(e);
     res.status(500).json({ error: "Server error" });
@@ -97,7 +164,15 @@ app.post("/api/users/login", async (req, res) => {
     if (!isMatch) {
       return res.status(400).json({ error: "Invalid username or password." });
     }
-    res.status(200).json({ message: "Login successful", user });
+
+    const token = await generateAccessToken(username);
+    res.status(200).json({
+      message: "Login successful",
+      user,
+      token,
+      tokenType: "Bearer",
+      expiresIn: "1d",
+    });
   } catch (e) {
     console.error(e);
     res.status(500).json({ error: "Server error" });

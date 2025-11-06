@@ -174,7 +174,13 @@ export default function NewItemFormPage() {
     if (imageFile) formData.append("image", imageFile);
 
     try {
-      const res = await fetch("/api/items", { method: "POST", body: formData });
+      const res = await fetch("/api/items", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: formData,
+      });
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
         console.error("Error:", err);
