@@ -111,10 +111,28 @@ app.post(
   }
 );
 
-
 app.get("/api/items", async (_req, res) => {
   const items = await Item.find().sort({ createdAt: -1 });
   res.json(items);
+});
+
+app.get("/items",  (req, res) => {
+  const tag = req.query.tag;
+  if(tag){
+	Item.find({ tags: tag }).then((data) => {
+		res.send({ listings: data });
+	}).catch((error) => {
+		console.log(error);
+		res.status(500).send();
+	});
+  }else{
+	Item.find().sort({ createdAt: -1 }).then((data) => {
+		res.send({ listings: data });
+	}).catch((error) => {
+		console.log(error);
+		res.status(500).send();
+	});
+  }
 });
 
 app.get("/api/items/mine", verifyAccessToken, async (req, res) => {
