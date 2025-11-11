@@ -45,6 +45,13 @@ export default function ListingCard({ item }) {
         <span className="listing-label">Location:</span>
         <span className="listing-value">{item.location}</span>
       </div>
+	  
+	  {/* Tags */}
+      <div className="listing-field left-field">
+        <span className="listing-label">Tags:</span>
+        <span className="listing-value">{item.tags.join(", ")}</span>
+      </div>
+	  
     </div>
     </Link>
   );
