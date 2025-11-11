@@ -1,6 +1,6 @@
 // user.js
 import mongoose from "mongoose";
-import Item from "./models/listing.js";
+import Item from "./listing.js";
 
 const UserSchema = new mongoose.Schema(
   {

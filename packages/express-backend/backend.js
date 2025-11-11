@@ -7,7 +7,7 @@ import multer from "multer";
 import path from "path";
 import { fileURLToPath } from "url";
 import Item from "./models/listing.js";
-import User from "./user.js";
+import User from "./models/user.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 const __filename = fileURLToPath(import.meta.url);
@@ -31,19 +31,13 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-function generateAccessToken(username) {
+function generateAccessToken(user) {
   return new Promise((resolve, reject) => {
     jwt.sign(
-      { username: username },
+      { _id: user._id.toString(), username: user.username },
       process.env.TOKEN_SECRET,
       { expiresIn: "1d" },
-      (error, token) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve(token);
-        }
-      },
+      (err, token) => (err ? reject(err) : resolve(token))
     );
   });
 }
@@ -81,48 +75,78 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch((e) => console.error("Mongo error:", e));
 
-// API routes
 app.post(
   "/api/items",
   verifyAccessToken,
   upload.single("image"),
   async (req, res) => {
-    console.log("Authenticated user:", req.user);
     try {
-      const { title, description, location } = req.body;
-      if (!title?.trim() || !description?.trim() || !location?.trim())
+      const { title, description, location, tags = [] } = req.body;
+      if (!title?.trim() || !description?.trim() || !location?.trim()) {
         return res.status(400).json({ error: "Missing required fields." });
+      }
 
       const imageUrl = req.file ? `/uploads/${req.file.filename}` : undefined;
+
       const item = await Item.create({
         title,
         description,
         location,
         imageUrl,
+        tags: Array.isArray(tags) ? tags : String(tags).split(",").map(s => s.trim()),
+        owner: req.user._id,
       });
+
+      await User.findByIdAndUpdate(
+        req.user._id,
+        { $addToSet: { listings: item._id } }, 
+        { new: false }
+      );
+
       res.status(201).json(item);
     } catch (e) {
       console.error(e);
       res.status(500).json({ error: "Server error" });
     }
-  },
+  }
 );
+
 
 app.get("/api/items", async (_req, res) => {
   const items = await Item.find().sort({ createdAt: -1 });
   res.json(items);
 });
 
-app.get("/api/items/:id", async(req,res) => { // single item
-    try {
-      const item = await Item.findById(req.params.id);
-      if (!item) return res.status(404).json({ error: "Item not found" });
-      res.json(item);
-    } catch (e) {
-      console.error(e);
-      res.status(500).json({ error: "Server error" });
-    }
-})
+app.get("/api/items/mine", verifyAccessToken, async (req, res) => {
+  try {
+    const items = await Item.find({ owner: req.user._id })
+      .sort({ createdAt: -1 });
+    res.json(items);
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+// GET /api/users/me/listings
+app.get("/api/users/me/listings", verifyAccessToken, async (req, res) => {
+  try {
+    const me = await User.findById(req.user._id)
+      .populate({ path: "listings", options: { sort: { createdAt: -1 } } })
+      .select("_id username listings"); 
+
+    if (!me) return res.status(404).json({ error: "User not found" });
+
+    res.json({
+      user: { _id: me._id, username: me.username },
+      listings: me.listings, 
+    });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 
 app.post("/api/users", async (req, res) => {
   try {
@@ -140,7 +164,7 @@ app.post("/api/users", async (req, res) => {
       username,
       password: hashedPassword,
     });
-    const token = await generateAccessToken(username);
+    const token = await generateAccessToken(newUserSecured);
     if (!token)
       return res
         .status(500)
@@ -176,7 +200,7 @@ app.post("/api/users/login", async (req, res) => {
       return res.status(400).json({ error: "Invalid username or password." });
     }
 
-    const token = await generateAccessToken(username);
+    const token = await generateAccessToken(user);
     res.status(200).json({
       message: "Login successful",
       user,
