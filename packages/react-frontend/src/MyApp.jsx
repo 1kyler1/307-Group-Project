@@ -8,6 +8,7 @@ import NewItemFormPage from "./CreateListingForum";
 import Listings from "./components/Listings";
 import SellersPage from "./sellersPage";
 import ListingDetailPage from "./listing_page/ListingDetailPage";
+import HomePage from "./HomePage";
 
 
 export default function MyApp() {
@@ -22,8 +23,8 @@ export default function MyApp() {
       </nav>
 
       <Routes>
-        <Route path="/" element={<h1>Welcome to the app!</h1>} />
-        <Route
+      <Route path="/" element={<HomePage />} /> 
+      <Route
           path="/login"
           element={
             <Login handleSubmit={(data) => console.log("Login data:", data)} />
