@@ -34,6 +34,7 @@ export default function ListingDetailPage() {
 
       <p><strong>Description:</strong> {item.description}</p>
       <p><strong>Location:</strong> {item.location}</p>
+	  <p><strong>Tags:</strong> {item.tags.join(", ")}</p>
     </div>
   );
 }
