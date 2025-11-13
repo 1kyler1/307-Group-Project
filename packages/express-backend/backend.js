@@ -135,6 +135,19 @@ app.get("/items",  (req, res) => {
   }
 });
 
+app.get("/api/items/:id", async (req, res) => {
+  try {
+    const item = await Item.findById(req.params.id);
+    if (!item) {
+      return res.status(404).json({ error: "Item not found" });
+    }
+    res.json(item);
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 app.get("/api/items/mine", verifyAccessToken, async (req, res) => {
   try {
     const items = await Item.find({ owner: req.user._id })
