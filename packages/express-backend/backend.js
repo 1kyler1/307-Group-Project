@@ -37,7 +37,7 @@ function generateAccessToken(user) {
       { _id: user._id.toString(), username: user.username },
       process.env.TOKEN_SECRET,
       { expiresIn: "1d" },
-      (err, token) => (err ? reject(err) : resolve(token))
+      (err, token) => (err ? reject(err) : resolve(token)),
     );
   });
 }
@@ -93,14 +93,18 @@ app.post(
         description,
         location,
         imageUrl,
-        tags: Array.isArray(tags) ? tags : String(tags).split(",").map(s => s.trim()),
+        tags: Array.isArray(tags)
+          ? tags
+          : String(tags)
+              .split(",")
+              .map((s) => s.trim()),
         owner: req.user._id,
       });
 
       await User.findByIdAndUpdate(
         req.user._id,
-        { $addToSet: { listings: item._id } }, 
-        { new: false }
+        { $addToSet: { listings: item._id } },
+        { new: false },
       );
 
       res.status(201).json(item);
@@ -108,7 +112,7 @@ app.post(
       console.error(e);
       res.status(500).json({ error: "Server error" });
     }
-  }
+  },
 );
 
 app.get("/api/items", async (_req, res) => {
@@ -116,22 +120,27 @@ app.get("/api/items", async (_req, res) => {
   res.json(items);
 });
 
-app.get("/items",  (req, res) => {
+app.get("/items", (req, res) => {
   const tag = req.query.tag;
-  if(tag){
-	Item.find({ tags: tag }).then((data) => {
-		res.send({ listings: data });
-	}).catch((error) => {
-		console.log(error);
-		res.status(500).send();
-	});
-  }else{
-	Item.find().sort({ createdAt: -1 }).then((data) => {
-		res.send({ listings: data });
-	}).catch((error) => {
-		console.log(error);
-		res.status(500).send();
-	});
+  if (tag) {
+    Item.find({ tags: tag })
+      .then((data) => {
+        res.send({ listings: data });
+      })
+      .catch((error) => {
+        console.log(error);
+        res.status(500).send();
+      });
+  } else {
+    Item.find()
+      .sort({ createdAt: -1 })
+      .then((data) => {
+        res.send({ listings: data });
+      })
+      .catch((error) => {
+        console.log(error);
+        res.status(500).send();
+      });
   }
 });
 
@@ -150,8 +159,9 @@ app.get("/api/items/:id", async (req, res) => {
 
 app.get("/api/items/mine", verifyAccessToken, async (req, res) => {
   try {
-    const items = await Item.find({ owner: req.user._id })
-      .sort({ createdAt: -1 });
+    const items = await Item.find({ owner: req.user._id }).sort({
+      createdAt: -1,
+    });
     res.json(items);
   } catch (e) {
     console.error(e);
@@ -164,20 +174,19 @@ app.get("/api/users/me/listings", verifyAccessToken, async (req, res) => {
   try {
     const me = await User.findById(req.user._id)
       .populate({ path: "listings", options: { sort: { createdAt: -1 } } })
-      .select("_id username listings"); 
+      .select("_id username listings");
 
     if (!me) return res.status(404).json({ error: "User not found" });
 
     res.json({
       user: { _id: me._id, username: me.username },
-      listings: me.listings, 
+      listings: me.listings,
     });
   } catch (e) {
     console.error(e);
     res.status(500).json({ error: "Server error" });
   }
 });
-
 
 app.post("/api/users", async (req, res) => {
   try {

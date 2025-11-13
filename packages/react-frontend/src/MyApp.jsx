@@ -1,4 +1,3 @@
-
 // MyApp.jsx
 import React from "react";
 import { Routes, Route, Link } from "react-router-dom";
@@ -10,7 +9,6 @@ import SellersPage from "./sellersPage";
 import ListingDetailPage from "./listing_page/ListingDetailPage";
 import HomePage from "./HomePage";
 
-
 export default function MyApp() {
   return (
     <div>
@@ -18,13 +16,12 @@ export default function MyApp() {
         <Link to="/">Home</Link> | <Link to="/login">Login</Link> |{" "}
         <Link to="/create-account">Create an account</Link> |{" "}
         <Link to="/new-item">New Item</Link> |{" "}
-        
         <Link to="/user-Page">Sellers Page</Link>
       </nav>
 
       <Routes>
-      <Route path="/" element={<HomePage />} /> 
-      <Route
+        <Route path="/" element={<HomePage />} />
+        <Route
           path="/login"
           element={
             <Login handleSubmit={(data) => console.log("Login data:", data)} />
@@ -39,10 +36,10 @@ export default function MyApp() {
           }
         />
         <Route path="/new-item" element={<NewItemFormPage />} />
-        <Route path="/user-page" element ={<SellersPage />} />
+        <Route path="/user-page" element={<SellersPage />} />
         <Route path="/redirect-to-create" element={<NewItemFormPage />} />
         <Route path="/listing/:id" element={<ListingDetailPage />} />
-        
+
         <Route path="/listings" element={<Listings />} />
       </Routes>
     </div>

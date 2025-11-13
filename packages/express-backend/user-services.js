@@ -13,11 +13,7 @@ mongoose.set("debug", true);
 //   .catch((error) => console.log(error));
 
 mongoose.connection.on("connected", () => {
-  console.log(
-    
-    mongoose.connection.host,
-    mongoose.connection.port,
-  );
+  console.log(mongoose.connection.host, mongoose.connection.port);
 });
 mongoose.connection.on("error", (err) => {
   console.error("Mongo error:", err.message);

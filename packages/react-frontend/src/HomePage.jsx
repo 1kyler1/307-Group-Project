@@ -19,14 +19,14 @@ export default function HomePage() {
 
         const data = await res.json();
         // Transform data to add 'id' field and format image URLs
-        const formattedData = data.map(item => ({
+        const formattedData = data.map((item) => ({
           ...item,
           id: item._id, // Add id field from _id
-          imageUrl: item.imageUrl 
-            ? (item.imageUrl.startsWith('http') 
-                ? item.imageUrl 
-                : `http://localhost:4000${item.imageUrl}`)
-            : null
+          imageUrl: item.imageUrl
+            ? item.imageUrl.startsWith("http")
+              ? item.imageUrl
+              : `http://localhost:4000${item.imageUrl}`
+            : null,
         }));
         setAllListings(formattedData || []);
         setListings(formattedData || []);
@@ -46,12 +46,12 @@ export default function HomePage() {
     }
 
     const query = searchQuery.toLowerCase();
-    const filtered = allListings.filter(item => {
+    const filtered = allListings.filter((item) => {
       return (
         item.title?.toLowerCase().includes(query) ||
         item.description?.toLowerCase().includes(query) ||
         item.location?.toLowerCase().includes(query) ||
-        item.tags?.some(tag => tag.toLowerCase().includes(query))
+        item.tags?.some((tag) => tag.toLowerCase().includes(query))
       );
     });
     setListings(filtered);
@@ -60,7 +60,7 @@ export default function HomePage() {
   return (
     <div>
       <h1>All Listings</h1>
-      
+
       {/* Search Bar */}
       <div className="mb-4 p-4">
         <input
@@ -75,12 +75,12 @@ export default function HomePage() {
       {/* Listings Grid */}
       <div className="grid grid-cols-4 gap-4 p-4">
         {listings.length > 0 ? (
-          listings.map((item) => (
-            <ListingCard key={item._id} item={item} />
-          ))
+          listings.map((item) => <ListingCard key={item._id} item={item} />)
         ) : (
           <div className="col-span-4 text-center text-gray-500 py-8">
-            {searchQuery ? "No listings found matching your search." : "No listings available."}
+            {searchQuery
+              ? "No listings found matching your search."
+              : "No listings available."}
           </div>
         )}
       </div>
