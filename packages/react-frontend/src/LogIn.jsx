@@ -1,8 +1,8 @@
 // src/LogIn.jsx
 import React, { useState } from "react";
-import { Routes, Route, Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-function Login(props) {
+function Login() {
   const [person, setPerson] = useState({
     username: "",
     password: "",
