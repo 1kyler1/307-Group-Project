@@ -5,7 +5,8 @@
   "type": "module",
   "main": "backend.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "npx eslint . && npx prettier --check .",
+    "test": "echo \"No tests yet\"",
     "dev": "npx nodemon backend.js",
     "start": "node backend.js"
   },
@@ -22,6 +23,8 @@
   },
   "keywords": [],
   "devDependencies": {
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.1.10",
+    "eslint": "^9.12.0",
+    "prettier": "^3.3.3"
   }
 }
