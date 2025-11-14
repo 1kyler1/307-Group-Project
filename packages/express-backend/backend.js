@@ -58,6 +58,7 @@ function verifyAccessToken(req, res, next) {
     req.user = decoded;
     next();
   } catch (e) {
+    console.error(e);
     return res.status(403).json({ error: "Invalid or expired token." });
   }
 }

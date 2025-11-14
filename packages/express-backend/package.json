@@ -6,6 +6,7 @@
   "main": "backend.js",
   "scripts": {
     "lint": "npx eslint . && npx prettier --check .",
+    "lint:fix": "npx eslint . --fix && npx prettier --write .",
     "test": "echo \"No tests yet\"",
     "dev": "npx nodemon backend.js",
     "start": "node backend.js"
