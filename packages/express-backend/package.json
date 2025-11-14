@@ -23,8 +23,10 @@
   },
   "keywords": [],
   "devDependencies": {
-    "nodemon": "^3.1.10",
+    "@eslint/js": "^9.39.1",
     "eslint": "^9.12.0",
+    "globals": "^16.5.0",
+    "nodemon": "^3.1.10",
     "prettier": "^3.3.3"
   }
 }
