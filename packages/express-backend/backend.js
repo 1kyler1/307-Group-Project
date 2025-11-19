@@ -135,8 +135,7 @@ app.get("/api/items", async (_req, res) => {
 });
 
 app.get("/", async (_req, res) => {
-  res.status(200).send("Hello World")
-  
+  res.status(200).send("Hello World");
 });
 
 app.get("/items", (req, res) => {
