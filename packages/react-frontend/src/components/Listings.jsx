@@ -1,5 +1,5 @@
 //Listings.jsx
-import React, { useEffect, useState } from "react";
+// import React, { useEffect, useState } from "react";
 import ListingCard from "./listingCard";
 
 export default function Listings(props) {
