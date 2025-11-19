@@ -7,7 +7,7 @@ export default function ListingDetailPage() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:4000/api/items/${id}`)
+    fetch(`http://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net/api/items/${id}`)
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json();
@@ -23,7 +23,7 @@ export default function ListingDetailPage() {
     if (!imageUrl) return null;
     return imageUrl.startsWith("http")
       ? imageUrl
-      : `http://localhost:4000${imageUrl}`;
+      : `http://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net${imageUrl}`;
   };
 
   return (

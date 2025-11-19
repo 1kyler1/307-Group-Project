@@ -15,7 +15,7 @@ export default function SellersPage() {
 
     async function loadMyListings() {
       try {
-        const res = await fetch("http://localhost:4000/api/users/me/listings", {
+        const res = await fetch("http://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net/api/users/me/listings", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
