@@ -12,7 +12,7 @@ export default function HomePage() {
     async function loadAllListings() {
       try {
         // const res = await fetch("http://localhost:4000/api/items");
-        const res = await fetch("http://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net/api/items");
+        const res = await fetch("https://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net/api/items");
         
 
         if (!res.ok) {
@@ -29,7 +29,7 @@ export default function HomePage() {
             ? item.imageUrl.startsWith("http")
               ? item.imageUrl
               // : `http://localhost:4000${item.imageUrl}`
-              : `http://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net${item.imageUrl}`
+              : `https://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net${item.imageUrl}`
             : null,
         }));
         setAllListings(formattedData || []);
