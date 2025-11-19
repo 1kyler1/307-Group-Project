@@ -1,9 +1,8 @@
 // src/CreateAccount.jsx
-import { set } from "mongoose";
 import React, { useState } from "react";
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
 
-function CreateAccount(props) {
+function CreateAccount() {
   const [person, setPerson] = useState({
     username: "",
     password: "",

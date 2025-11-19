@@ -6,6 +6,7 @@
   "main": "backend.js",
   "scripts": {
     "lint": "npx eslint . && npx prettier --check .",
+    "lint:fix": "eslint . --fix && prettier --write .",
     "test": "echo \"No tests yet\"",
     "dev": "npx nodemon backend.js",
     "start": "node backend.js"
@@ -14,6 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "cloudinary": "^2.8.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
@@ -25,9 +27,9 @@
   "keywords": [],
   "devDependencies": {
     "@eslint/js": "^9.39.1",
-    "eslint": "^9.12.0",
+    "eslint": "^9.39.1",
     "globals": "^16.5.0",
     "nodemon": "^3.1.10",
-    "prettier": "^3.3.3"
+    "prettier": "^3.6.2"
   }
 }

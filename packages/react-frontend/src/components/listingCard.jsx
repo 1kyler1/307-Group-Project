@@ -48,7 +48,9 @@ export default function ListingCard({ item }) {
         {/* Tags */}
         <div className="listing-field left-field">
           <span className="listing-label">Tags:</span>
-          <span className="listing-value">{item.tags.join(", ")}</span>
+          <span className="listing-value">
+            {Array.isArray(item.tags) ? item.tags.join(", ") : "No tags"}
+          </span>
         </div>
       </div>
     </Link>
