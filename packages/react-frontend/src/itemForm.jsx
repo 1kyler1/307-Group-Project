@@ -7,12 +7,10 @@ export default function ItemForm(props) {
     setForm({ ...form, [name]: value });
   }
 
-    function submitForm() {
-
-        props.handleSubmit(form);
-        setForm({item: '', description: ''});
-
-    }
+  function submitForm() {
+    props.handleSubmit(form);
+    setForm({ item: "", description: "" });
+  }
 
   return (
     <form>

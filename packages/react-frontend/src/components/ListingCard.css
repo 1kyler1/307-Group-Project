@@ -93,3 +93,13 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+/* Update the listing-link to fill grid cell */
+.listing-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}

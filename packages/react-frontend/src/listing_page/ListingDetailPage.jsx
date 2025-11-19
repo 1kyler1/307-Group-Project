@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
 export default function ListingDetailPage() {
-  const { id } = useParams();        
+  const { id } = useParams();
   const [item, setItem] = useState(null);
   const [error, setError] = useState(null);
 
@@ -19,21 +19,35 @@ export default function ListingDetailPage() {
   if (error) return <div>Error: {error}</div>;
   if (!item) return <div>Loading...</div>;
 
+  const getImageUrl = (imageUrl) => {
+    if (!imageUrl) return null;
+    return imageUrl.startsWith("http")
+      ? imageUrl
+      : `http://localhost:4000${imageUrl}`;
+  };
+
   return (
     <div className="listing-detail">
       <Link to="/">← Back to Listings</Link>
       <h1>{item.title}</h1>
 
-      {item.imageUrl && (
+      {item?.imageUrl && (
         <img
-          src={`http://localhost:4000${item.imageUrl}`}
+          src={`${getImageUrl(item.imageUrl)}`}
           alt={item.title}
           className="listing-detail-image"
         />
       )}
 
-      <p><strong>Description:</strong> {item.description}</p>
-      <p><strong>Location:</strong> {item.location}</p>
+      <p>
+        <strong>Description:</strong> {item.description}
+      </p>
+      <p>
+        <strong>Location:</strong> {item.location}
+      </p>
+      <p>
+        <strong>Tags:</strong> {item.tags.join(", ")}
+      </p>
     </div>
   );
 }

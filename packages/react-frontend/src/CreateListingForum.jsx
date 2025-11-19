@@ -23,20 +23,21 @@ export default function NewItemFormPage() {
 
   const handleSubmitClick = async () => {
     if (!isComplete) return;
-	
-	let newTags = tags.split(",")
-	    .map(item => item.trim().toLowerCase())
-		.filter(item => (item !== ""));
-	newTags = newTags.filter((item, index) => newTags.indexOf(item) === index);
-	//console.log(newTags);
-	
+
+    let newTags = tags
+      .split(",")
+      .map((item) => item.trim().toLowerCase())
+      .filter((item) => item !== "");
+    newTags = newTags.filter((item, index) => newTags.indexOf(item) === index);
+    //console.log(newTags);
+
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", description);
     formData.append("location", location);
-	newTags.forEach(t => { 
-	    formData.append("tags", t); 
-	});
+    newTags.forEach((t) => {
+      formData.append("tags", t);
+    });
     if (imageFile) formData.append("image", imageFile);
     //console.log(formData);
 
@@ -62,7 +63,7 @@ export default function NewItemFormPage() {
       setTitle("");
       setDescription("");
       setLocation("");
-	  setTags("");
+      setTags("");
       setImageFile(null);
       setSubmitted(true);
 
@@ -161,13 +162,10 @@ export default function NewItemFormPage() {
               className="w-full rounded-xl border border-gray-300 focus:border-gray-900 focus:ring-0 px-4 py-2.5 outline-none"
             />
           </div>
-		  
-		  {/* Tags */}
+
+          {/* Tags */}
           <div>
-            <label
-              className="block text-sm font-medium mb-1"
-              htmlFor="tags"
-            >
+            <label className="block text-sm font-medium mb-1" htmlFor="tags">
               Tags
             </label>
             <input
@@ -176,8 +174,8 @@ export default function NewItemFormPage() {
               placeholder="Enter tags (seperated by commas) for others to find your item!"
               value={tags}
               onChange={(e) => {
-				setTags(e.target.value);
-				setSubmitted(false);
+                setTags(e.target.value);
+                setSubmitted(false);
               }}
               className="w-full rounded-xl border border-gray-300 focus:border-gray-900 focus:ring-0 px-4 py-2.5 outline-none"
             />

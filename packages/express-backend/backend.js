@@ -4,10 +4,12 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import multer from "multer";
+import { v2 as cloudinary } from "cloudinary";
+import streamifier from "streamifier";
 import path from "path";
 import { fileURLToPath } from "url";
 import Item from "./models/listing.js";
-import User from "./user.js";
+import User from "./models/user.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 const __filename = fileURLToPath(import.meta.url);
@@ -17,33 +19,31 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// serve uploaded images
-const uploadsDir = path.join(__dirname, "uploads");
-app.use("/uploads", express.static(uploadsDir));
-
-// multer storage for images
-const storage = multer.diskStorage({
-  destination: (_req, _file, cb) => cb(null, uploadsDir),
-  filename: (_req, file, cb) => {
-    const unique = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, unique + path.extname(file.originalname));
-  },
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
-const upload = multer({ storage });
 
-function generateAccessToken(username) {
+const upload = multer({ storage: multer.memoryStorage() });
+
+function uploadBufferToCloudinary(buffer, folder = "listings") {
+  return new Promise((resolve, reject) => {
+    const uploadStream = cloudinary.uploader.upload_stream(
+      { folder, resource_type: "image" },
+      (error, result) => (error ? reject(error) : resolve(result)),
+    );
+    streamifier.createReadStream(buffer).pipe(uploadStream);
+  });
+}
+
+function generateAccessToken(user) {
   return new Promise((resolve, reject) => {
     jwt.sign(
-      { username: username },
+      { _id: user._id.toString(), username: user.username },
       process.env.TOKEN_SECRET,
       { expiresIn: "1d" },
-      (error, token) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve(token);
-        }
-      },
+      (err, token) => (err ? reject(err) : resolve(token)),
     );
   });
 }
@@ -81,25 +81,46 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch((e) => console.error("Mongo error:", e));
 
-// API routes
 app.post(
   "/api/items",
   verifyAccessToken,
   upload.single("image"),
   async (req, res) => {
-    console.log("Authenticated user:", req.user);
     try {
-      const { title, description, location } = req.body;
-      if (!title?.trim() || !description?.trim() || !location?.trim())
+      const { title, description, location, tags = [] } = req.body;
+      if (!title?.trim() || !description?.trim() || !location?.trim()) {
         return res.status(400).json({ error: "Missing required fields." });
+      }
 
-      const imageUrl = req.file ? `/uploads/${req.file.filename}` : undefined;
+      let imageUrl;
+
+      if (req.file) {
+        const result = await uploadBufferToCloudinary(
+          req.file.buffer,
+          "listings",
+        );
+        imageUrl = result.secure_url;
+      }
+
       const item = await Item.create({
         title,
         description,
         location,
         imageUrl,
+        tags: Array.isArray(tags)
+          ? tags
+          : String(tags)
+              .split(",")
+              .map((s) => s.trim()),
+        owner: req.user._id,
       });
+
+      await User.findByIdAndUpdate(
+        req.user._id,
+        { $addToSet: { listings: item._id } },
+        { new: false },
+      );
+
       res.status(201).json(item);
     } catch (e) {
       console.error(e);
@@ -113,16 +134,73 @@ app.get("/api/items", async (_req, res) => {
   res.json(items);
 });
 
-app.get("/api/items/:id", async(req,res) => { // single item
-    try {
-      const item = await Item.findById(req.params.id);
-      if (!item) return res.status(404).json({ error: "Item not found" });
-      res.json(item);
-    } catch (e) {
-      console.error(e);
-      res.status(500).json({ error: "Server error" });
+app.get("/items", (req, res) => {
+  const tag = req.query.tag;
+  if (tag) {
+    Item.find({ tags: tag })
+      .then((data) => {
+        res.send({ listings: data });
+      })
+      .catch((error) => {
+        console.log(error);
+        res.status(500).send();
+      });
+  } else {
+    Item.find()
+      .sort({ createdAt: -1 })
+      .then((data) => {
+        res.send({ listings: data });
+      })
+      .catch((error) => {
+        console.log(error);
+        res.status(500).send();
+      });
+  }
+});
+
+app.get("/api/items/:id", async (req, res) => {
+  try {
+    const item = await Item.findById(req.params.id);
+    if (!item) {
+      return res.status(404).json({ error: "Item not found" });
     }
-})
+    res.json(item);
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+app.get("/api/items/mine", verifyAccessToken, async (req, res) => {
+  try {
+    const items = await Item.find({ owner: req.user._id }).sort({
+      createdAt: -1,
+    });
+    res.json(items);
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+// GET /api/users/me/listings
+app.get("/api/users/me/listings", verifyAccessToken, async (req, res) => {
+  try {
+    const me = await User.findById(req.user._id)
+      .populate({ path: "listings", options: { sort: { createdAt: -1 } } })
+      .select("_id username listings");
+
+    if (!me) return res.status(404).json({ error: "User not found" });
+
+    res.json({
+      user: { _id: me._id, username: me.username },
+      listings: me.listings,
+    });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: "Server error" });
+  }
+});
 
 app.post("/api/users", async (req, res) => {
   try {
@@ -140,7 +218,7 @@ app.post("/api/users", async (req, res) => {
       username,
       password: hashedPassword,
     });
-    const token = await generateAccessToken(username);
+    const token = await generateAccessToken(newUserSecured);
     if (!token)
       return res
         .status(500)
@@ -176,7 +254,7 @@ app.post("/api/users/login", async (req, res) => {
       return res.status(400).json({ error: "Invalid username or password." });
     }
 
-    const token = await generateAccessToken(username);
+    const token = await generateAccessToken(user);
     res.status(200).json({
       message: "Login successful",
       user,
