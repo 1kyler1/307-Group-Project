@@ -11,7 +11,7 @@ export default function HomePage() {
   useEffect(() => {
     async function loadAllListings() {
       try {
-        const res = await fetch("http://localhost:4000/api/items");
+        const res = await fetch("http://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net/api/items");
 
         if (!res.ok) {
           console.error("Error fetching listings:", res.status);
@@ -26,7 +26,7 @@ export default function HomePage() {
           imageUrl: item.imageUrl
             ? item.imageUrl.startsWith("http")
               ? item.imageUrl
-              : `http://localhost:4000${item.imageUrl}`
+              : `http://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net${item.imageUrl}`
             : null,
         }));
         setAllListings(formattedData || []);
