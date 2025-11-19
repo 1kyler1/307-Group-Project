@@ -19,6 +19,11 @@ export default function ListingDetailPage() {
   if (error) return <div>Error: {error}</div>;
   if (!item) return <div>Loading...</div>;
 
+  const getImageUrl = (url) => {
+    if (!url) return null;
+    return url.startsWith("http") ? url : `http://localhost:4000${url}`;
+  };
+
   return (
     <div className="listing-detail">
       <Link to="/">← Back to Listings</Link>
@@ -26,7 +31,7 @@ export default function ListingDetailPage() {
 
       {item.imageUrl && (
         <img
-          src={`http://localhost:4000${item.imageUrl}`}
+          src={getImageUrl(item.imageUrl)}
           alt={item.title}
           className="listing-detail-image"
         />
