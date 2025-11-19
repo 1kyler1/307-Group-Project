@@ -33,7 +33,7 @@ export default function ListingDetailPage() {
 
       {item?.imageUrl && (
         <img
-          src={`http://localhost:4000${item.imageUrl}`}
+          src={`${getImageUrl(item.imageUrl)}`}
           alt={item.title}
           className="listing-detail-image"
         />
