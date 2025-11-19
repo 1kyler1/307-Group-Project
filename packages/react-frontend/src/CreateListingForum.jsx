@@ -42,7 +42,7 @@ export default function NewItemFormPage() {
     //console.log(formData);
 
     try {
-      const res = await fetch("/api/items", {
+      const res = await fetch("https://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net/api/items", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,

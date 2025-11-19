@@ -19,7 +19,7 @@ function CreateAccount() {
   }
 
   async function submitAccount() {
-    const r2 = await fetch("/api/users", {
+    const r2 = await fetch("https://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net/api/users", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -46,7 +46,7 @@ function CreateAccount() {
       return;
     }
 
-    const response = await fetch("/api/users", {
+    const response = await fetch("https://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net/api/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -59,7 +59,7 @@ function CreateAccount() {
       console.log("Account created successfully:", data);
       setPerson({ username: "", password: "" });
       localStorage.setItem("token", data.token);
-      navigate("/user-page");
+      navigate("https://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net/user-page");
     } else {
       console.error("Error creating account:", data.error);
     }
