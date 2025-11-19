@@ -25,7 +25,7 @@ function Login() {
       return;
     }
     try {
-      const response = await fetch("/api/users/login", {
+      const response = await fetch("https://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net/api/users/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
