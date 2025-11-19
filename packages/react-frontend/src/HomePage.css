@@ -1,13 +1,11 @@
-/* just the grid for the cards*/
-.listings-grid {
+/* just the grid for the cards*/ 
+  .listings-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 32px;
-    padding: 32px;
+    gap: 2rem;
     justify-items: center;
   }
   
-
 /* homepage css */
 .home-container {
     max-width: 1200px;
