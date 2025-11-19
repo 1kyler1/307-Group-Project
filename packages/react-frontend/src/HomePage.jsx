@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import ListingCard from "./components/listingCard";
 import "./HomePage.css";
 
-
 export default function HomePage() {
   const [listings, setListings] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -61,30 +60,29 @@ export default function HomePage() {
 
   return (
     <div className="home-container">
-        <h1>Browse Listings</h1>
-  
-        <div className="search-container">
-          <input
-            type="text"
-            placeholder="Search by title, description, location, or tags..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="search-input"
-          />
-        </div>
-  
-        <div className="listings-grid">
-          {listings.length > 0 ? (
-            listings.map((item) => <ListingCard key={item._id} item={item} />)
-          ) : (
-            <div className="no-results">
-              {searchQuery
-                ? "No listings found matching your search."
-                : "No listings available."}
-            </div>
-          )}
-        </div>
+      <h1>Browse Listings</h1>
+
+      <div className="search-container">
+        <input
+          type="text"
+          placeholder="Search by title, description, location, or tags..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="search-input"
+        />
+      </div>
+
+      <div className="listings-grid">
+        {listings.length > 0 ? (
+          listings.map((item) => <ListingCard key={item._id} item={item} />)
+        ) : (
+          <div className="no-results">
+            {searchQuery
+              ? "No listings found matching your search."
+              : "No listings available."}
+          </div>
+        )}
+      </div>
     </div>
   );
-  
 }

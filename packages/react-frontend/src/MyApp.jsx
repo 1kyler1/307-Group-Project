@@ -2,7 +2,7 @@
 import React from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import Login from "./LogIn";
-import CreateAccount from "./createAccount";
+import CreateAccount from "./CreateAccount";
 import NewItemFormPage from "./CreateListingForum";
 import Listings from "./components/Listings";
 import SellersPage from "./sellersPage";
@@ -10,16 +10,26 @@ import ListingDetailPage from "./listing_page/ListingDetailPage";
 import HomePage from "./HomePage";
 import Navbar from "./navbar";
 
-
 export default function MyApp() {
-
   return (
     <div>
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<Login handleSubmit={(data) => console.log("Login data:", data)} />} />
-        <Route path="/create-account" element={<CreateAccount handleSubmit={(data) => console.log("New acct data:", data)} />} />
+        <Route
+          path="/login"
+          element={
+            <Login handleSubmit={(data) => console.log("Login data:", data)} />
+          }
+        />
+        <Route
+          path="/create-account"
+          element={
+            <CreateAccount
+              handleSubmit={(data) => console.log("New acct data:", data)}
+            />
+          }
+        />
         <Route path="/new-item" element={<NewItemFormPage />} />
         <Route path="/user-page" element={<SellersPage />} />
         <Route path="/redirect-to-create" element={<NewItemFormPage />} />
