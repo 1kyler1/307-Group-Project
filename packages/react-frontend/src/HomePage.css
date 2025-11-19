@@ -1,0 +1,39 @@
+/* just the grid for the cards*/
+.listings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 32px;
+    padding: 32px;
+    justify-items: center;
+  }
+  
+
+/* homepage css */
+.home-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+  }
+  
+ 
+  .search-container {
+    margin: 1rem 0 2rem 0;
+    display: flex;
+    justify-content: left;
+  }
+  
+  
+  .search-input {
+    width: 100%;
+    max-width: 5000px;
+    padding: 0.75rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+  }
+  
+  .search-input:focus {
+    border-color: black;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.15);
+  }
