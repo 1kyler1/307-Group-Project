@@ -11,8 +11,11 @@
     "preview": "vite preview",
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest"
   },
-  "jest": {
-    "testEnvironment": "jest-environment-jsdom"
+  "jest": { 
+	"setupFiles": [
+		"<rootDir>/testSetUp.js"
+	],
+	"testEnvironment": "jest-environment-jsdom"
   },
   "babel": {
     "presets": [
@@ -26,7 +29,8 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-frontend": "^0.0.0",
-    "react-router-dom": "^7.9.4"
+    "react-router-dom": "^7.9.4",
+    "text-encoding": "^0.7.0"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.28.5",

@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import { TextEncoder } from 'text-encoding';
+global.TextEncoder = TextEncoder;
+import { Routes, Route, Link, useNavigate } from "react-router-dom";
 
-export default function NewItemFormPage() {
+function NewItemFormPage() {
   const [title, setTitle] = useState("");
   const [imageFile, setImageFile] = useState(null);
   const [description, setDescription] = useState("");
@@ -201,3 +204,4 @@ export default function NewItemFormPage() {
     </div>
   );
 }
+export default NewItemFormPage;
