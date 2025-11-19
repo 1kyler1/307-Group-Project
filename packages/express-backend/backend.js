@@ -4,6 +4,8 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import multer from "multer";
+import { v2 as cloudinary } from "cloudinary";
+import streamifier from "streamifier";
 import path from "path";
 import { fileURLToPath } from "url";
 import Item from "./models/listing.js";
@@ -17,19 +19,23 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// serve uploaded images
-const uploadsDir = path.join(__dirname, "uploads");
-app.use("/uploads", express.static(uploadsDir));
-
-// multer storage for images
-const storage = multer.diskStorage({
-  destination: (_req, _file, cb) => cb(null, uploadsDir),
-  filename: (_req, file, cb) => {
-    const unique = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, unique + path.extname(file.originalname));
-  },
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
-const upload = multer({ storage });
+
+const upload = multer({ storage: multer.memoryStorage() });
+
+function uploadBufferToCloudinary(buffer, folder = "listings") {
+  return new Promise((resolve, reject) => {
+    const uploadStream = cloudinary.uploader.upload_stream(
+      { folder, resource_type: "image" },
+      (error, result) => (error ? reject(error) : resolve(result)),
+    );
+    streamifier.createReadStream(buffer).pipe(uploadStream);
+  });
+}
 
 function generateAccessToken(user) {
   return new Promise((resolve, reject) => {
@@ -86,7 +92,15 @@ app.post(
         return res.status(400).json({ error: "Missing required fields." });
       }
 
-      const imageUrl = req.file ? `/uploads/${req.file.filename}` : undefined;
+      let imageUrl;
+
+      if (req.file) {
+        const result = await uploadBufferToCloudinary(
+          req.file.buffer,
+          "listings",
+        );
+        imageUrl = result.secure_url;
+      }
 
       const item = await Item.create({
         title,
