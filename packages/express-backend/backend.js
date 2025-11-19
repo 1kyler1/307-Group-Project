@@ -6,14 +6,13 @@ import cors from "cors";
 import multer from "multer";
 import { v2 as cloudinary } from "cloudinary";
 import streamifier from "streamifier";
-import path from "path";
-import { fileURLToPath } from "url";
+
 import Item from "./models/listing.js";
 import User from "./models/user.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 
 const app = express();
 app.use(cors());
@@ -64,6 +63,7 @@ function verifyAccessToken(req, res, next) {
     req.user = decoded;
     next();
   } catch (e) {
+    console.error(e);
     return res.status(403).json({ error: "Invalid or expired token." });
   }
 }
