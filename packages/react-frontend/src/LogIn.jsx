@@ -25,13 +25,16 @@ function Login() {
       return;
     }
     try {
-      const response = await fetch("https://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net/api/users/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        "https://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net/api/users/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(person),
         },
-        body: JSON.stringify(person),
-      });
+      );
 
       const data = await response.json();
       if (response.ok) {

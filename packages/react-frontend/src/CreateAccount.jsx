@@ -19,12 +19,15 @@ function CreateAccount() {
   }
 
   async function submitAccount() {
-    const r2 = await fetch("https://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net/api/users", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
+    const r2 = await fetch(
+      "https://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net/api/users",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
       },
-    });
+    );
     const data2 = await r2.json();
     const existingUser = data2.find((u) => u.username === person.username);
     if (existingUser) {
@@ -46,20 +49,25 @@ function CreateAccount() {
       return;
     }
 
-    const response = await fetch("https://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net/api/users", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await fetch(
+      "https://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net/api/users",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(person),
       },
-      body: JSON.stringify(person),
-    });
+    );
 
     const data = await response.json();
     if (response.ok) {
       console.log("Account created successfully:", data);
       setPerson({ username: "", password: "" });
       localStorage.setItem("token", data.token);
-      navigate("https://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net/user-page");
+      navigate(
+        "https://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net/user-page",
+      );
     } else {
       console.error("Error creating account:", data.error);
     }
