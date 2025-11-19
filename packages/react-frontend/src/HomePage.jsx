@@ -73,7 +73,7 @@ export default function HomePage() {
           />
         </div>
   
-        <div className="listing-grid">
+        <div className="listings-grid">
           {listings.length > 0 ? (
             listings.map((item) => <ListingCard key={item._id} item={item} />)
           ) : (
