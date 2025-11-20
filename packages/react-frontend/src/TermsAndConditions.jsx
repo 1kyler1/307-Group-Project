@@ -7,7 +7,7 @@ export default function TermsAndConditions({ onAccept, onDecline }) {
     <div className="terms-container">
       <div className="terms-content">
         <h1 className="terms-title">
-          Terms and Conditions
+          SLOFits Terms and Conditions
         </h1>
         
         <div className="terms-text-container">
