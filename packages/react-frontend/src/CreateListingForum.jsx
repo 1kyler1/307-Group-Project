@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Routes, Route, Link, useNavigate } from "react-router-dom";
+import { Routes, Route, Link } from "react-router-dom";
 
 function NewItemFormPage() {
   const [title, setTitle] = useState("");
@@ -22,15 +22,12 @@ function NewItemFormPage() {
     setSubmitted(false);
   };
 
-  const handleSubmitClick = async () => {
-    if (!isComplete) return;
-
-    let newTags = tags
+  const createFormData = () => {
+	let newTags = tags
       .split(",")
       .map((item) => item.trim().toLowerCase())
       .filter((item) => item !== "");
     newTags = newTags.filter((item, index) => newTags.indexOf(item) === index);
-    //console.log(newTags);
 
     const formData = new FormData();
     formData.append("title", title);
@@ -40,8 +37,15 @@ function NewItemFormPage() {
       formData.append("tags", t);
     });
     if (imageFile) formData.append("image", imageFile);
-    //console.log(formData);
-
+	return formData;
+  }
+  
+  const handleSubmitClick = async () => {
+    if (!isComplete){
+		console.log("incomplete submit");
+		return;
+	}
+	let formData = createFormData();
     try {
       const res = await fetch(
         "https://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net/api/items",

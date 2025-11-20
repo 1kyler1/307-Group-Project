@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { TextEncoder } from 'text-encoding';
-global.TextEncoder = TextEncoder;
 import { render, screen, fireEvent } from '@testing-library/react';
 
 import { NewItemFormPage } from './CreateListingForum';
@@ -10,7 +8,7 @@ import { NewItemFormPage } from './CreateListingForum';
 console.log(typeof NewItemFormPage);
 
 
-test("renders the empty form correctly", () => {
+test("baseline - renders the empty form correctly", () => {
 	render(<NewItemFormPage />);
 	
 	expect(screen.getByLabelText("Title")).toBeInTheDocument();
@@ -25,7 +23,7 @@ const testListing = {
 	tags: ["tag 1", "tag 2", "tag 3"]
 	};
 	
-test("accepts form input", () => {
+test("baseline - accepts form input", () => {
 	render(<NewItemFormPage />);
 	let input = screen.getByLabelText("Title");
 	fireEvent.change(input, { target: { value: testListing.title } });
@@ -43,3 +41,28 @@ test("accepts form input", () => {
 	fireEvent.change(input, { target: { value: testListing.tags } });
 	expect(input).toHaveValue("tag 1,tag 2,tag 3");
 });
+/*
+test("baseline - handles form submission", () => {
+	let formData = {};
+	const mockUpdate = (data) => {
+		formData = data.body;
+	};
+	render(<NewItemFormPage handleSubmitClick={mockUpdate} />);
+	
+	let input = screen.getByLabelText("Title");
+	fireEvent.change(input, { target: { value: testListing.title } });
+	input = screen.getByLabelText("Description");
+	fireEvent.change(input, { target: { value: testListing.description } });
+	input = screen.getByLabelText("Location");
+	fireEvent.change(input, { target: { value: testListing.location } });
+	input = screen.getByLabelText("Tags");
+	fireEvent.change(input, { target: { value: testListing.tags } });
+	const button = screen.getByRole("button", { type: "submit" });
+	
+	fireEvent.click(button);
+	expect(formData).toHaveProperty("title", testListing.title);
+	expect(formData).toHaveProperty("description", testListing.description);
+	expect(formData).toHaveProperty("location", testListing.location);
+	expect(formData).toHaveProperty("tags", testListing.tags);
+});
+*/
