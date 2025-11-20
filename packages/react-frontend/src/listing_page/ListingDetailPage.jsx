@@ -23,7 +23,7 @@ export default function ListingDetailPage() {
 
   const getImageUrl = (imageUrl) => {
     if (!imageUrl) return null;
-    return imageUrl.startsWith("http")
+    return imageUrl.startsWith("https")
       ? imageUrl
       : `https://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net${imageUrl}`;
   };
