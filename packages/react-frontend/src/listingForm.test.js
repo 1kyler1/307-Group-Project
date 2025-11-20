@@ -12,11 +12,12 @@ function FormDataMock() {
     this.append = jest.fn();
 }
 global.FormData = FormDataMock
-*/
+
 
 beforeEach(() => {
   fetch.resetMocks();
 });
+*/
 
 test("baseline - renders the empty form correctly", () => {
   render(<NewItemFormPage />);
@@ -51,6 +52,7 @@ test("baseline - accepts form input", () => {
   fireEvent.change(input, { target: { value: testListing.tags } });
   expect(input).toHaveValue("tag 1,tag 2,tag 3");
 });
+
 /*
 test("baseline - handles form submission", async () => {
 	fetch.mockResponseOnce(JSON.stringify(
