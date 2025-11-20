@@ -30,7 +30,7 @@ export default defineConfig([
 	files: [
 		"testSetUp.js",
 		"setupAfterEnv.js",
-		"/src/listingForm.test.js"
+		"src/listingForm.test.js"
 	],
 	rules: {
         "no-undef": "off"
