@@ -45,13 +45,16 @@ function NewItemFormPage() {
     //console.log(formData);
 
     try {
-      const res = await fetch("/api/items", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+      const res = await fetch(
+        "https://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net/api/items",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: formData,
         },
-        body: formData,
-      });
+      );
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
         console.error("Error:", err);

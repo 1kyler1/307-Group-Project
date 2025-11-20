@@ -15,9 +15,12 @@ export default function SellersPage() {
 
     async function loadMyListings() {
       try {
-        const res = await fetch("http://localhost:4000/api/users/me/listings", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await fetch(
+          "https://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net/api/users/me/listings",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          },
+        );
 
         if (res.status === 401 || res.status === 403) {
           localStorage.removeItem("token");
