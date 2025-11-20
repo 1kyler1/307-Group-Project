@@ -14,9 +14,7 @@ export default function Navbar() {
         <div className="nav-links">
           <Link className={isActive("/")} to="/">Home</Link>
           <Link className={isActive("/login")} to="/login">Login</Link>
-          <Link className={isActive("/create-account")} to="/create-account">
-            Create Account
-          </Link>
+          <Link className={isActive("/create-account")} to="/create-account">Create Account</Link>
           <Link className={isActive("/new-item")} to="/new-item">New Item</Link>
           <Link className={isActive("/user-page")} to="/user-page">Sellers Page</Link>
         </div>
