@@ -25,7 +25,7 @@ export default function ListingDetailPage() {
     if (!imageUrl) return null;
     return imageUrl.startsWith("http")
       ? imageUrl
-      : `http://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net${imageUrl}`;
+      : `https://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net${imageUrl}`;
   };
 
   return (
