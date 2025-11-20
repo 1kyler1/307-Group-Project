@@ -8,7 +8,7 @@ export default function ListingDetailPage() {
 
   useEffect(() => {
     fetch(
-      `http://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net/api/items/${id}`,
+      `https://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net/api/items/${id}`,
     )
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
