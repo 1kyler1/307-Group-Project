@@ -134,6 +134,10 @@ app.get("/api/items", async (_req, res) => {
   res.json(items);
 });
 
+app.get("/", async (_req, res) => {
+  res.status(200).send("Hello World");
+});
+
 app.get("/items", (req, res) => {
   const tag = req.query.tag;
   if (tag) {

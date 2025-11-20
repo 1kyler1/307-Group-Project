@@ -1,5 +1,6 @@
 
-## SLOfits: CSC 307 group project  
+## SLOfits: CSC 307 group project 
+[Website Link](https://victorious-desert-0ce5d4c1e.3.azurestaticapps.net/)
 
 #### Developers:  
 Kyler Nord  

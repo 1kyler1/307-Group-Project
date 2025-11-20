@@ -1,8 +1,10 @@
 // src/CreateAccount.jsx
 import React, { useState } from "react";
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
+import TermsAndConditions from "./TermsAndConditions";
 
 function CreateAccount() {
+  const [showTerms, setShowTerms] = useState(true); // Show terms first
   const [person, setPerson] = useState({
     username: "",
     password: "",
@@ -12,6 +14,14 @@ function CreateAccount() {
 
   const [error, setError] = useState(null);
 
+  function handleAcceptTerms() {
+    setShowTerms(false); // Hide terms and show form
+  }
+
+  function handleDeclineTerms() {
+    navigate("/"); // Go back to home if they decline
+  }
+
   function handleChange(event) {
     const { name, value } = event.target;
     setPerson((prevPerson) => ({ ...prevPerson, [name]: value }));
@@ -19,12 +29,15 @@ function CreateAccount() {
   }
 
   async function submitAccount() {
-    const r2 = await fetch("/api/users", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
+    const r2 = await fetch(
+      "https://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net/api/users",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
       },
-    });
+    );
     const data2 = await r2.json();
     const existingUser = data2.find((u) => u.username === person.username);
     if (existingUser) {
@@ -46,25 +59,41 @@ function CreateAccount() {
       return;
     }
 
-    const response = await fetch("/api/users", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await fetch(
+      "https://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net/api/users",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(person),
       },
-      body: JSON.stringify(person),
-    });
+    );
 
     const data = await response.json();
     if (response.ok) {
       console.log("Account created successfully:", data);
       setPerson({ username: "", password: "" });
       localStorage.setItem("token", data.token);
-      navigate("/user-page");
+      navigate(
+        "https://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net/user-page",
+      );
     } else {
       console.error("Error creating account:", data.error);
     }
   }
 
+  // Show Terms and Conditions first
+  if (showTerms) {
+    return (
+      <TermsAndConditions
+        onAccept={handleAcceptTerms}
+        onDecline={handleDeclineTerms}
+      />
+    );
+  }
+
+  // Show the account creation form after accepting terms
   return (
     <div className="min-h-screen w-full bg-gray-50 flex items-center justify-center p-6">
       <div className="w-full max-w-xl bg-white rounded-2xl shadow-lg p-6 sm:p-8">
