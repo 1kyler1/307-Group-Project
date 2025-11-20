@@ -11,11 +11,14 @@
     "preview": "vite preview",
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest"
   },
-  "jest": { 
-	"setupFiles": [
-		"<rootDir>/testSetUp.js"
+  "jest": {
+    "setupFiles": [
+      "<rootDir>/testSetUp.js"
+    ],
+	"setupFilesAfterEnv": [
+		"<rootDir>/setupAfterEnv.js"
 	],
-	"testEnvironment": "jest-environment-jsdom"
+    "testEnvironment": "jest-environment-jsdom"
   },
   "babel": {
     "presets": [
@@ -33,11 +36,14 @@
     "text-encoding": "^0.7.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.28.5",
     "@babel/preset-env": "^7.28.5",
     "@babel/preset-react": "^7.28.5",
     "@eslint/js": "^9.36.0",
+    "@testing-library/jest-dom": "^6.9.1",
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
+    "@types/testing-library__jest-dom": "^5.14.9",
     "@vitejs/plugin-react": "^5.0.3",
     "babel-jest": "^30.2.0",
     "cross-env": "^10.1.0",

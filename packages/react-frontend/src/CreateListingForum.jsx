@@ -204,4 +204,4 @@ function NewItemFormPage() {
     </div>
   );
 }
-export default NewItemFormPage;
+export { NewItemFormPage };
