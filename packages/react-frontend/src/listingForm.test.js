@@ -5,7 +5,18 @@ import { NewItemFormPage } from "./CreateListingForum";
 //import CreateAccount from "./createAccount";
 //import Login from "./LogIn";
 
-console.log(typeof NewItemFormPage);
+//console.log(typeof NewItemFormPage);
+
+/*
+function FormDataMock() {
+    this.append = jest.fn();
+}
+global.FormData = FormDataMock
+*/
+
+beforeEach(() => {
+  fetch.resetMocks();
+});
 
 test("baseline - renders the empty form correctly", () => {
   render(<NewItemFormPage />);
@@ -41,11 +52,20 @@ test("baseline - accepts form input", () => {
   expect(input).toHaveValue("tag 1,tag 2,tag 3");
 });
 /*
-test("baseline - handles form submission", () => {
+test("baseline - handles form submission", async () => {
+	fetch.mockResponseOnce(JSON.stringify(
+		{
+		  status: 200,
+		  ok: true
+		}
+	));
 	let formData = {};
-	const mockUpdate = (data) => {
-		formData = data.body;
+	const mockUpdate = async (data) => {
+		formData = data;
+		console.log("mock update");
+		console.log(data);
 	};
+	
 	render(<NewItemFormPage handleSubmitClick={mockUpdate} />);
 	
 	let input = screen.getByLabelText("Title");
@@ -59,9 +79,13 @@ test("baseline - handles form submission", () => {
 	const button = screen.getByRole("button", { type: "submit" });
 	
 	fireEvent.click(button);
+	console.log("click: " + formData);
+	console.log(formData);
+	
 	expect(formData).toHaveProperty("title", testListing.title);
 	expect(formData).toHaveProperty("description", testListing.description);
 	expect(formData).toHaveProperty("location", testListing.location);
 	expect(formData).toHaveProperty("tags", testListing.tags);
 });
 */
+

@@ -22,8 +22,13 @@ function NewItemFormPage() {
     setSubmitted(false);
   };
 
-  const createFormData = () => {
-    let newTags = tags
+  const handleSubmitClick = async () => {
+    if (!isComplete) {
+      console.log("incomplete submit");
+      return;
+    }
+ 
+	let newTags = tags
       .split(",")
       .map((item) => item.trim().toLowerCase())
       .filter((item) => item !== "");
@@ -37,15 +42,7 @@ function NewItemFormPage() {
       formData.append("tags", t);
     });
     if (imageFile) formData.append("image", imageFile);
-    return formData;
-  };
-
-  const handleSubmitClick = async () => {
-    if (!isComplete) {
-      console.log("incomplete submit");
-      return;
-    }
-    let formData = createFormData();
+	
     try {
       const res = await fetch(
         "https://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net/api/items",
@@ -66,6 +63,7 @@ function NewItemFormPage() {
 
       const savedItem = await res.json();
       console.log("Saved item:", savedItem);
+	  return formData;
 
       // Reset form + show success
       setTitle("");
@@ -76,6 +74,7 @@ function NewItemFormPage() {
       setSubmitted(true);
 
       setResetKey((k) => k + 1);
+	 
     } catch (error) {
       console.error("Network error:", error);
       alert("Network error saving item");
