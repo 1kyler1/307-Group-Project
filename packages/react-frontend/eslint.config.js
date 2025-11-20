@@ -26,6 +26,7 @@ export default defineConfig([
       "no-unused-vars": ["error", { varsIgnorePattern: "^[A-Z_]" }],
     },
 	overrides: [
+		{
 		files: [
 			"testSetUp.js",
 			"setupAfterEnv.js",
@@ -34,6 +35,7 @@ export default defineConfig([
 		rules: {
                 "no-undef": "off"
             }
+		},
 	],
   },
 ]);
