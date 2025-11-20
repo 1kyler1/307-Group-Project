@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { TextEncoder } from 'text-encoding';
-global.TextEncoder = TextEncoder;
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
 
 function NewItemFormPage() {
