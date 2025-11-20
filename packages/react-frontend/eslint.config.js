@@ -25,5 +25,15 @@ export default defineConfig([
     rules: {
       "no-unused-vars": ["error", { varsIgnorePattern: "^[A-Z_]" }],
     },
+	overrides: [
+		files: [
+			"testSetUp.js",
+			"setupAfterEnv.js",
+			"listingForm.test.js"
+		],
+		rules: {
+                "no-undef": "off"
+            }
+	],
   },
 ]);
