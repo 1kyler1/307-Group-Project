@@ -1,8 +1,10 @@
 // src/CreateAccount.jsx
 import React, { useState } from "react";
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
+import TermsAndConditions from "./TermsAndConditions";
 
 function CreateAccount() {
+  const [showTerms, setShowTerms] = useState(true); // Show terms first
   const [person, setPerson] = useState({
     username: "",
     password: "",
@@ -11,6 +13,14 @@ function CreateAccount() {
   const navigate = useNavigate();
 
   const [error, setError] = useState(null);
+
+  function handleAcceptTerms() {
+    setShowTerms(false); // Hide terms and show form
+  }
+
+  function handleDeclineTerms() {
+    navigate("/"); // Go back to home if they decline
+  }
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -73,6 +83,12 @@ function CreateAccount() {
     }
   }
 
+  // Show Terms and Conditions first
+  if (showTerms) {
+    return <TermsAndConditions onAccept={handleAcceptTerms} onDecline={handleDeclineTerms} />;
+  }
+
+  // Show the account creation form after accepting terms
   return (
     <div className="min-h-screen w-full bg-gray-50 flex items-center justify-center p-6">
       <div className="w-full max-w-xl bg-white rounded-2xl shadow-lg p-6 sm:p-8">
