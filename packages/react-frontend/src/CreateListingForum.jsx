@@ -23,7 +23,7 @@ function NewItemFormPage() {
   };
 
   const createFormData = () => {
-	let newTags = tags
+    let newTags = tags
       .split(",")
       .map((item) => item.trim().toLowerCase())
       .filter((item) => item !== "");
@@ -37,15 +37,15 @@ function NewItemFormPage() {
       formData.append("tags", t);
     });
     if (imageFile) formData.append("image", imageFile);
-	return formData;
-  }
-  
+    return formData;
+  };
+
   const handleSubmitClick = async () => {
-    if (!isComplete){
-		console.log("incomplete submit");
-		return;
-	}
-	let formData = createFormData();
+    if (!isComplete) {
+      console.log("incomplete submit");
+      return;
+    }
+    let formData = createFormData();
     try {
       const res = await fetch(
         "https://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net/api/items",
