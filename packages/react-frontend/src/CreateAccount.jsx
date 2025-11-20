@@ -85,7 +85,12 @@ function CreateAccount() {
 
   // Show Terms and Conditions first
   if (showTerms) {
-    return <TermsAndConditions onAccept={handleAcceptTerms} onDecline={handleDeclineTerms} />;
+    return (
+      <TermsAndConditions
+        onAccept={handleAcceptTerms}
+        onDecline={handleDeclineTerms}
+      />
+    );
   }
 
   // Show the account creation form after accepting terms
