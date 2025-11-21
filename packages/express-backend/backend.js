@@ -85,6 +85,7 @@ app.post(
   "/api/items",
   verifyAccessToken,
   upload.single("image"),
+  
   async (req, res) => {
     try {
       const { title, description, location, tags = [] } = req.body;
@@ -93,7 +94,7 @@ app.post(
       }
 
       let imageUrl;
-
+      
       if (req.file) {
         const result = await uploadBufferToCloudinary(
           req.file.buffer,
@@ -101,7 +102,7 @@ app.post(
         );
         imageUrl = result.secure_url;
       }
-
+      
       const item = await Item.create({
         title,
         description,
@@ -114,13 +115,13 @@ app.post(
               .map((s) => s.trim()),
         owner: req.user._id,
       });
-
+      
       await User.findByIdAndUpdate(
         req.user._id,
         { $addToSet: { listings: item._id } },
         { new: false },
       );
-
+      
       res.status(201).json(item);
     } catch (e) {
       console.error(e);
