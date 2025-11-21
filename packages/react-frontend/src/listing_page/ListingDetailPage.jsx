@@ -8,7 +8,7 @@ export default function ListingDetailPage() {
 
   useEffect(() => {
     fetch(
-      `http://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net/api/items/${id}`,
+      `https://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net/api/items/${id}`,
     )
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -23,9 +23,9 @@ export default function ListingDetailPage() {
 
   const getImageUrl = (imageUrl) => {
     if (!imageUrl) return null;
-    return imageUrl.startsWith("http")
+    return imageUrl.startsWith("https")
       ? imageUrl
-      : `http://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net${imageUrl}`;
+      : `https://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net${imageUrl}`;
   };
 
   return (
