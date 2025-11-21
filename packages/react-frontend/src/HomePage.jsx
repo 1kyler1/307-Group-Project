@@ -29,8 +29,7 @@ export default function HomePage() {
           imageUrl: item.imageUrl
             ? item.imageUrl.startsWith("http")
               ? item.imageUrl
-              : // : `http://localhost:4000${item.imageUrl}`
-                `https://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net${item.imageUrl}`
+              : `https://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net${item.imageUrl}`
             : null,
         }));
         setAllListings(formattedData || []);

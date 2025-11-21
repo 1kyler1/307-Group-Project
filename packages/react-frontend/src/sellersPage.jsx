@@ -30,6 +30,8 @@ export default function SellersPage() {
         }
 
         const data = await res.json();
+
+        
         setListings(data.listings || []);
       } catch (err) {
         console.error("Error fetching my listings:", err);
@@ -45,7 +47,7 @@ export default function SellersPage() {
   }
 
   return (
-    <div className="home-container">      {/* <---- fixes layout */}
+    <div className="home-container">     
       <h1>Seller Dashboard</h1>
 
       <div style={{ marginBottom: "1rem" }}>
