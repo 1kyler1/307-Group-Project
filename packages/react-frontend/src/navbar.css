@@ -1,9 +1,9 @@
 .navbar {
   background-color: #222;
-  height: 60px; /* ↓ keeps navbar compact */
+  height: 60px; /* keeps navbar compact */
   display: flex;
-  align-items: center; /* ↓ centers vertically */
-  padding: 0 20px; /* ↓ horizontal spacing only */
+  align-items: center; /* centers vertically */
+  padding: 0 20px; /* horizontal spacing only */
   box-sizing: border-box;
 }
 
@@ -24,7 +24,7 @@
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 20px; /* nice spacing between links */
+  gap: 20px; /* spacing between links */
 }
 
 .nav-link {

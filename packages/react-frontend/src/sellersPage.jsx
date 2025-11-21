@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Listings from "./components/Listings";
+import "./HomePage.css";
 
 export default function SellersPage() {
   const [listings, setListings] = useState([]);
@@ -44,14 +45,24 @@ export default function SellersPage() {
   }
 
   return (
-    <div>
-      <h1>Sellers Page</h1>
-      <button onClick={logout}>Log Out</button>
+    <div className="home-container">      {/* <---- fixes layout */}
+      <h1>Seller Dashboard</h1>
+
+      <div style={{ marginBottom: "1rem" }}>
+        <button onClick={logout}>Log Out</button>
+      </div>
+
       <h2>My Listings</h2>
+      
+        
       <Listings items={listings} />
-      <Link to="/redirect-to-create">
-        <button>Create new listing</button>
-      </Link>
+      
+
+      <div style={{ marginTop: "2rem" }}>
+        <Link to="/redirect-to-create">
+          <button>Create New Listing</button>
+        </Link>
+      </div>
     </div>
   );
 }
