@@ -3,7 +3,7 @@ import React from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import Login from "./LogIn";
 import CreateAccount from "./CreateAccount";
-import NewItemFormPage from "./CreateListingForum";
+import { NewItemFormPage } from "./CreateListingForum";
 import Listings from "./components/Listings";
 import SellersPage from "./sellersPage";
 import ListingDetailPage from "./listing_page/ListingDetailPage";
