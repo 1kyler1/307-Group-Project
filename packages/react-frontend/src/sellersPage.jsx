@@ -30,6 +30,7 @@ export default function SellersPage() {
         }
 
         const data = await res.json();
+
         setListings(data.listings || []);
       } catch (err) {
         console.error("Error fetching my listings:", err);

@@ -6,7 +6,7 @@ export default function ListingCard({ item }) {
   const isRaw = item.imageUrl?.toLowerCase().endsWith(".dng");
 
   return (
-    <Link to={`/listing/${item.id}`} className="listing-link">
+    <Link to={`/listing/${item._id}`} className="listing-link">
       <div className="listing-card">
         {/* Title on top */}
         <h2 className="listing-title">{item.title}</h2>

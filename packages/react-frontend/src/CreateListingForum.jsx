@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import { Routes, Route, Link } from "react-router-dom";
 
-export default function NewItemFormPage() {
+function NewItemFormPage() {
   const [title, setTitle] = useState("");
   const [imageFile, setImageFile] = useState(null);
   const [description, setDescription] = useState("");
@@ -22,14 +23,16 @@ export default function NewItemFormPage() {
   };
 
   const handleSubmitClick = async () => {
-    if (!isComplete) return;
+    if (!isComplete) {
+      console.log("incomplete submit");
+      return;
+    }
 
     let newTags = tags
       .split(",")
       .map((item) => item.trim().toLowerCase())
       .filter((item) => item !== "");
     newTags = newTags.filter((item, index) => newTags.indexOf(item) === index);
-    //console.log(newTags);
 
     const formData = new FormData();
     formData.append("title", title);
@@ -39,7 +42,6 @@ export default function NewItemFormPage() {
       formData.append("tags", t);
     });
     if (imageFile) formData.append("image", imageFile);
-    //console.log(formData);
 
     try {
       const res = await fetch(
@@ -61,6 +63,7 @@ export default function NewItemFormPage() {
 
       const savedItem = await res.json();
       console.log("Saved item:", savedItem);
+      // return formData;
 
       // Reset form + show success
       setTitle("");
@@ -204,3 +207,4 @@ export default function NewItemFormPage() {
     </div>
   );
 }
+export { NewItemFormPage };
