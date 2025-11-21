@@ -11,7 +11,6 @@ export default function ListingCard({ item }) {
         {/* Title on top */}
         <h2 className="listing-title">{item.title}</h2>
 
-        
         {/* Image in the middle */}
         <div className="listing-image-container">
           {item.imageUrl && !isRaw ? (
