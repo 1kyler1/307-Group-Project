@@ -1,15 +1,12 @@
 // src/LogIn.jsx
 import React, { useState } from "react";
-import { Routes, Route, Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import "./Login.css"; 
 
 function Login() {
-  const [person, setPerson] = useState({
-    username: "",
-    password: "",
-  });
-
-  const navigate = useNavigate();
+  const [person, setPerson] = useState({ username: "", password: "" });
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -17,23 +14,23 @@ function Login() {
     setError(null);
   }
 
-  async function submitLogin() {
+  async function submitLogin(e) {
+    e.preventDefault();
+
     if (person.username.trim() === "" || person.password.trim() === "") {
       setPerson({ username: "", password: "" });
       setError("Username and password cannot be empty.");
-      console.log("Username and password cannot be empty.");
       return;
     }
+
     try {
       const response = await fetch(
         "https://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net/api/users/login",
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(person),
-        },
+        }
       );
 
       const data = await response.json();
@@ -44,7 +41,6 @@ function Login() {
       } else {
         setPerson({ username: "", password: "" });
         setError(data.error || "Login failed.");
-        console.log("Login failed:", data.error);
       }
     } catch (e) {
       console.error(e);
@@ -53,12 +49,13 @@ function Login() {
   }
 
   return (
-    <div className="min-h-screen w-full bg-gray-50 flex items-center justify-center p-6">
-      <div className="w-full max-w-xl bg-white rounded-2xl shadow-lg p-6 sm:p-8">
-        <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight mb-6">
-          Log in
-        </h1>
-        <form>
+    <div className="login-container">
+      <div className="login-card">
+        <h1>Log In</h1>
+
+        {error && <p className="error-message">{error}</p>}
+
+        <form onSubmit={submitLogin}>
           <label htmlFor="username">Username</label>
           <input
             type="text"
@@ -67,6 +64,7 @@ function Login() {
             value={person.username}
             onChange={handleChange}
           />
+
           <label htmlFor="password">Password</label>
           <input
             type="password"
@@ -75,11 +73,14 @@ function Login() {
             value={person.password}
             onChange={handleChange}
           />
-          <input type="button" value="Login" onClick={submitLogin} />
+
+          <button type="submit">Log In</button>
         </form>
-        Don't have an account? <Link to="/create-account">Sign up</Link>
+
+        <p className="signup-text">
+          Don’t have an account? <Link to="/create-account">Sign up</Link>
+        </p>
       </div>
-      {error && <p className="text-xl font-bold text-red-900">{error}</p>}
     </div>
   );
 }
