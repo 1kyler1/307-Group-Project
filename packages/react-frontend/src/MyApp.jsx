@@ -101,11 +101,17 @@ export default function MyApp() {
         <Route path="/" element={<HomePage />} />
         <Route
           path="/login"
-          element={<Login handleSubmit={(data) => console.log("Login data:", data)} />}
+          element={
+            <Login handleSubmit={(data) => console.log("Login data:", data)} />
+          }
         />
         <Route
           path="/create-account"
-          element={<CreateAccount handleSubmit={(data) => console.log("New acct data:", data)} />}
+          element={
+            <CreateAccount
+              handleSubmit={(data) => console.log("New acct data:", data)}
+            />
+          }
         />
         <Route path="/new-item" element={<NewItemFormPage />} />
         <Route path="/user-page" element={<SellersPage />} />
@@ -116,4 +122,3 @@ export default function MyApp() {
     </div>
   );
 }
-

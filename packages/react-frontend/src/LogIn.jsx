@@ -1,7 +1,7 @@
 // src/LogIn.jsx
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./Login.css"; 
+import "./Login.css";
 
 function Login() {
   const [person, setPerson] = useState({ username: "", password: "" });
@@ -30,7 +30,7 @@ function Login() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(person),
-        }
+        },
       );
 
       const data = await response.json();

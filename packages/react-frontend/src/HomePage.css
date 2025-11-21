@@ -1,4 +1,4 @@
-/* just the grid for the cards*/ 
+/* just the grid for the cards*/
 .listings-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));

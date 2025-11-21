@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import TermsAndConditions from "./TermsAndConditions";
-import "./CreateAccount.css"; 
+import "./CreateAccount.css";
 
 function CreateAccount() {
   const [showTerms, setShowTerms] = useState(true);
@@ -47,7 +47,7 @@ function CreateAccount() {
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },
-        }
+        },
       );
       const data2 = await r2.json();
       const existingUser = Array.isArray(data2)
@@ -65,7 +65,7 @@ function CreateAccount() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(person),
-        }
+        },
       );
 
       const data = await response.json();
@@ -87,7 +87,10 @@ function CreateAccount() {
 
   if (showTerms) {
     return (
-      <TermsAndConditions onAccept={handleAcceptTerms} onDecline={handleDeclineTerms} />
+      <TermsAndConditions
+        onAccept={handleAcceptTerms}
+        onDecline={handleDeclineTerms}
+      />
     );
   }
 
@@ -95,7 +98,9 @@ function CreateAccount() {
     <div className="create-account-container">
       <div className="create-account-card">
         <h1 className="create-account-title">Create New Account</h1>
-        <p className="create-account-subtitle">Please enter a unique username and a strong password.</p>
+        <p className="create-account-subtitle">
+          Please enter a unique username and a strong password.
+        </p>
 
         {error && <div className="error-message">{error}</div>}
 
@@ -126,7 +131,11 @@ function CreateAccount() {
             />
           </div>
 
-          <button type="submit" className="submit-button" disabled={isSubmitting}>
+          <button
+            type="submit"
+            className="submit-button"
+            disabled={isSubmitting}
+          >
             {isSubmitting ? "Creating account…" : "Sign up"}
           </button>
         </form>
@@ -140,4 +149,3 @@ function CreateAccount() {
 }
 
 export default CreateAccount;
-
