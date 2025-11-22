@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import "./ListingDetail.css"; // <- make sure this file contains the CSS above
 
 export default function ListingDetailPage() {
   const { id } = useParams();
@@ -8,7 +9,7 @@ export default function ListingDetailPage() {
 
   useEffect(() => {
     fetch(
-      `https://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net/api/items/${id}`,
+      `https://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net/api/items/${id}`
     )
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -31,25 +32,22 @@ export default function ListingDetailPage() {
   return (
     <div className="listing-detail">
       <Link to="/">← Back to Listings</Link>
-      <h1>{item.title}</h1>
 
-      {item?.imageUrl && (
+      <div className="listing-detail-content">
         <img
-          src={`${getImageUrl(item.imageUrl)}`}
+          src={getImageUrl(item.imageUrl)}
           alt={item.title}
           className="listing-detail-image"
         />
-      )}
 
-      <p>
-        <strong>Description:</strong> {item.description}
-      </p>
-      <p>
-        <strong>Location:</strong> {item.location}
-      </p>
-      <p>
-        <strong>Tags:</strong> {item.tags.join(", ")}
-      </p>
+        
+        <div className="listing-detail-info">
+          <h1>{item.title}</h1>
+          <p><strong>Description:</strong> {item.description}</p>
+          <p><strong>Location:</strong> {item.location}</p>
+          <p><strong>Tags:</strong> {item.tags.join(", ")}</p>
+        </div>
+      </div>
     </div>
   );
 }
