@@ -5,6 +5,26 @@ import { Link } from "react-router-dom";
 export default function ListingCard({ item }) {
   const isRaw = item.imageUrl?.toLowerCase().endsWith(".dng");
 
+  const CATEGORY_KEYS = ["top", "bottoms", "accessories"];
+
+  let category = null;
+
+  if (Array.isArray(item.tags)) {
+    category =
+      item.tags
+        .map((t) => String(t).toLowerCase())
+        .find((t) => CATEGORY_KEYS.includes(t)) || null;
+  } else if (typeof item.tags === "string") {
+    const parts = item.tags
+      .split(",")
+      .map((t) => t.trim().toLowerCase())
+      .filter(Boolean);
+    category = parts.find((t) => CATEGORY_KEYS.includes(t)) || null;
+  }
+
+  const displayCategory =
+    category && category.charAt(0).toUpperCase() + category.slice(1);
+
   return (
     <Link to={`/listing/${item._id}`} className="listing-link">
       <div className="listing-card">
@@ -44,6 +64,14 @@ export default function ListingCard({ item }) {
           <span className="listing-label">Location:</span>
           <span className="listing-value">{item.location}</span>
         </div>
+
+        {/* Category */}
+        {displayCategory && (
+          <div className="listing-field left-field">
+            <span className="listing-label">Category:</span>
+            <span className="listing-value">{displayCategory}</span>
+          </div>
+        )}
 
         {/* Tags */}
         <div className="listing-field left-field">

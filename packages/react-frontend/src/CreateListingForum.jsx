@@ -16,11 +16,14 @@ function NewItemFormPage() {
     accessories: false,
   });
 
+  const [gender, setGender] = useState("");
+
   const isComplete =
     title.trim() !== "" &&
     imageFile !== null &&
     description.trim() !== "" &&
     location.trim() !== "";
+    gender !== "";
 
   const handleImageChange = (e) => {
     const file = e.target.files?.[0] || null;
@@ -57,6 +60,7 @@ function NewItemFormPage() {
     formData.append("title", title);
     formData.append("description", description);
     formData.append("location", location);
+    formData.append("gender", gender);
     newTags.forEach((t) => {
       formData.append("tags", t);
     });
@@ -90,6 +94,7 @@ function NewItemFormPage() {
       setImageFile(null);
       setSubmitted(true);
       setResetKey((k) => k + 1);
+      setGender("");
       setCategories({
         top: false,
         bottoms: false,
@@ -190,13 +195,74 @@ function NewItemFormPage() {
               className="w-full rounded-xl border border-gray-300 focus:border-gray-900 focus:ring-0 px-4 py-2.5 outline-none"
             />
           </div>
+          {/* Gender Selector */}
+          <div>
+            <label className="block text-sm font-medium mb-1">Gender</label>
+
+            {/* Force a single horizontal row */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "1.5rem",
+              }}
+            >
+              <label
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "0.35rem",
+                  cursor: "pointer",
+                }}
+              >
+                <input
+                  type="radio"
+                  name="gender"
+                  value="male"
+                  checked={gender === "male"}
+                  onChange={(e) => setGender(e.target.value)}
+                />
+                <span>Male</span>
+              </label>
+
+              <label
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "0.35rem",
+                  cursor: "pointer",
+                }}
+              >
+                <input
+                  type="radio"
+                  name="gender"
+                  value="women"
+                  checked={gender === "women"}
+                  onChange={(e) => setGender(e.target.value)}
+                />
+                <span>Women</span>
+              </label>
+            </div>
+          </div>
+
           {/* Category checkboxes */}
           <div>
-            <label className="block text-sm font-medium mb-1">
-              Category
-            </label>
-            <div className="flex flex-nowrap gap-6 items-center">
-              <label className="inline-flex items-center gap-2">
+            <label className="block text-sm font-medium mb-1">Category</label>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "1.5rem",
+              }}
+            >
+              <label
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "0.35rem",
+                  cursor: "pointer",
+                }}
+              >
                 <input
                   type="checkbox"
                   name="top"
@@ -205,7 +271,15 @@ function NewItemFormPage() {
                 />
                 <span>Top</span>
               </label>
-              <label className="inline-flex items-center gap-2">
+
+              <label
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "0.35rem",
+                  cursor: "pointer",
+                }}
+              >
                 <input
                   type="checkbox"
                   name="bottoms"
@@ -214,7 +288,15 @@ function NewItemFormPage() {
                 />
                 <span>Bottoms</span>
               </label>
-              <label className="inline-flex items-center gap-2">
+
+              <label
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "0.35rem",
+                  cursor: "pointer",
+                }}
+              >
                 <input
                   type="checkbox"
                   name="accessories"
