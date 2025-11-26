@@ -85,6 +85,7 @@ app.post(
   "/api/items",
   verifyAccessToken,
   upload.single("image"),
+
   async (req, res) => {
     try {
       const { title, description, location, tags = [] } = req.body;
