@@ -1,5 +1,5 @@
+// listing.js
 import mongoose from "mongoose";
-
 const ItemSchema = new mongoose.Schema(
   {
     title: { type: String, required: true },
@@ -7,6 +7,16 @@ const ItemSchema = new mongoose.Schema(
     description: { type: String, required: true },
     location: { type: String, required: true },
     tags: { type: [String], default: [] },
+
+    gender: {
+      type: String,
+      enum: ["male", "female"],
+      default: null,
+    },
+    categories: {
+      type: [String],
+      default: [],
+    },
     owner: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

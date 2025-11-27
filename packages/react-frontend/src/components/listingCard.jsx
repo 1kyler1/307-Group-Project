@@ -25,6 +25,28 @@ export default function ListingCard({ item }) {
   const displayCategory =
     category && category.charAt(0).toUpperCase() + category.slice(1);
 
+  const GENDER_KEYS = ["male", "women", "female", "man"];
+
+  let gender = null;
+
+  if (item.gender) {
+    gender = String(item.gender).toLowerCase();
+  } else if (Array.isArray(item.tags)) {
+    gender =
+      item.tags
+        .map((t) => String(t).toLowerCase())
+        .find((t) => GENDER_KEYS.includes(t)) || null;
+  } else if (typeof item.tags === "string") {
+    const parts = item.tags
+      .split(",")
+      .map((t) => t.trim().toLowerCase())
+      .filter(Boolean);
+    gender = parts.find((t) => GENDER_KEYS.includes(t)) || null;
+  }
+
+  const displayGender =
+    gender && gender.charAt(0).toUpperCase() + gender.slice(1);
+
   return (
     <Link to={`/listing/${item._id}`} className="listing-link">
       <div className="listing-card">
@@ -64,6 +86,14 @@ export default function ListingCard({ item }) {
           <span className="listing-label">Location:</span>
           <span className="listing-value">{item.location}</span>
         </div>
+
+        {/* Gender */}
+        {displayGender && (
+          <div className="listing-field left-field">
+            <span className="listing-label">Gender:</span>
+            <span className="listing-value">{displayGender}</span>
+          </div>
+        )}
 
         {/* Category */}
         {displayCategory && (

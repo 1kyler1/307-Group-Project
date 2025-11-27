@@ -22,7 +22,7 @@ function NewItemFormPage() {
     title.trim() !== "" &&
     imageFile !== null &&
     description.trim() !== "" &&
-    location.trim() !== "";
+    location.trim() !== "" &&
     gender !== "";
 
   const handleImageChange = (e) => {
@@ -53,22 +53,30 @@ function NewItemFormPage() {
     newTags = newTags.filter((item, index) => newTags.indexOf(item) === index);
 
     const selectedCategories = Object.keys(categories).filter(
-      (key) => categories[key]
+      (key) => categories[key],
     );
 
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", description);
     formData.append("location", location);
+
     formData.append("gender", gender);
+
+    selectedCategories.forEach((c) => {
+      formData.append("categories", c);
+    });
+
     newTags.forEach((t) => {
       formData.append("tags", t);
     });
+
     if (imageFile) formData.append("image", imageFile);
 
     try {
       const res = await fetch(
         "https://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net/api/items",
+        // fetch("http://localhost:4000/api/items",
         {
           method: "POST",
           headers: {
@@ -86,7 +94,7 @@ function NewItemFormPage() {
 
       const savedItem = await res.json();
       console.log("Saved item:", savedItem);
-      
+
       setTitle("");
       setDescription("");
       setLocation("");
@@ -100,7 +108,6 @@ function NewItemFormPage() {
         bottoms: false,
         accessories: false,
       });
-
     } catch (error) {
       console.error("Network error:", error);
       alert("Network error saving item");
@@ -198,8 +205,6 @@ function NewItemFormPage() {
           {/* Gender Selector */}
           <div>
             <label className="block text-sm font-medium mb-1">Gender</label>
-
-            {/* Force a single horizontal row */}
             <div
               style={{
                 display: "flex",
@@ -236,11 +241,11 @@ function NewItemFormPage() {
                 <input
                   type="radio"
                   name="gender"
-                  value="women"
-                  checked={gender === "women"}
+                  value="female"
+                  checked={gender === "female"}
                   onChange={(e) => setGender(e.target.value)}
                 />
-                <span>Women</span>
+                <span>Female</span>
               </label>
             </div>
           </div>
