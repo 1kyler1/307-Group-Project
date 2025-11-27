@@ -59,39 +59,49 @@ export default function HomePage() {
       return;
     }
 
-    let filtered = [...allListings];
+    const query = searchQuery.trim().toLowerCase();
 
     const activeGenders = Object.keys(selectedGenders).filter(
       (g) => selectedGenders[g],
     );
-    if (activeGenders.length > 0) {
-      filtered = filtered.filter((item) =>
-        item.gender ? activeGenders.includes(item.gender.toLowerCase()) : false,
-      );
-    }
-
     const activeCategories = Object.keys(selectedCategories).filter(
       (c) => selectedCategories[c],
     );
-    if (activeCategories.length > 0) {
-      filtered = filtered.filter((item) =>
-        item.category
-          ? activeCategories.includes(item.category.toLowerCase())
-          : false,
-      );
-    }
 
-    const query = searchQuery.trim().toLowerCase();
-    if (query) {
-      filtered = filtered.filter((item) => {
-        return (
-          item.title?.toLowerCase().includes(query) ||
-          item.description?.toLowerCase().includes(query) ||
-          item.location?.toLowerCase().includes(query) ||
-          item.tags?.some((tag) => tag.toLowerCase().includes(query))
-        );
-      });
-    }
+    const hasGenderFilter = activeGenders.length > 0;
+    const hasCategoryFilter = activeCategories.length > 0;
+    const hasTextSearch = query.length > 0;
+
+    const CATEGORY_KEYS = ["top", "bottoms", "accessories"];
+
+    const filtered = allListings.filter((item) => {
+      const itemGender = item.gender?.toString().trim().toLowerCase();
+      let itemCategory = null;
+      if (Array.isArray(item.categories)) {
+        itemCategory =
+          item.categories
+            .map((c) => String(c).toLowerCase().trim())
+            .find((c) => CATEGORY_KEYS.includes(c)) || null;
+      } else if (item.categories) {
+        itemCategory = String(item.categories).toLowerCase().trim();
+      }
+
+      const genderMatch =
+        !hasGenderFilter || (itemGender && activeGenders.includes(itemGender));
+
+      const categoryMatch =
+        !hasCategoryFilter ||
+        (itemCategory && activeCategories.includes(itemCategory));
+
+      const textMatch =
+        !hasTextSearch ||
+        item.title?.toLowerCase().includes(query) ||
+        item.description?.toLowerCase().includes(query) ||
+        item.location?.toLowerCase().includes(query) ||
+        item.tags?.some((tag) => tag.toLowerCase().includes(query));
+
+      return genderMatch && categoryMatch && textMatch;
+    });
 
     setListings(filtered);
   }, [allListings, searchQuery, selectedGenders, selectedCategories]);

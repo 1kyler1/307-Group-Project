@@ -1,4 +1,4 @@
-// // listingCard.jsx
+//listingCard.jsc
 import "./ListingCard.css";
 import { Link } from "react-router-dom";
 
@@ -9,10 +9,18 @@ export default function ListingCard({ item }) {
 
   let category = null;
 
-  if (Array.isArray(item.tags)) {
+  if (Array.isArray(item.categories)) {
+    category =
+      item.categories
+        .map((c) => String(c).toLowerCase().trim())
+        .find((c) => CATEGORY_KEYS.includes(c)) || null;
+  } else if (item.categories) {
+    const c = String(item.categories).toLowerCase().trim();
+    if (CATEGORY_KEYS.includes(c)) category = c;
+  } else if (Array.isArray(item.tags)) {
     category =
       item.tags
-        .map((t) => String(t).toLowerCase())
+        .map((t) => String(t).toLowerCase().trim())
         .find((t) => CATEGORY_KEYS.includes(t)) || null;
   } else if (typeof item.tags === "string") {
     const parts = item.tags
@@ -30,11 +38,11 @@ export default function ListingCard({ item }) {
   let gender = null;
 
   if (item.gender) {
-    gender = String(item.gender).toLowerCase();
+    gender = String(item.gender).toLowerCase().trim();
   } else if (Array.isArray(item.tags)) {
     gender =
       item.tags
-        .map((t) => String(t).toLowerCase())
+        .map((t) => String(t).toLowerCase().trim())
         .find((t) => GENDER_KEYS.includes(t)) || null;
   } else if (typeof item.tags === "string") {
     const parts = item.tags
@@ -50,10 +58,8 @@ export default function ListingCard({ item }) {
   return (
     <Link to={`/listing/${item._id}`} className="listing-link">
       <div className="listing-card">
-        {/* Title on top */}
         <h2 className="listing-title">{item.title}</h2>
 
-        {/* Image in the middle */}
         <div className="listing-image-container">
           {item.imageUrl && !isRaw ? (
             <img
@@ -75,7 +81,7 @@ export default function ListingCard({ item }) {
           )}
         </div>
 
-        {/* Details at the bottom */}
+        {/* Description */}
         <div className="listing-field left-field">
           <span className="listing-label">Description:</span>
           <span className="listing-value">{item.description}</span>
