@@ -10,15 +10,33 @@ function NewItemFormPage() {
   const [submitted, setSubmitted] = useState(false);
   const [resetKey, setResetKey] = useState(0);
 
+  const [categories, setCategories] = useState({
+    top: false,
+    bottoms: false,
+    accessories: false,
+  });
+
+  const [gender, setGender] = useState("");
+
   const isComplete =
     title.trim() !== "" &&
     imageFile !== null &&
     description.trim() !== "" &&
-    location.trim() !== "";
+    location.trim() !== "" &&
+    gender !== "";
 
   const handleImageChange = (e) => {
     const file = e.target.files?.[0] || null;
     setImageFile(file);
+    setSubmitted(false);
+  };
+
+  const handleCategoryChange = (e) => {
+    const { name, checked } = e.target;
+    setCategories((prev) => ({
+      ...prev,
+      [name]: checked,
+    }));
     setSubmitted(false);
   };
 
@@ -34,18 +52,31 @@ function NewItemFormPage() {
       .filter((item) => item !== "");
     newTags = newTags.filter((item, index) => newTags.indexOf(item) === index);
 
+    const selectedCategories = Object.keys(categories).filter(
+      (key) => categories[key],
+    );
+
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", description);
     formData.append("location", location);
+
+    formData.append("gender", gender);
+
+    selectedCategories.forEach((c) => {
+      formData.append("categories", c);
+    });
+
     newTags.forEach((t) => {
       formData.append("tags", t);
     });
+
     if (imageFile) formData.append("image", imageFile);
 
     try {
       const res = await fetch(
         "https://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net/api/items",
+        // fetch("http://localhost:4000/api/items",
         {
           method: "POST",
           headers: {
@@ -63,17 +94,20 @@ function NewItemFormPage() {
 
       const savedItem = await res.json();
       console.log("Saved item:", savedItem);
-      // return formData;
 
-      // Reset form + show success
       setTitle("");
       setDescription("");
       setLocation("");
       setTags("");
       setImageFile(null);
       setSubmitted(true);
-
       setResetKey((k) => k + 1);
+      setGender("");
+      setCategories({
+        top: false,
+        bottoms: false,
+        accessories: false,
+      });
     } catch (error) {
       console.error("Network error:", error);
       alert("Network error saving item");
@@ -167,6 +201,116 @@ function NewItemFormPage() {
               }}
               className="w-full rounded-xl border border-gray-300 focus:border-gray-900 focus:ring-0 px-4 py-2.5 outline-none"
             />
+          </div>
+          {/* Gender Selector */}
+          <div>
+            <label className="block text-sm font-medium mb-1">Gender</label>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "1.5rem",
+              }}
+            >
+              <label
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "0.35rem",
+                  cursor: "pointer",
+                }}
+              >
+                <input
+                  type="radio"
+                  name="gender"
+                  value="male"
+                  checked={gender === "male"}
+                  onChange={(e) => setGender(e.target.value)}
+                />
+                <span>Male</span>
+              </label>
+
+              <label
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "0.35rem",
+                  cursor: "pointer",
+                }}
+              >
+                <input
+                  type="radio"
+                  name="gender"
+                  value="female"
+                  checked={gender === "female"}
+                  onChange={(e) => setGender(e.target.value)}
+                />
+                <span>Female</span>
+              </label>
+            </div>
+          </div>
+
+          {/* Category checkboxes */}
+          <div>
+            <label className="block text-sm font-medium mb-1">Category</label>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "1.5rem",
+              }}
+            >
+              <label
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "0.35rem",
+                  cursor: "pointer",
+                }}
+              >
+                <input
+                  type="checkbox"
+                  name="top"
+                  checked={categories.top}
+                  onChange={handleCategoryChange}
+                />
+                <span>Top</span>
+              </label>
+
+              <label
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "0.35rem",
+                  cursor: "pointer",
+                }}
+              >
+                <input
+                  type="checkbox"
+                  name="bottoms"
+                  checked={categories.bottoms}
+                  onChange={handleCategoryChange}
+                />
+                <span>Bottoms</span>
+              </label>
+
+              <label
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "0.35rem",
+                  cursor: "pointer",
+                }}
+              >
+                <input
+                  type="checkbox"
+                  name="accessories"
+                  checked={categories.accessories}
+                  onChange={handleCategoryChange}
+                />
+                <span>Accessories</span>
+              </label>
+            </div>
           </div>
 
           {/* Tags */}

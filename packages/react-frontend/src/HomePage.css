@@ -1,16 +1,18 @@
-/* just the grid for the cards*/
 .listings-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 2rem;
   justify-items: center;
 }
 
-/* homepage css */
 .home-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 1rem 2rem;
+}
+
+.home-container > h1 {
+  text-align: center;
 }
 
 .search-container {
@@ -32,4 +34,30 @@
 .search-input:focus {
   border-color: black;
   box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.15);
+}
+
+.filter-card {
+  width: 280px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+
+.home-main {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+}
+
+.filters-column {
+  flex: 0 0 280px;
+}
+
+.listings-column {
+  flex: 1;
+}
+
+.filter-option input {
+  margin-right: 8px;
 }
