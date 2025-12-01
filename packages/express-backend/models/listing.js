@@ -23,6 +23,7 @@ const ItemSchema = new mongoose.Schema(
       required: true,
       index: true,
     },
+    contactInfo: { type: String, required: true },
   },
   { timestamps: true },
 );

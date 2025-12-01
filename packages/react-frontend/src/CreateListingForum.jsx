@@ -9,6 +9,7 @@ function NewItemFormPage() {
   const [tags, setTags] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [resetKey, setResetKey] = useState(0);
+  const [contactInfo, setContactInfo] = useState("");
 
   const [categories, setCategories] = useState({
     top: false,
@@ -23,7 +24,8 @@ function NewItemFormPage() {
     imageFile !== null &&
     description.trim() !== "" &&
     location.trim() !== "" &&
-    gender !== "";
+    gender !== "" &&
+    contactInfo.trim() !=="";
 
   const handleImageChange = (e) => {
     const file = e.target.files?.[0] || null;
@@ -60,6 +62,7 @@ function NewItemFormPage() {
     formData.append("title", title);
     formData.append("description", description);
     formData.append("location", location);
+    formData.append("contactInfo", contactInfo);
 
     formData.append("gender", gender);
 
@@ -101,6 +104,7 @@ function NewItemFormPage() {
       setTags("");
       setImageFile(null);
       setSubmitted(true);
+      setContactInfo("");
       setResetKey((k) => k + 1);
       setGender("");
       setCategories({
@@ -325,6 +329,24 @@ function NewItemFormPage() {
               value={tags}
               onChange={(e) => {
                 setTags(e.target.value);
+                setSubmitted(false);
+              }}
+              className="w-full rounded-xl border border-gray-300 focus:border-gray-900 focus:ring-0 px-4 py-2.5 outline-none"
+            />
+          </div>
+
+          {/* Contact Info */}
+          <div>
+            <label className="block text-sm font-medium mb-1">
+              Email/Phone Number
+            </label>
+            <input
+              id="contactInfo"
+              type="text"
+              placeholder="Enter email or phone number"
+              value={contactInfo}
+              onChange={(e) => {
+                setContactInfo(e.target.value);
                 setSubmitted(false);
               }}
               className="w-full rounded-xl border border-gray-300 focus:border-gray-900 focus:ring-0 px-4 py-2.5 outline-none"

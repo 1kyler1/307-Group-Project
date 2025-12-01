@@ -94,9 +94,10 @@ app.post(
         tags = [],
         gender,
         categories = [],
+        contractInfo,
       } = req.body;
 
-      if (!title?.trim() || !description?.trim() || !location?.trim()) {
+      if (!title?.trim() || !description?.trim() || !location?.trim() || !contactInfo?.trim()) {
         return res.status(400).json({ error: "Missing required fields." });
       }
 
@@ -127,6 +128,7 @@ app.post(
 
         gender: gender || null,
         owner: req.user._id,
+        contactInfo,
       });
 
       await User.findByIdAndUpdate(
