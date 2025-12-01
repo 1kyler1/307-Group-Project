@@ -87,8 +87,13 @@ app.post(
   upload.single("image"),
   async (req, res) => {
     try {
-      const { title, description, location, tags = [] } = req.body;
-      if (!title?.trim() || !description?.trim() || !location?.trim()) {
+      const { title, description, location, tags = [], contactInfo } = req.body;
+      if (
+        !title?.trim() ||
+        !description?.trim() ||
+        !location?.trim() ||
+        !contactInfo?.trim()
+      ) {
         return res.status(400).json({ error: "Missing required fields." });
       }
 
@@ -113,6 +118,7 @@ app.post(
               .split(",")
               .map((s) => s.trim()),
         owner: req.user._id,
+        contactInfo,
       });
 
       await User.findByIdAndUpdate(
