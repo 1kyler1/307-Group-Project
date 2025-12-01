@@ -1,89 +1,90 @@
-// src/CreateAccount.jsx
+// CreateAccount.jsx
 import React, { useState } from "react";
-import { Routes, Route, Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import TermsAndConditions from "./TermsAndConditions";
+import "./CreateAccount.css";
 
 function CreateAccount() {
-  const [showTerms, setShowTerms] = useState(true); // Show terms first
-  const [person, setPerson] = useState({
-    username: "",
-    password: "",
-  });
+  const [showTerms, setShowTerms] = useState(true);
+  const [person, setPerson] = useState({ username: "", password: "" });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState(null);
 
   const navigate = useNavigate();
 
-  const [error, setError] = useState(null);
-
   function handleAcceptTerms() {
-    setShowTerms(false); // Hide terms and show form
+    setShowTerms(false);
   }
-
   function handleDeclineTerms() {
-    navigate("/"); // Go back to home if they decline
+    navigate("/");
   }
 
   function handleChange(event) {
     const { name, value } = event.target;
-    setPerson((prevPerson) => ({ ...prevPerson, [name]: value }));
+    setPerson((prev) => ({ ...prev, [name]: value }));
     setError(null);
   }
 
-  async function submitAccount() {
-    const r2 = await fetch(
-      "https://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net/api/users",
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
-    );
-    const data2 = await r2.json();
-    const existingUser = data2.find((u) => u.username === person.username);
-    if (existingUser) {
-      setPerson({ username: "", password: "" });
-      setError("Username already exists.");
-      console.log("Username already exists.");
-      return;
-    }
+  async function submitAccount(e) {
+    e?.preventDefault();
+    if (isSubmitting) return;
 
     if (person.username.trim() === "" || person.password.trim() === "") {
-      setPerson({ username: "", password: "" });
       setError("Username and password cannot be empty.");
-      console.log("Username and password cannot be empty.");
       return;
-    } else if (person.password.length < 8) {
-      setPerson({ username: "", password: "" });
+    }
+    if (person.password.length < 8) {
       setError("Password must be 8 or more characters.");
-      console.log("Password must be 8 or more characters.");
       return;
     }
 
-    const response = await fetch(
-      "https://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net/api/users",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(person),
-      },
-    );
+    setIsSubmitting(true);
+    setError(null);
 
-    const data = await response.json();
-    if (response.ok) {
-      console.log("Account created successfully:", data);
-      setPerson({ username: "", password: "" });
-      localStorage.setItem("token", data.token);
-      navigate(
-        "https://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net/user-page",
+    try {
+      const r2 = await fetch(
+        "https://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net/api/users",
+        {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        },
       );
-    } else {
-      console.error("Error creating account:", data.error);
+      const data2 = await r2.json();
+      const existingUser = Array.isArray(data2)
+        ? data2.find((u) => u.username === person.username)
+        : null;
+      if (existingUser) {
+        setError("Username already exists.");
+        setIsSubmitting(false);
+        return;
+      }
+
+      const response = await fetch(
+        "https://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net/api/users",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(person),
+        },
+      );
+
+      const data = await response.json();
+      if (!response.ok) {
+        setError(data?.error || "Error creating account.");
+        setIsSubmitting(false);
+        return;
+      }
+
+      localStorage.setItem("token", data.token);
+      setPerson({ username: "", password: "" });
+      navigate("/user-page");
+    } catch (err) {
+      setError("Network error. Please try again.");
+      console.error(err);
+      setIsSubmitting(false);
     }
   }
 
-  // Show Terms and Conditions first
   if (showTerms) {
     return (
       <TermsAndConditions
@@ -93,37 +94,56 @@ function CreateAccount() {
     );
   }
 
-  // Show the account creation form after accepting terms
   return (
-    <div className="min-h-screen w-full bg-gray-50 flex items-center justify-center p-6">
-      <div className="w-full max-w-xl bg-white rounded-2xl shadow-lg p-6 sm:p-8">
-        <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight mb-6">
-          Create New Account
-        </h1>
-        <form>
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            name="username"
-            id="username"
-            placeholder="Enter a unique username"
-            value={person.username}
-            onChange={handleChange}
-          />
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            placeholder="Enter a password (at least 8 characters)"
-            value={person.password}
-            onChange={handleChange}
-          />
-          <input type="button" value="Sign up" onClick={submitAccount} />
+    <div className="create-account-container">
+      <div className="create-account-card">
+        <h1 className="create-account-title">Create New Account</h1>
+        <p className="create-account-subtitle">
+          Please enter a unique username and a strong password.
+        </p>
+
+        {error && <div className="error-message">{error}</div>}
+
+        <form onSubmit={submitAccount} noValidate>
+          <div className="form-group">
+            <label htmlFor="username">Username</label>
+            <input
+              type="text"
+              name="username"
+              id="username"
+              placeholder="Enter a unique username"
+              value={person.username}
+              onChange={handleChange}
+              autoComplete="username"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              name="password"
+              id="password"
+              placeholder="Enter a password (at least 8 characters)"
+              value={person.password}
+              onChange={handleChange}
+              autoComplete="new-password"
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="submit-button"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? "Creating account…" : "Sign up"}
+          </button>
         </form>
-        Already have an account? <Link to="/login">Log in</Link>
+
+        <div className="helper-text">
+          Already have an account? <Link to="/login">Log in</Link>
+        </div>
       </div>
-      {error && <p className="text-xl font-bold text-red-900">{error}</p>}
     </div>
   );
 }

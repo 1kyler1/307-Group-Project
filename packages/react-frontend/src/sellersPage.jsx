@@ -47,16 +47,14 @@ export default function SellersPage() {
 
   return (
     <div className="home-container">
+      {" "}
+      {/* <---- fixes layout */}
       <h1>Seller Dashboard</h1>
-
       <div style={{ marginBottom: "1rem" }}>
         <button onClick={logout}>Log Out</button>
       </div>
-
       <h2>My Listings</h2>
-
       <Listings items={listings} />
-
       <div style={{ marginTop: "2rem" }}>
         <Link to="/redirect-to-create">
           <button>Create New Listing</button>

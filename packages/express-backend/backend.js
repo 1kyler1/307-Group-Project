@@ -11,8 +11,6 @@ import Item from "./models/listing.js";
 import User from "./models/user.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
 
 const app = express();
 app.use(cors());
@@ -85,15 +83,21 @@ app.post(
   "/api/items",
   verifyAccessToken,
   upload.single("image"),
+
   async (req, res) => {
     try {
-      const { title, description, location, tags = [], contactInfo } = req.body;
-      if (
-        !title?.trim() ||
-        !description?.trim() ||
-        !location?.trim() ||
-        !contactInfo?.trim()
-      ) {
+      console.log("BODY:", req.body);
+      const {
+        title,
+        description,
+        location,
+        tags = [],
+        gender,
+        categories = [],
+        contractInfo,
+      } = req.body;
+
+      if (!title?.trim() || !description?.trim() || !location?.trim() || !contactInfo?.trim()) {
         return res.status(400).json({ error: "Missing required fields." });
       }
 
@@ -117,6 +121,12 @@ app.post(
           : String(tags)
               .split(",")
               .map((s) => s.trim()),
+
+        categories: Array.isArray(categories)
+          ? categories
+          : [categories].filter(Boolean),
+
+        gender: gender || null,
         owner: req.user._id,
         contactInfo,
       });
