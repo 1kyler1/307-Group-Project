@@ -94,10 +94,15 @@ app.post(
         tags = [],
         gender,
         categories = [],
-        contractInfo,
+        contactInfo,
       } = req.body;
 
-      if (!title?.trim() || !description?.trim() || !location?.trim() || !contactInfo?.trim()) {
+      if (
+        !title?.trim() ||
+        !description?.trim() ||
+        !location?.trim() ||
+        !contactInfo?.trim()
+      ) {
         return res.status(400).json({ error: "Missing required fields." });
       }
 
