@@ -51,6 +51,9 @@ export default function ListingDetailPage() {
           <p>
             <strong>Tags:</strong> {item.tags.join(", ")}
           </p>
+          <p>
+            <strong>Contact: </strong> {item.contactInfo}
+          </p>
         </div>
       </div>
     </div>
