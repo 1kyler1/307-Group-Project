@@ -207,7 +207,9 @@ function NewItemFormPage() {
           </div>
           {/* Gender Selector */}
           <div>
-            <label className="block text-sm font-medium mb-1">Gender</label>
+            <label className="block text-sm font-medium mb-1" htmlFor="gender">
+				Gender
+			</label>
             <div
               style={{
                 display: "flex",
@@ -273,7 +275,9 @@ function NewItemFormPage() {
 
           {/* Category checkboxes */}
           <div>
-            <label className="block text-sm font-medium mb-1">Category</label>
+            <label className="block text-sm font-medium mb-1" htmlFor="category">
+				Category
+			</label>
             <div
               style={{
                 display: "flex",
@@ -354,7 +358,7 @@ function NewItemFormPage() {
 
           {/* Contact Info */}
           <div>
-            <label className="block text-sm font-medium mb-1">
+            <label className="block text-sm font-medium mb-1" htmlFor="contactInfo">
               Email/Phone Number
             </label>
             <input
