@@ -1,6 +1,6 @@
 // src/TermsAndConditions.jsx
 import React from "react";
-import "./TermsAndConditions.css";
+import "./css/TermsAndConditions.css";
 
 export default function TermsAndConditions({ onAccept, onDecline }) {
   return (

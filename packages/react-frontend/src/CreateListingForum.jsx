@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Routes, Route, Link } from "react-router-dom";
 
 function NewItemFormPage() {
   const [title, setTitle] = useState("");

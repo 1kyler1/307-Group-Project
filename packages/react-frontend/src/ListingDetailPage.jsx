@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import "./ListingDetail.css";
+import "./css/ListingDetail.css";
 
 export default function ListingDetailPage() {
   const { id } = useParams();
