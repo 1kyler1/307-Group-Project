@@ -63,7 +63,6 @@ function NewItemFormPage() {
     formData.append("description", description);
     formData.append("location", location);
     formData.append("contactInfo", contactInfo);
-
     formData.append("gender", gender);
 
     selectedCategories.forEach((c) => {
