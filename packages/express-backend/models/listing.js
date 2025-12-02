@@ -10,7 +10,7 @@ const ItemSchema = new mongoose.Schema(
 
     gender: {
       type: String,
-      enum: ["male", "female"],
+      enum: ["male", "female", "misc"],
       default: null,
     },
     categories: {

@@ -11,6 +11,7 @@ export default function HomePage() {
   const [selectedGenders, setSelectedGenders] = useState({
     male: false,
     female: false,
+    misc: false,
   });
 
   const [selectedCategories, setSelectedCategories] = useState({
@@ -123,7 +124,7 @@ export default function HomePage() {
   };
 
   const handleClearFilters = () => {
-    setSelectedGenders({ male: false, female: false });
+    setSelectedGenders({ male: false, female: false, misc: false });
     setSelectedCategories({ top: false, bottoms: false, accessories: false });
   };
 
@@ -155,6 +156,15 @@ export default function HomePage() {
                   onChange={handleGenderChange}
                 />
                 <span>Female</span>
+              </label>
+              <label className="filter-option">
+                <input
+                  type="checkbox"
+                  name="misc"
+                  checked={selectedGenders.misc}
+                  onChange={handleGenderChange}
+                />
+                <span>Misc</span>
               </label>
             </div>
 
