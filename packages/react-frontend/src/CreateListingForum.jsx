@@ -251,6 +251,25 @@ function NewItemFormPage() {
                 />
                 <span>Female</span>
               </label>
+			  
+			  <label
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "0.35rem",
+                  cursor: "pointer",
+                }}
+              >
+                <input
+                  type="radio"
+                  name="gender"
+                  value="misc"
+                  checked={gender === "misc"}
+                  onChange={(e) => setGender(e.target.value)}
+                />
+                <span>Misc</span>
+              </label>
+			  
             </div>
           </div>
 
