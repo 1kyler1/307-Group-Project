@@ -25,7 +25,7 @@ function NewItemFormPage() {
     description.trim() !== "" &&
     location.trim() !== "" &&
     gender !== "" &&
-    contactInfo.trim() !=="";
+    contactInfo.trim() !== "";
 
   const handleImageChange = (e) => {
     const file = e.target.files?.[0] || null;
