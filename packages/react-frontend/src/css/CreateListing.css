@@ -1,0 +1,136 @@
+/* Full-page background + centering */
+.new-item-page {
+    min-height: 100vh;
+    width: 100%;
+    background: #f7f7f7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.5rem;
+  }
+  
+  /* Main card */
+  .new-item-card {
+    width: 100%;
+    max-width: 720px;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 2.25rem 2rem;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
+  }
+  
+  /* Title */
+  .new-item-title {
+    font-size: 1.9rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Success alert */
+  .new-item-alert {
+    margin-bottom: 1.25rem;
+    background: #e6f8ec;
+    border: 1px solid #a4e1b7;
+    color: #126b31;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    font-size: 0.95rem;
+  }
+  
+  /* Form layout */
+  .new-item-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+  
+  /* Labels */
+  .new-item-label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 0.35rem;
+    color: #333;
+  }
+  
+  /* Text inputs, file input, textarea – generic styling */
+  .new-item-card input[type="text"],
+  .new-item-card input[type="file"],
+  .new-item-card textarea,
+  .new-item-input {
+    width: 100%;
+    border-radius: 10px;
+    border: 1.5px solid #d1d5db;
+    padding: 0.75rem 0.9rem;
+    font-size: 0.95rem;
+    background: #fafafa;
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease,
+      background-color 0.15s ease;
+  }
+  
+  /* Focus state */
+  .new-item-card input[type="text"]:focus,
+  .new-item-card input[type="file"]:focus,
+  .new-item-card textarea:focus,
+  .new-item-input:focus {
+    border-color: #111827;
+    background: #ffffff;
+    box-shadow: 0 0 0 2px rgba(17, 24, 39, 0.15);
+  }
+  
+  /* Textarea */
+  .new-item-card textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+  
+  /* Radio / checkbox row */
+  .new-item-options-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+  }
+  
+  .new-item-options-row label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+  }
+  
+  /* Submit button */
+  .new-item-card button {
+    width: 100%;
+    border: none;
+    border-radius: 999px;
+    padding: 0.9rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.1s ease, opacity 0.1s ease;
+  }
+  
+  /* Enabled state */
+  .new-item-card button:not(:disabled) {
+    background: #111827;
+    color: #ffffff;
+  }
+  
+  .new-item-card button:not(:disabled):hover {
+    opacity: 0.9;
+  }
+  
+  .new-item-card button:not(:disabled):active {
+    transform: scale(0.98);
+  }
+  
+  /* Disabled state */
+  .new-item-card button:disabled {
+    background: #d1d5db;
+    color: #6b7280;
+    cursor: not-allowed;
+  }
+  
