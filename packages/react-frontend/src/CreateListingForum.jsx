@@ -251,8 +251,8 @@ function NewItemFormPage() {
                 />
                 <span>Female</span>
               </label>
-			  
-			  <label
+
+              <label
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
@@ -269,7 +269,6 @@ function NewItemFormPage() {
                 />
                 <span>Misc</span>
               </label>
-			  
             </div>
           </div>
 

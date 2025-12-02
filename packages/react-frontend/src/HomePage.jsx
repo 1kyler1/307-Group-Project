@@ -11,7 +11,7 @@ export default function HomePage() {
   const [selectedGenders, setSelectedGenders] = useState({
     male: false,
     female: false,
-	misc: false,
+    misc: false,
   });
 
   const [selectedCategories, setSelectedCategories] = useState({
@@ -157,7 +157,7 @@ export default function HomePage() {
                 />
                 <span>Female</span>
               </label>
-			  <label className="filter-option">
+              <label className="filter-option">
                 <input
                   type="checkbox"
                   name="misc"
