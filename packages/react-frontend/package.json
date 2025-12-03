@@ -33,6 +33,7 @@
   "dependencies": {
     "babel": "^5.8.38",
     "dotenv": "^17.2.3",
+    "harmony-reflect": "^1.6.2",
     "identity-obj-proxy": "^3.0.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
