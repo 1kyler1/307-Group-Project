@@ -24,3 +24,4 @@ Cloud database: MongoDB Atlas
 Product vision, UML in documentation folder
 
 [Class Diagram (PNG)](documentation/UMLdiagram.png) 
+This is our class relation diagram that illustrated the relationships of our components
