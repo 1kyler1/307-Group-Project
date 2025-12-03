@@ -1,7 +1,7 @@
 // src/LogIn.jsx
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./Login.css";
+//import "./Login.css";
 
 function Login() {
   const [person, setPerson] = useState({ username: "", password: "" });
@@ -34,12 +34,15 @@ function Login() {
       );
 
       const data = await response.json();
-      if (response.ok) {
+      if (data.ok) {
         console.log("Login successful:", data);
+		//console.log(data.ok);
         localStorage.setItem("token", data.token);
         navigate("/user-page");
       } else {
+		console.log("Login failed:", data);
         setPerson({ username: "", password: "" });
+		console.log(data.error);
         setError(data.error || "Login failed.");
       }
     } catch (e) {
@@ -85,4 +88,4 @@ function Login() {
   );
 }
 
-export default Login;
+export { Login };

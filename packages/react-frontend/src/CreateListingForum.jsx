@@ -43,10 +43,10 @@ function NewItemFormPage() {
   };
 
   const handleSubmitClick = async () => {
-    if (!isComplete) {
-      console.log("incomplete submit");
-      return;
-    }
+  //  if (!isComplete) {
+    //  console.log("incomplete submit");
+    //  return;
+    //}
 
     let newTags = tags
       .split(",")
@@ -91,7 +91,7 @@ function NewItemFormPage() {
         const err = await res.json().catch(() => ({}));
         console.error("Error:", err);
         alert("Failed to save item");
-        return;
+        return res.status;
       }
 
       const savedItem = await res.json();
