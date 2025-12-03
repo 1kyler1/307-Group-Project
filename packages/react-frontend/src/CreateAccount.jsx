@@ -2,9 +2,11 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import TermsAndConditions from "./TermsAndConditions";
-import "./CreateAccount.css";
+import "./css/CreateAccount.css";
+import { useAuth } from "./auth/useAuth";
 
 function CreateAccount() {
+  const { login } = useAuth();
   const [showTerms, setShowTerms] = useState(true);
   const [person, setPerson] = useState({ username: "", password: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -77,6 +79,7 @@ function CreateAccount() {
 
       localStorage.setItem("token", data.token);
       setPerson({ username: "", password: "" });
+      login();
       navigate("/user-page");
     } catch (err) {
       setError("Network error. Please try again.");

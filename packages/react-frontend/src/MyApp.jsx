@@ -6,9 +6,9 @@ import CreateAccount from "./CreateAccount";
 import { NewItemFormPage } from "./CreateListingForum";
 import Listings from "./components/Listings";
 import SellersPage from "./sellersPage";
-import ListingDetailPage from "./listing_page/ListingDetailPage";
+import ListingDetailPage from "./ListingDetailPage";
 import HomePage from "./HomePage";
-import Navbar from "./navbar";
+import Navbar from "./components/navbar";
 
 export default function MyApp() {
   const location = useLocation();

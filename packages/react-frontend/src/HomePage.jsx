@@ -1,7 +1,7 @@
 // HomePage.jsx
 import React, { useState, useEffect } from "react";
 import ListingCard from "./components/listingCard";
-import "./HomePage.css";
+import "./css/HomePage.css";
 
 export default function HomePage() {
   const [listings, setListings] = useState([]);

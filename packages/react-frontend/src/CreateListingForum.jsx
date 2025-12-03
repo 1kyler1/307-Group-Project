@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import './css/CreateListing.css';
 
 function NewItemFormPage() {
   const [title, setTitle] = useState("");
@@ -118,22 +118,18 @@ function NewItemFormPage() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-gray-50 flex items-center justify-center p-6">
-      <div className="w-full max-w-xl bg-white rounded-2xl shadow-lg p-6 sm:p-8">
-        <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight mb-6">
-          Create New Item
-        </h1>
+    <div className="new-item-page">
+      <div className="new-item-card">
+        <h1 className="new-item-title">Create New Item</h1>
 
         {submitted && (
-          <div className="mb-4 rounded-xl bg-green-100 text-green-700 px-4 py-2">
-            Item saved!
-          </div>
+          <div className="new-item-alert">Item saved!</div>
         )}
 
-        <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
+        <form className="new-item-form" onSubmit={(e) => e.preventDefault()}>
           {/* Title */}
           <div>
-            <label className="block text-sm font-medium mb-1" htmlFor="title">
+            <label className="new-item-label" htmlFor="title">
               Title
             </label>
             <input
@@ -151,7 +147,7 @@ function NewItemFormPage() {
 
           {/* Image */}
           <div>
-            <label className="block text-sm font-medium mb-1" htmlFor="image">
+            <label className="new-item-label" htmlFor="image">
               Image
             </label>
             <input
@@ -167,7 +163,7 @@ function NewItemFormPage() {
           {/* Description */}
           <div>
             <label
-              className="block text-sm font-medium mb-1"
+              className="new-item-label"
               htmlFor="description"
             >
               Description
@@ -181,14 +177,14 @@ function NewItemFormPage() {
                 setDescription(e.target.value);
                 setSubmitted(false);
               }}
-              className="w-full rounded-xl border border-gray-300 focus:border-gray-900 focus:ring-0 px-4 py-2.5 outline-none resize-y"
+              
             />
           </div>
 
           {/* Location */}
           <div>
             <label
-              className="block text-sm font-medium mb-1"
+              className="new-item-label"
               htmlFor="location"
             >
               Location
@@ -202,20 +198,20 @@ function NewItemFormPage() {
                 setLocation(e.target.value);
                 setSubmitted(false);
               }}
-              className="w-full rounded-xl border border-gray-300 focus:border-gray-900 focus:ring-0 px-4 py-2.5 outline-none"
+              
             />
           </div>
+
           {/* Gender Selector */}
           <div>
-            <label className="block text-sm font-medium mb-1" htmlFor="gender">
-              Gender
-            </label>
+            <label className="new-item-label">Gender</label>
             <div
               style={{
                 display: "flex",
                 alignItems: "center",
                 gap: "1.5rem",
               }}
+
             >
               <label
                 style={{
@@ -275,12 +271,16 @@ function NewItemFormPage() {
 
           {/* Category checkboxes */}
           <div>
+<<<<<<< HEAD
             <label
               className="block text-sm font-medium mb-1"
               htmlFor="category"
             >
               Category
             </label>
+=======
+            <label className="new-item-label">Category</label>
+>>>>>>> origin
             <div
               style={{
                 display: "flex",
@@ -335,6 +335,7 @@ function NewItemFormPage() {
                   name="accessories"
                   checked={categories.accessories}
                   onChange={handleCategoryChange}
+                  
                 />
                 <span>Accessories</span>
               </label>
@@ -343,7 +344,7 @@ function NewItemFormPage() {
 
           {/* Tags */}
           <div>
-            <label className="block text-sm font-medium mb-1" htmlFor="tags">
+            <label className="new-item-label" htmlFor="tags">
               Tags
             </label>
             <input
@@ -355,16 +356,20 @@ function NewItemFormPage() {
                 setTags(e.target.value);
                 setSubmitted(false);
               }}
-              className="w-full rounded-xl border border-gray-300 focus:border-gray-900 focus:ring-0 px-4 py-2.5 outline-none"
+              className="new-item-input"
             />
           </div>
 
           {/* Contact Info */}
           <div>
+<<<<<<< HEAD
             <label
               className="block text-sm font-medium mb-1"
               htmlFor="contactInfo"
             >
+=======
+            <label className="new-item-label">
+>>>>>>> origin
               Email/Phone Number
             </label>
             <input
@@ -376,22 +381,16 @@ function NewItemFormPage() {
                 setContactInfo(e.target.value);
                 setSubmitted(false);
               }}
-              className="w-full rounded-xl border border-gray-300 focus:border-gray-900 focus:ring-0 px-4 py-2.5 outline-none"
+              className="new-item-input"
             />
           </div>
 
           {/* Submit */}
-          <div className="pt-2">
+          <div className="new-item-submit">
             <button
               type="button"
               onClick={handleSubmitClick}
-              disabled={!isComplete}
-              className={`w-full rounded-2xl font-medium py-3 transition ${
-                !isComplete
-                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                  : "bg-gray-900 text-white hover:opacity-90"
-              }`}
-            >
+              disabled={!isComplete}>
               Submit
             </button>
           </div>
