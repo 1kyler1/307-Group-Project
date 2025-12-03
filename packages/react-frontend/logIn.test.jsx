@@ -1,12 +1,19 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-//import { jest } from "@jest/globals";
-//import fetchMock from "jest-fetch-mock";
 import { Link } from "react-router-dom";
 import { BrowserRouter as Router } from "react-router-dom";
-
 import { Login } from "./src/LogIn";
+/*
+import { AuthProvider } from "./src/auth/AuthProvider.jsx";
+const mockAuth = jest.fn(() => ({
+	user: "whatever",
+}));
+jest.mock("./src/auth/useAuth.js", () => ({
+	useAuth: mockAuth,
+}));
 
+beforeEach(() => {mockAuth.mockReset();});
+*/
 test("renders the empty form correctly", () => {
   //account for routing:
   render(

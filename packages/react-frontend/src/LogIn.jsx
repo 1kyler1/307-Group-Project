@@ -1,6 +1,6 @@
 // src/LogIn.jsx
 import React, { useState } from "react";
-//import { useAuth } from "./auth/useAuth";
+//import { useAuth } from "./auth/useAuth.js";
 
 import { Link, useNavigate } from "react-router-dom";
 import "./css/Login.css";
@@ -41,7 +41,7 @@ function Login() {
         console.log("Login successful:", data);
         //console.log(data.ok);
         localStorage.setItem("token", data.token);
-        // login();
+        //  login();
         navigate("/user-page");
       } else {
         console.log("Login failed:", data);
