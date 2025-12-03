@@ -40,7 +40,7 @@ test("accepts form input", () => {
   expect(input).toHaveValue(tmp);
 });
 
-test("empty input", async () => {
+test("empty input in both or one", async () => {
   render(
     <Router>
       <Login />
