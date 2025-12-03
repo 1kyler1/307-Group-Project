@@ -17,6 +17,9 @@ Linter: ESLint
 For IDE, install extensions from VScode  
 Cloud database: MongoDB Atlas  
 .env file on everyone's local machines containing the MongoDB URI
+Prior to pushing please run the command "npm run lint" in both the frontend and backend 
+If issues please fun "npm run lint:fix"
+When pushing please use the comment format "feat: what you push does"
 
 #### Documentation:
 
