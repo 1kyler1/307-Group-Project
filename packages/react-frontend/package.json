@@ -19,7 +19,10 @@
     "setupFilesAfterEnv": [
       "<rootDir>/setupAfterEnv.js"
     ],
-    "testEnvironment": "jest-environment-jsdom"
+    "testEnvironment": "jest-environment-jsdom",
+    "moduleNameMapper": {
+      "\\.css$": "identity-obj-proxy"
+    }
   },
   "babel": {
     "presets": [
@@ -30,6 +33,7 @@
   "dependencies": {
     "babel": "^5.8.38",
     "dotenv": "^17.2.3",
+    "identity-obj-proxy": "^3.0.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-frontend": "^0.0.0",
@@ -53,6 +57,7 @@
     "eslint-plugin-react-refresh": "^0.4.20",
     "fetch-mock": "^12.6.0",
     "globals": "^16.4.0",
+    "ignore-styles": "^5.0.1",
     "jest": "^30.2.0",
     "jest-environment-jsdom": "^30.2.0",
     "jest-fetch-mock": "^3.0.3",
