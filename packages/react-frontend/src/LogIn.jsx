@@ -5,7 +5,6 @@ import { useAuth } from "./auth/useAuth";
 import { Link, useNavigate } from "react-router-dom";
 //import "./Login.css";
 
-
 function Login() {
   const { login } = useAuth();
   const [person, setPerson] = useState({ username: "", password: "" });
