@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { jest } from "@jest/globals";
-import fetchMock from "jest-fetch-mock";
+//import { jest } from "@jest/globals";
+//import fetchMock from "jest-fetch-mock";
 
 import { NewItemFormPage } from "./CreateListingForum";
 //import CreateAccount from "./createAccount";
@@ -51,7 +51,7 @@ test("baseline - accepts form input", () => {
   input = screen.getByLabelText("Tags");
   fireEvent.change(input, { target: { value: testListing.tags } });
   expect(input).toHaveValue("tag 1,tag 2,tag 3");
-  
+
   input = screen.getByLabelText("Email/Phone Number");
   fireEvent.change(input, { target: { value: testListing.contact } });
   expect(input).toHaveValue(testListing.contact);

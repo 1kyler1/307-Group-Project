@@ -43,7 +43,7 @@ function NewItemFormPage() {
   };
 
   const handleSubmitClick = async () => {
-  //  if (!isComplete) {
+    //  if (!isComplete) {
     //  console.log("incomplete submit");
     //  return;
     //}
@@ -208,8 +208,8 @@ function NewItemFormPage() {
           {/* Gender Selector */}
           <div>
             <label className="block text-sm font-medium mb-1" htmlFor="gender">
-				Gender
-			</label>
+              Gender
+            </label>
             <div
               style={{
                 display: "flex",
@@ -275,9 +275,12 @@ function NewItemFormPage() {
 
           {/* Category checkboxes */}
           <div>
-            <label className="block text-sm font-medium mb-1" htmlFor="category">
-				Category
-			</label>
+            <label
+              className="block text-sm font-medium mb-1"
+              htmlFor="category"
+            >
+              Category
+            </label>
             <div
               style={{
                 display: "flex",
@@ -358,7 +361,10 @@ function NewItemFormPage() {
 
           {/* Contact Info */}
           <div>
-            <label className="block text-sm font-medium mb-1" htmlFor="contactInfo">
+            <label
+              className="block text-sm font-medium mb-1"
+              htmlFor="contactInfo"
+            >
               Email/Phone Number
             </label>
             <input

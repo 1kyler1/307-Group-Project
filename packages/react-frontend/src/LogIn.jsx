@@ -36,13 +36,13 @@ function Login() {
       const data = await response.json();
       if (data.ok) {
         console.log("Login successful:", data);
-		//console.log(data.ok);
+        //console.log(data.ok);
         localStorage.setItem("token", data.token);
         navigate("/user-page");
       } else {
-		console.log("Login failed:", data);
+        console.log("Login failed:", data);
         setPerson({ username: "", password: "" });
-		console.log(data.error);
+        console.log(data.error);
         setError(data.error || "Login failed.");
       }
     } catch (e) {
