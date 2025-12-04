@@ -22,6 +22,17 @@ export default function ListingDetailPage() {
   if (error) return <div>Error: {error}</div>;
   if (!item) return <div>Loading...</div>;
 
+  const formatPrice = (price) => {
+
+    // Format the number as USD currency
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+    }).format(price);
+    
+  };
+
   const getImageUrl = (imageUrl) => {
     if (!imageUrl) return null;
     return imageUrl.startsWith("https")
@@ -50,6 +61,9 @@ export default function ListingDetailPage() {
           </p>
           <p>
             <strong>Tags:</strong> {item.tags.join(", ")}
+          </p>
+          <p>
+            <strong>Price:</strong> {formatPrice(item.price)}
           </p>
           <p>
             <strong>Contact: </strong> {item.contactInfo}

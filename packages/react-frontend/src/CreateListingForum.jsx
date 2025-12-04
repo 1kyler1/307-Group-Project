@@ -5,6 +5,7 @@ function NewItemFormPage() {
   const [title, setTitle] = useState("");
   const [imageFile, setImageFile] = useState(null);
   const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
   const [location, setLocation] = useState("");
   const [tags, setTags] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -23,6 +24,7 @@ function NewItemFormPage() {
     title.trim() !== "" &&
     imageFile !== null &&
     description.trim() !== "" &&
+    price !== "" && 
     location.trim() !== "" &&
     gender !== "" &&
     contactInfo.trim() !== "";
@@ -61,6 +63,7 @@ function NewItemFormPage() {
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", description);
+    formData.append("price", price);
     formData.append("location", location);
     formData.append("contactInfo", contactInfo);
 
@@ -100,6 +103,7 @@ function NewItemFormPage() {
 
       setTitle("");
       setDescription("");
+      setPrice("");
       setLocation("");
       setTags("");
       setImageFile(null);
@@ -156,6 +160,25 @@ function NewItemFormPage() {
               accept="image/*"
               onChange={handleImageChange}
               className="w-full text-sm file:mr-4 file:rounded-xl file:border-0 file:bg-gray-900 file:text-white file:px-4 file:py-2 file:hover:opacity-90 file:cursor-pointer"
+            />
+          </div>
+
+          {/* Price */}
+          <div>
+            <label className="new-item-label" htmlFor = "price">Price</label>
+            <input
+              id="price"
+              type="number"
+              min = "0"
+              step = "0.01"
+              placeholder="Enter a price tag for your item"
+              value={price}
+              onChange={(e) => {
+                setPrice(e.target.value);
+                setSubmitted(false);
+              }}
+              className="w-full rounded-xl border border-gray-300 focus:border-gray-900 focus:ring-0 px-4 py-2.5 outline-none"
+              
             />
           </div>
 

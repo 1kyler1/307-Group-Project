@@ -55,6 +55,22 @@ export default function ListingCard({ item }) {
   const displayGender =
     gender && gender.charAt(0).toUpperCase() + gender.slice(1);
 
+
+  const formatPrice = (price) => {
+      const numericPrice = Number(price) || 0; 
+      
+      if (numericPrice === 0) {
+        return "Free";
+      }
+      
+      // Format as currency
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 2,
+      }).format(numericPrice);
+    };
+
   return (
     <Link to={`/listing/${item._id}`} className="listing-link">
       <div className="listing-card">
@@ -87,35 +103,24 @@ export default function ListingCard({ item }) {
           <span className="listing-value">{item.description}</span>
         </div>
 
+
+        <div className="listing-field left-field">
+          <span className="listing-label">Price:</span>
+          <span className="listing-value">
+             {item.price === undefined || item.price === null 
+               ? "Contact for Price"
+               : formatPrice(item.price)
+             }
+          </span>
+        </div>
+
         {/* Location */}
         <div className="listing-field left-field">
           <span className="listing-label">Location:</span>
           <span className="listing-value">{item.location}</span>
         </div>
 
-        {/* Gender */}
-        {displayGender && (
-          <div className="listing-field left-field">
-            <span className="listing-label">Gender:</span>
-            <span className="listing-value">{displayGender}</span>
-          </div>
-        )}
-
-        {/* Category */}
-        {displayCategory && (
-          <div className="listing-field left-field">
-            <span className="listing-label">Category:</span>
-            <span className="listing-value">{displayCategory}</span>
-          </div>
-        )}
-
-        {/* Tags */}
-        <div className="listing-field left-field">
-          <span className="listing-label">Tags:</span>
-          <span className="listing-value">
-            {Array.isArray(item.tags) ? item.tags.join(", ") : "No tags"}
-          </span>
-        </div>
+       
       </div>
     </Link>
   );
