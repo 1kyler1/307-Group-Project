@@ -97,12 +97,14 @@ app.post(
         categories = [],
         contactInfo,
       } = req.body;
+      
+      const numericPrice = Number(price);
 
       if (
         !title?.trim() ||
         !description?.trim() ||
         !location?.trim() ||
-        !contactInfo?.trim() || price === undefined || price === null || isNaN(Number(price))
+        !contactInfo?.trim() || price === undefined || price === null || isNaN(numericPrice) || price === "" || price === 0
       ) {
         return res.status(400).json({ error: "Missing or invalid required fields." });
       }
@@ -120,7 +122,7 @@ app.post(
       const item = await Item.create({
         title,
         description,
-        price: Number(price),
+        price: numericPrice,
         location,
         imageUrl,
         tags: Array.isArray(tags)
