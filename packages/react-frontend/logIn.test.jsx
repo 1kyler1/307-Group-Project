@@ -12,19 +12,6 @@ jest.mock("./src/auth/useAuth.js", () => ({
 }));
 
 import { useAuth } from "./src/auth/useAuth.js";
-
-/*
-import { AuthProvider } from "./src/auth/AuthProvider.jsx";
-const mockAuth = jest.fn(() => ({
-	user: "whatever",
-}));
-jest.mock("./src/auth/useAuth.js", () => ({
-	useAuth: mockAuth,
-}));
-
-beforeEach(() => {mockAuth.mockReset();});
-*/
-const mockLogin = jest.fn();
 const history = createMemoryHistory({ initialEntries: ["/login"] });
 
 beforeEach(() => {
@@ -133,7 +120,7 @@ test("failed login: empty server error", async () => {
   expect(await screen.findByText("Login failed.")).toBeInTheDocument();
 });
 
-test("successful login", async () => {
+test("successful login", () => {
   let input = screen.getByLabelText("Username");
   let tmp = "testingworld";
   fireEvent.change(input, { target: { value: tmp } });
@@ -149,7 +136,7 @@ test("successful login", async () => {
 
   //hashtag my own personal hell . At least there is whimsy in my heart
   expect(useAuth).toHaveBeenCalled();
-  // expect( await history.location.pathname).toBe('/user-page');
+  //expect( await history.location.pathname).toBe('/user-page');
   //expect(await screen.findByText("Seller Dashboard")).toBeInTheDocument();
 });
 
