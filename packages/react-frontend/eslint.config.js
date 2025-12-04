@@ -28,10 +28,9 @@ export default defineConfig([
   },
   {
     files: [
-      "testSetUp.js",
-      "setupAfterEnv.js",
-      "src/listingForm.test.js",
-      "logIn.test.jsx",
+      "tests/testSetUp.js",
+      "tests/setupAfterEnv.js",
+      "tests/logIn.test.jsx",
     ],
     rules: {
       "no-undef": "off",

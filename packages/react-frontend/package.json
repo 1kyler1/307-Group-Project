@@ -14,10 +14,10 @@
   "jest": {
     "automock": false,
     "setupFiles": [
-      "<rootDir>/testSetUp.js"
+      "<rootDir>/tests/testSetUp.js"
     ],
     "setupFilesAfterEnv": [
-      "<rootDir>/setupAfterEnv.js"
+      "<rootDir>/tests/setupAfterEnv.js"
     ],
     "testEnvironment": "jest-environment-jsdom",
     "moduleNameMapper": {
