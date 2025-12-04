@@ -1,7 +1,6 @@
 // src/LogIn.jsx
 import React, { useState } from "react";
-import { useAuth } from "./auth/useAuth";
-
+import { useAuth } from "./auth/useAuth.js";
 import { Link, useNavigate } from "react-router-dom";
 import "./css/Login.css";
 
@@ -37,17 +36,19 @@ function Login() {
       );
 
       const data = await response.json();
-      if (response.ok) {
+      if (data.ok) {
         console.log("Login successful:", data);
         localStorage.setItem("token", data.token);
         login();
         navigate("/user-page");
       } else {
+        console.log("Login failed:", data);
         setPerson({ username: "", password: "" });
         setError(data.error || "Login failed.");
       }
     } catch (e) {
       console.error(e);
+      console.log("Login failed: server error.");
       setError("Server error");
     }
   }
@@ -89,4 +90,4 @@ function Login() {
   );
 }
 
-export default Login;
+export { Login };
