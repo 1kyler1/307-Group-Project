@@ -73,6 +73,26 @@ test("successful login", async () => {
   //expect(await screen.findByText("Seller Dashboard")).toBeInTheDocument();
 });
 
+test("failed login: server error message", async () => {
+  const asyncMock = jest
+    .fn()
+    .mockResolvedValueOnce("first call")
+    .mockRejectedValueOnce(new Error("Async error message"));
+  await asyncMock();
+  //  await asyncMock();
+
+  let input = screen.getByLabelText("Username");
+  let tmp = "testingworld";
+  fireEvent.change(input, { target: { value: tmp } });
+  input = screen.getByLabelText("Password");
+  fireEvent.change(input, { target: { value: tmp } });
+
+  const button = screen.getByRole("button", { type: "submit" });
+  fireEvent.click(button);
+
+  expect(await screen.findByText("Server error")).toBeInTheDocument();
+});
+
 test("failed login: empty input in both or one", async () => {
   let input = screen.getByLabelText("Username");
   let tmp = "";
@@ -115,10 +135,12 @@ test("failed login: incorrect credentials", async () => {
 
   fetch.mockResponseOnce(
     JSON.stringify({
-      status: 401,
-      ok: false,
       error: "Invalid username or password.",
     }),
+    {
+      status: 401,
+      ok: false,
+    },
   );
 
   const button = screen.getByRole("button", { type: "submit" });
@@ -138,33 +160,16 @@ test("failed login: empty server error", async () => {
 
   fetch.mockResponseOnce(
     JSON.stringify({
+      error: "",
+    }),
+    {
       status: 401,
       ok: false,
-    }),
+    },
   );
 
   const button = screen.getByRole("button", { type: "submit" });
   fireEvent.click(button);
 
   expect(await screen.findByText("Login failed.")).toBeInTheDocument();
-});
-
-test("failed login: server error message", async () => {
-  const asyncMock = jest
-    .fn()
-    .mockResolvedValueOnce("first call")
-    .mockRejectedValueOnce(new Error("Async error message"));
-  await asyncMock();
-  //  await asyncMock();
-
-  let input = screen.getByLabelText("Username");
-  let tmp = "testingworld";
-  fireEvent.change(input, { target: { value: tmp } });
-  input = screen.getByLabelText("Password");
-  fireEvent.change(input, { target: { value: tmp } });
-
-  const button = screen.getByRole("button", { type: "submit" });
-  fireEvent.click(button);
-
-  expect(await screen.findByText("Server error")).toBeInTheDocument();
 });
