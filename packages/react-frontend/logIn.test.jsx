@@ -12,6 +12,14 @@ jest.mock("./src/auth/useAuth.js", () => ({
 }));
 
 import { useAuth } from "./src/auth/useAuth.js";
+
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useNavigate: jest.fn(),
+}));
+
+import { useNavigate } from "react-router-dom";
+
 const history = createMemoryHistory({ initialEntries: ["/login"] });
 
 beforeEach(() => {
@@ -41,6 +49,28 @@ test("accepts form input", () => {
   tmp = "myPass";
   fireEvent.change(input, { target: { value: tmp } });
   expect(input).toHaveValue(tmp);
+});
+
+test("successful login", async () => {
+  let input = screen.getByLabelText("Username");
+  let tmp = "testingworld";
+  fireEvent.change(input, { target: { value: tmp } });
+  input = screen.getByLabelText("Password");
+  fireEvent.change(input, { target: { value: tmp } });
+
+  fetch.mockResponseOnce(JSON.stringify({ status: 200, ok: true }));
+
+  expect(history.location.pathname).toBe("/login");
+
+  const button = screen.getByRole("button", { type: "submit" });
+  fireEvent.click(button);
+
+  expect(useAuth).toHaveBeenCalled(); //logs in
+  expect(useNavigate).toHaveBeenCalled(); //redirects page
+
+  //await waitFor(() => expect(history.location.pathname).toBe("/user-page"));
+  //expect(await history.location.pathname).toBe('/user-page');
+  //expect(await screen.findByText("Seller Dashboard")).toBeInTheDocument();
 });
 
 test("failed login: empty input in both or one", async () => {
@@ -110,7 +140,6 @@ test("failed login: empty server error", async () => {
     JSON.stringify({
       status: 401,
       ok: false,
-      //error: "Invalid username or password.",
     }),
   );
 
@@ -118,26 +147,6 @@ test("failed login: empty server error", async () => {
   fireEvent.click(button);
 
   expect(await screen.findByText("Login failed.")).toBeInTheDocument();
-});
-
-test("successful login", () => {
-  let input = screen.getByLabelText("Username");
-  let tmp = "testingworld";
-  fireEvent.change(input, { target: { value: tmp } });
-  input = screen.getByLabelText("Password");
-  fireEvent.change(input, { target: { value: tmp } });
-
-  fetch.mockResponseOnce(JSON.stringify({ status: 200, ok: true }));
-
-  expect(history.location.pathname).toBe("/login");
-
-  const button = screen.getByRole("button", { type: "submit" });
-  fireEvent.click(button);
-
-  //hashtag my own personal hell . At least there is whimsy in my heart
-  expect(useAuth).toHaveBeenCalled();
-  //expect( await history.location.pathname).toBe('/user-page');
-  //expect(await screen.findByText("Seller Dashboard")).toBeInTheDocument();
 });
 
 test("failed login: server error message", async () => {
