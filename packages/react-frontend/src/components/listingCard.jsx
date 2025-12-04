@@ -93,29 +93,12 @@ export default function ListingCard({ item }) {
           <span className="listing-value">{item.location}</span>
         </div>
 
-        {/* Gender */}
-        {displayGender && (
-          <div className="listing-field left-field">
-            <span className="listing-label">Gender:</span>
-            <span className="listing-value">{displayGender}</span>
-          </div>
-        )}
-
-        {/* Category */}
-        {displayCategory && (
-          <div className="listing-field left-field">
-            <span className="listing-label">Category:</span>
-            <span className="listing-value">{displayCategory}</span>
-          </div>
-        )}
-
-        {/* Tags */}
+        {/* Price */} 
         <div className="listing-field left-field">
-          <span className="listing-label">Tags:</span>
-          <span className="listing-value">
-            {Array.isArray(item.tags) ? item.tags.join(", ") : "No tags"}
-          </span>
+          <span className="listing-label">Price:</span>
+          <span className="listing-value">${item.price}</span>
         </div>
+        
       </div>
     </Link>
   );
