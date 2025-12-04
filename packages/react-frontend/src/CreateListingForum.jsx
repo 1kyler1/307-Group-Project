@@ -165,7 +165,7 @@ function NewItemFormPage() {
 
           {/* Price */}
           <div>
-            <label className="new-item-label" htmlFor = "price">Price</label>
+            <label className="new-item-label" >Price</label>
             <input
               id="price"
               type="number"
