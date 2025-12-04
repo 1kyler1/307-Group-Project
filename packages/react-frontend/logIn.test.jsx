@@ -22,6 +22,7 @@ beforeEach(() => {
     </Router>,
   );
 });
+
 test("renders the empty form correctly", () => {
   expect(screen.getByLabelText("Username")).toBeInTheDocument();
   expect(screen.getByLabelText("Password")).toBeInTheDocument();
@@ -87,7 +88,6 @@ test("failed login: incorrect credentials", async () => {
     JSON.stringify({
       status: 401,
       ok: false,
-      // body: { message: 'Invalid username or password.' }
       error: "Invalid username or password.",
     }),
   );
@@ -98,6 +98,27 @@ test("failed login: incorrect credentials", async () => {
   expect(
     await screen.findByText("Invalid username or password."),
   ).toBeInTheDocument();
+});
+
+test("failed login: empty server error", async () => {
+  let input = screen.getByLabelText("Username");
+  let tmp = "testingworld";
+  fireEvent.change(input, { target: { value: tmp } });
+  input = screen.getByLabelText("Password");
+  fireEvent.change(input, { target: { value: tmp } });
+
+  fetch.mockResponseOnce(
+    JSON.stringify({
+      status: 401,
+      ok: false,
+      //error: "Invalid username or password.",
+    }),
+  );
+
+  const button = screen.getByRole("button", { type: "submit" });
+  fireEvent.click(button);
+
+  expect(await screen.findByText("Login failed.")).toBeInTheDocument();
 });
 
 test("successful login", async () => {
