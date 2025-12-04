@@ -90,6 +90,7 @@ app.post(
       const {
         title,
         description,
+        price,
         location,
         tags = [],
         gender,
@@ -101,9 +102,9 @@ app.post(
         !title?.trim() ||
         !description?.trim() ||
         !location?.trim() ||
-        !contactInfo?.trim()
+        !contactInfo?.trim() || price === undefined || price === null || isNaN(price)
       ) {
-        return res.status(400).json({ error: "Missing required fields." });
+        return res.status(400).json({ error: "Missing or invalid required fields." });
       }
 
       let imageUrl;
@@ -119,6 +120,7 @@ app.post(
       const item = await Item.create({
         title,
         description,
+        price,
         location,
         imageUrl,
         tags: Array.isArray(tags)
