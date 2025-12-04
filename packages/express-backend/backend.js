@@ -302,21 +302,23 @@ app.get("/api/users", async (_req, res) => {
 app.delete("/api/items/:id", verifyAccessToken, async (req, res) => {
   try {
     const item = await Item.findById(req.params.id);
-    
+
     if (!item) {
       return res.status(404).json({ error: "Item not found" });
     }
 
     // Check if the user owns this item
     if (item.owner.toString() !== req.user._id) {
-      return res.status(403).json({ error: "You can only delete your own listings" });
+      return res
+        .status(403)
+        .json({ error: "You can only delete your own listings" });
     }
 
     // Remove item from user's listings array
     await User.findByIdAndUpdate(
       req.user._id,
       { $pull: { listings: item._id } },
-      { new: true }
+      { new: true },
     );
 
     // Delete the item

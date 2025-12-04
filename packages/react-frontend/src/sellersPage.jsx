@@ -71,7 +71,7 @@ export default function SellersPage() {
       if (res.ok) {
         // Remove the deleted item from the local state
         setListings((prevListings) =>
-          prevListings.filter((listing) => listing._id !== itemId)
+          prevListings.filter((listing) => listing._id !== itemId),
         );
       } else {
         // Check if response is JSON before parsing
@@ -84,16 +84,22 @@ export default function SellersPage() {
           const text = await res.text();
           console.error("Non-JSON error response:", text.substring(0, 100));
           if (res.status === 404) {
-            alert("Delete endpoint not found. The endpoint may not be deployed to the server yet.");
+            alert(
+              "Delete endpoint not found. The endpoint may not be deployed to the server yet.",
+            );
           } else {
-            alert(`Failed to delete listing. Server returned status ${res.status}.`);
+            alert(
+              `Failed to delete listing. Server returned status ${res.status}.`,
+            );
           }
         }
       }
     } catch (err) {
       console.error("Error deleting listing:", err);
       if (err.message.includes("JSON")) {
-        alert("Server returned an invalid response. The delete endpoint may not be deployed yet.");
+        alert(
+          "Server returned an invalid response. The delete endpoint may not be deployed yet.",
+        );
       } else {
         alert("Error deleting listing. Please try again.");
       }

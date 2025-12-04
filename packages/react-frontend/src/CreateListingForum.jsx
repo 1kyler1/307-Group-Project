@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import './css/CreateListing.css';
+import "./css/CreateListing.css";
 
 function NewItemFormPage() {
   const [title, setTitle] = useState("");
@@ -123,9 +123,7 @@ function NewItemFormPage() {
       <div className="new-item-card">
         <h1 className="new-item-title">Create New Item</h1>
 
-        {submitted && (
-          <div className="new-item-alert">Item saved!</div>
-        )}
+        {submitted && <div className="new-item-alert">Item saved!</div>}
 
         <form className="new-item-form" onSubmit={(e) => e.preventDefault()}>
           {/* Title */}
@@ -163,10 +161,7 @@ function NewItemFormPage() {
 
           {/* Description */}
           <div>
-            <label
-              className="new-item-label"
-              htmlFor="description"
-            >
+            <label className="new-item-label" htmlFor="description">
               Description
             </label>
             <textarea
@@ -178,16 +173,12 @@ function NewItemFormPage() {
                 setDescription(e.target.value);
                 setSubmitted(false);
               }}
-              
             />
           </div>
 
           {/* Location */}
           <div>
-            <label
-              className="new-item-label"
-              htmlFor="location"
-            >
+            <label className="new-item-label" htmlFor="location">
               Location
             </label>
             <input
@@ -199,7 +190,6 @@ function NewItemFormPage() {
                 setLocation(e.target.value);
                 setSubmitted(false);
               }}
-              
             />
           </div>
 
@@ -212,7 +202,6 @@ function NewItemFormPage() {
                 alignItems: "center",
                 gap: "1.5rem",
               }}
-
             >
               <label
                 style={{
@@ -327,7 +316,6 @@ function NewItemFormPage() {
                   name="accessories"
                   checked={categories.accessories}
                   onChange={handleCategoryChange}
-                  
                 />
                 <span>Accessories</span>
               </label>
@@ -354,9 +342,7 @@ function NewItemFormPage() {
 
           {/* Contact Info */}
           <div>
-            <label className="new-item-label">
-              Email/Phone Number
-            </label>
+            <label className="new-item-label">Email/Phone Number</label>
             <input
               id="contactInfo"
               type="text"
@@ -375,7 +361,8 @@ function NewItemFormPage() {
             <button
               type="button"
               onClick={handleSubmitClick}
-              disabled={!isComplete}>
+              disabled={!isComplete}
+            >
               Submit
             </button>
           </div>
