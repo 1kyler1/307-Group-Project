@@ -93,12 +93,11 @@ export default function ListingCard({ item }) {
           <span className="listing-value">{item.location}</span>
         </div>
 
-        {/* Price */} 
+        {/* Price */}
         <div className="listing-field left-field">
           <span className="listing-label">Price:</span>
           <span className="listing-value">${item.price}</span>
         </div>
-        
       </div>
     </Link>
   );
