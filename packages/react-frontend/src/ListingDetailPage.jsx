@@ -18,7 +18,7 @@ export default function ListingDetailPage() {
       .then((data) => setItem(data))
       .catch((err) => setError(err.message));
   }, [id]);
-
+  
   if (error) return <div>Error: {error}</div>;
   if (!item) return <div>Loading...</div>;
 
@@ -28,7 +28,7 @@ export default function ListingDetailPage() {
       ? imageUrl
       : `https://groupproject307-gefba7dfhhdpe0cc.westus3-01.azurewebsites.net${imageUrl}`;
   };
-
+  
   return (
     <div className="listing-detail">
       <Link to="/">← Back to Listings</Link>
@@ -51,6 +51,7 @@ export default function ListingDetailPage() {
           <p>
             <strong>Price:</strong>${item.price}
           </p>
+          
           <p>
             <strong>Tags:</strong> {item.tags.join(", ")}
           </p>
