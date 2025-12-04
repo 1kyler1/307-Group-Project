@@ -1,12 +1,11 @@
 // src/LogIn.jsx
 import React, { useState } from "react";
-//import { useAuth } from "./auth/useAuth.js";
-
+import { useAuth } from "./auth/useAuth.js";
 import { Link, useNavigate } from "react-router-dom";
 import "./css/Login.css";
 
 function Login() {
-  //const { login } = useAuth();
+  const { login } = useAuth();
   const [person, setPerson] = useState({ username: "", password: "" });
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -39,14 +38,12 @@ function Login() {
       const data = await response.json();
       if (data.ok) {
         console.log("Login successful:", data);
-        //console.log(data.ok);
         localStorage.setItem("token", data.token);
-        //  login();
+        login();
         navigate("/user-page");
       } else {
         console.log("Login failed:", data);
         setPerson({ username: "", password: "" });
-        //    console.log(data.error);
         setError(data.error || "Login failed.");
       }
     } catch (e) {

@@ -2,7 +2,17 @@ import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { Link } from "react-router-dom";
 import { BrowserRouter as Router } from "react-router-dom";
+import { createMemoryHistory } from "history";
 import { Login } from "./src/LogIn";
+
+jest.mock("./src/auth/useAuth.js", () => ({
+  useAuth: jest.fn(() => ({
+    user: "yepppppppp",
+  })),
+}));
+
+import { useAuth } from "./src/auth/useAuth.js";
+
 /*
 import { AuthProvider } from "./src/auth/AuthProvider.jsx";
 const mockAuth = jest.fn(() => ({
@@ -14,10 +24,12 @@ jest.mock("./src/auth/useAuth.js", () => ({
 
 beforeEach(() => {mockAuth.mockReset();});
 */
+const mockLogin = jest.fn();
+const history = createMemoryHistory({ initialEntries: ["/login"] });
 
 beforeEach(() => {
   render(
-    <Router>
+    <Router history={history}>
       <Login />
     </Router>,
   );
@@ -44,7 +56,7 @@ test("accepts form input", () => {
   expect(input).toHaveValue(tmp);
 });
 
-test("empty input in both or one", async () => {
+test("failed login: empty input in both or one", async () => {
   let input = screen.getByLabelText("Username");
   let tmp = "";
   fireEvent.change(input, { target: { value: tmp } });
@@ -130,9 +142,14 @@ test("successful login", async () => {
 
   fetch.mockResponseOnce(JSON.stringify({ status: 200, ok: true }));
 
+  expect(history.location.pathname).toBe("/login");
+
   const button = screen.getByRole("button", { type: "submit" });
   fireEvent.click(button);
 
+  //hashtag my own personal hell . At least there is whimsy in my heart
+  expect(useAuth).toHaveBeenCalled();
+  // expect( await history.location.pathname).toBe('/user-page');
   //expect(await screen.findByText("Seller Dashboard")).toBeInTheDocument();
 });
 
