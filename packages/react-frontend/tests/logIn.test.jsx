@@ -3,15 +3,15 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { Link } from "react-router-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
-import { Login } from "./src/LogIn";
+import { Login } from "./../src/LogIn";
 
-jest.mock("./src/auth/useAuth.js", () => ({
+jest.mock("./../src/auth/useAuth.js", () => ({
   useAuth: jest.fn(() => ({
     user: "yepppppppp",
   })),
 }));
 
-import { useAuth } from "./src/auth/useAuth.js";
+import { useAuth } from "./../src/auth/useAuth.js";
 
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
