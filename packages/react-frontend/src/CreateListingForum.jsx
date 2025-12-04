@@ -162,14 +162,14 @@ function NewItemFormPage() {
             />
           </div>
 
-           {/* Price */}
-           <div>
+          {/* Price */}
+          <div>
             <label className="new-item-label">Price</label>
             <input
               id="price"
               type="number"
-              min = "0"
-              step = "0.01"
+              min="0"
+              step="0.01"
               placeholder="Enter a price tag for your item"
               value={price}
               onChange={(e) => {
@@ -177,7 +177,6 @@ function NewItemFormPage() {
                 setSubmitted(false);
               }}
               className="w-full rounded-xl border border-gray-300 focus:border-gray-900 focus:ring-0 px-4 py-2.5 outline-none"
-              
             />
           </div>
 

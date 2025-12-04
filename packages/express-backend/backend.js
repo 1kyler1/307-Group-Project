@@ -97,16 +97,23 @@ app.post(
         categories = [],
         contactInfo,
       } = req.body;
-      
+
       const numericPrice = Number(price);
 
       if (
         !title?.trim() ||
         !description?.trim() ||
         !location?.trim() ||
-        !contactInfo?.trim() || price === undefined || price === null || isNaN(numericPrice) || price === "" || price === 0
+        !contactInfo?.trim() ||
+        price === undefined ||
+        price === null ||
+        isNaN(numericPrice) ||
+        price === "" ||
+        price === 0
       ) {
-        return res.status(400).json({ error: "Missing or invalid required fields." });
+        return res
+          .status(400)
+          .json({ error: "Missing or invalid required fields." });
       }
 
       let imageUrl;
