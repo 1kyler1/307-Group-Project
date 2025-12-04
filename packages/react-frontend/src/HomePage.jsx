@@ -138,7 +138,7 @@ export default function HomePage() {
             <h1 className="filter-page-title">Filter Listings</h1>
 
             <div className="filter-section">
-              <h2 className="filter-section-title">Gender</h2>
+              <h4 className="filter-section-title">Gender</h4>
               <label className="filter-option">
                 <input
                   type="checkbox"
@@ -169,7 +169,7 @@ export default function HomePage() {
             </div>
 
             <div className="filter-section">
-              <h2 className="filter-section-title">Category</h2>
+              <h4 className="filter-section-title">Category</h4>
               <label className="filter-option">
                 <input
                   type="checkbox"
