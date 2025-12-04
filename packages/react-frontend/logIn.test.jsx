@@ -14,14 +14,15 @@ jest.mock("./src/auth/useAuth.js", () => ({
 
 beforeEach(() => {mockAuth.mockReset();});
 */
-test("renders the empty form correctly", () => {
-  //account for routing:
+
+beforeEach(() => {
   render(
     <Router>
       <Login />
     </Router>,
   );
-
+});
+test("renders the empty form correctly", () => {
   expect(screen.getByLabelText("Username")).toBeInTheDocument();
   expect(screen.getByLabelText("Password")).toBeInTheDocument();
   expect(screen.getAllByText("Log In")[0]).toBeInTheDocument();
@@ -31,11 +32,6 @@ test("renders the empty form correctly", () => {
 });
 
 test("accepts form input", () => {
-  render(
-    <Router>
-      <Login />
-    </Router>,
-  );
   let input = screen.getByLabelText("Username");
   let tmp = "myUsername";
   fireEvent.change(input, { target: { value: tmp } });
@@ -48,11 +44,6 @@ test("accepts form input", () => {
 });
 
 test("empty input in both or one", async () => {
-  render(
-    <Router>
-      <Login />
-    </Router>,
-  );
   let input = screen.getByLabelText("Username");
   let tmp = "";
   fireEvent.change(input, { target: { value: tmp } });
@@ -85,13 +76,7 @@ test("empty input in both or one", async () => {
   ).toBeInTheDocument();
 });
 
-test("failed login", async () => {
-  render(
-    <Router>
-      <Login />
-    </Router>,
-  );
-
+test("failed login: incorrect credentials", async () => {
   let input = screen.getByLabelText("Username");
   let tmp = "testingworld";
   fireEvent.change(input, { target: { value: tmp } });
@@ -116,12 +101,6 @@ test("failed login", async () => {
 });
 
 test("successful login", async () => {
-  render(
-    <Router>
-      <Login />
-    </Router>,
-  );
-
   let input = screen.getByLabelText("Username");
   let tmp = "testingworld";
   fireEvent.change(input, { target: { value: tmp } });
@@ -133,5 +112,25 @@ test("successful login", async () => {
   const button = screen.getByRole("button", { type: "submit" });
   fireEvent.click(button);
 
-  // expect(await screen.findByText("Seller Dashboard")).toBeInTheDocument();
+  //expect(await screen.findByText("Seller Dashboard")).toBeInTheDocument();
+});
+
+test("failed login: server error message", async () => {
+  const asyncMock = jest
+    .fn()
+    .mockResolvedValueOnce("first call")
+    .mockRejectedValueOnce(new Error("Async error message"));
+  await asyncMock();
+  //  await asyncMock();
+
+  let input = screen.getByLabelText("Username");
+  let tmp = "testingworld";
+  fireEvent.change(input, { target: { value: tmp } });
+  input = screen.getByLabelText("Password");
+  fireEvent.change(input, { target: { value: tmp } });
+
+  const button = screen.getByRole("button", { type: "submit" });
+  fireEvent.click(button);
+
+  expect(await screen.findByText("Server error")).toBeInTheDocument();
 });
