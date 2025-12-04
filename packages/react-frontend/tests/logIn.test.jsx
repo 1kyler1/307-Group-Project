@@ -13,6 +13,11 @@ jest.mock("./../src/auth/useAuth.js", () => ({
 
 import { useAuth } from "./../src/auth/useAuth.js";
 
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useNavigate: jest.fn(),
+}));
+
 import { useNavigate } from "react-router-dom";
 
 const history = createMemoryHistory({ initialEntries: ["/login"] });
@@ -47,11 +52,6 @@ test("accepts form input", () => {
 });
 
 test("successful login", async () => {
-  jest.mock("react-router-dom", () => ({
-    ...jest.requireActual("react-router-dom"),
-    useNavigate: jest.fn(),
-  }));
-
   let input = screen.getByLabelText("Username");
   let tmp = "testingworld";
   fireEvent.change(input, { target: { value: tmp } });
@@ -67,13 +67,10 @@ test("successful login", async () => {
 
   expect(useAuth).toHaveBeenCalled(); //logs in
   expect(useNavigate).toHaveBeenCalled(); //redirects page
-  //expect(useNavigate).toHaveBeenCalledWith("/user-page");
 
   //await waitFor(() => expect(history.location.pathname).toBe("/user-page"));
   //expect(await history.location.pathname).toBe('/user-page');
   //expect(await screen.findByText("Seller Dashboard")).toBeInTheDocument();
-
-  useNavigate.mockReset();
 });
 
 test("failed login: server error message", async () => {
