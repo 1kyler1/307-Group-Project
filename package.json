@@ -7,7 +7,8 @@
     "dev": "cd packages/react-frontend && npm run dev",
     "prettier": "prettier --write .",
     "check-prettier": "prettier --check .",
-    "lint": "eslint ."
+    "lintf": "cd packages/react-frontend && eslint .",
+    "lintb": "cd packages/express-backend && eslint ."
   },
   "author": "",
   "license": "ISC",
