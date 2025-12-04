@@ -1,6 +1,6 @@
 ## SLOfits: CSC 307 Group Project
 
-A site for users in the general SLO area to post, view, and trade secondhand clothing and accessories.
+A site for users in the general SLO area to post, view, trade, and sell secondhand clothing and accessories.
 
 **[Website Link](https://victorious-desert-0ce5d4c1e.3.azurestaticapps.net/)**
 
@@ -18,12 +18,12 @@ Formatter: Prettier
 Linter: ESLint  
 For IDE, install extensions from VScode  
 Cloud database: MongoDB Atlas  
-.env file on everyone's local machines containing the MongoDB URI  
 Prior to pushing please run the command "npm run lint" in both the frontend and backend  
-If there are issues please run "npm run lint:fix"  
+If there are issues please run "npm run lint:fix" and "npm run prettier"  
 When pushing please use the comment format "feat: what you push does"  
-Image Cloud: Cloudinary  
-npm i cloudinary
+Image Cloud: Cloudinary "npm i cloudinary"  
+Testing: "npm test" to run frontend tests. Automated coverage report can be found in the Github CI report.  
+.ENV file: contains MongoDB URI, JWT secret key, Cloudinary keys
 
 #### Documentation:
 

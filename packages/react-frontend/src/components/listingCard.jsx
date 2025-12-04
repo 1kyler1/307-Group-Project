@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 export default function ListingCard({ item }) {
   const isRaw = item.imageUrl?.toLowerCase().endsWith(".dng");
-
+  /*
   const CATEGORY_KEYS = ["top", "bottoms", "accessories"];
 
   let category = null;
@@ -54,7 +54,7 @@ export default function ListingCard({ item }) {
 
   const displayGender =
     gender && gender.charAt(0).toUpperCase() + gender.slice(1);
-
+	*/
   return (
     <Link to={`/listing/${item._id}`} className="listing-link">
       <div className="listing-card">

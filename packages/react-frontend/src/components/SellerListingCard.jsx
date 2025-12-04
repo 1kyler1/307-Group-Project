@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 export default function SellerListingCard({ item, onDelete }) {
   const isRaw = item.imageUrl?.toLowerCase().endsWith(".dng");
-
+  /*
   const CATEGORY_KEYS = ["top", "bottoms", "accessories"];
 
   let category = null;
@@ -54,7 +54,7 @@ export default function SellerListingCard({ item, onDelete }) {
 
   const displayGender =
     gender && gender.charAt(0).toUpperCase() + gender.slice(1);
-
+*/
   const handleDelete = async (e) => {
     e.preventDefault();
     e.stopPropagation();
