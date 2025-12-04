@@ -298,5 +298,38 @@ app.get("/api/users", async (_req, res) => {
   res.json(users);
 });
 
+// DELETE /api/items/:id - Delete an item (only by owner)
+app.delete("/api/items/:id", verifyAccessToken, async (req, res) => {
+  try {
+    const item = await Item.findById(req.params.id);
+
+    if (!item) {
+      return res.status(404).json({ error: "Item not found" });
+    }
+
+    // Check if the user owns this item
+    if (item.owner.toString() !== req.user._id) {
+      return res
+        .status(403)
+        .json({ error: "You can only delete your own listings" });
+    }
+
+    // Remove item from user's listings array
+    await User.findByIdAndUpdate(
+      req.user._id,
+      { $pull: { listings: item._id } },
+      { new: true },
+    );
+
+    // Delete the item
+    await Item.findByIdAndDelete(req.params.id);
+
+    res.status(200).json({ message: "Item deleted successfully" });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 const port = process.env.PORT || 4000;
 app.listen(port, () => console.log(`API on http://localhost:${port}`));

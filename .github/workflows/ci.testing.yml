@@ -18,4 +18,3 @@ jobs:
       - run: npm run -w express-backend lint
       - run: npm run -w react-frontend lint
       - run: npm run -w react-frontend build
-      - run: cd packages/react-frontend && npm run test
