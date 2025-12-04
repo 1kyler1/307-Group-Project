@@ -43,10 +43,10 @@ function NewItemFormPage() {
   };
 
   const handleSubmitClick = async () => {
-    if (!isComplete) {
-      console.log("incomplete submit");
-      return;
-    }
+    //  if (!isComplete) {
+    //  console.log("incomplete submit");
+    //  return;
+    //}
 
     let newTags = tags
       .split(",")
@@ -63,7 +63,6 @@ function NewItemFormPage() {
     formData.append("description", description);
     formData.append("location", location);
     formData.append("contactInfo", contactInfo);
-
     formData.append("gender", gender);
 
     selectedCategories.forEach((c) => {
@@ -92,7 +91,7 @@ function NewItemFormPage() {
         const err = await res.json().catch(() => ({}));
         console.error("Error:", err);
         alert("Failed to save item");
-        return;
+        return res.status;
       }
 
       const savedItem = await res.json();
@@ -261,7 +260,9 @@ function NewItemFormPage() {
 
           {/* Category checkboxes */}
           <div>
-            <label className="new-item-label">Category</label>
+            <label className="new-item-label" htmlFor="category">
+              Category
+            </label>
             <div
               style={{
                 display: "flex",
@@ -342,7 +343,9 @@ function NewItemFormPage() {
 
           {/* Contact Info */}
           <div>
-            <label className="new-item-label">Email/Phone Number</label>
+            <label className="new-item-label" htmlFor="contactInfo">
+              Email/Phone Number
+            </label>
             <input
               id="contactInfo"
               type="text"

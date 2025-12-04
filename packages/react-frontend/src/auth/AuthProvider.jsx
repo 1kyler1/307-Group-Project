@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { AuthContext } from "./AuthContext";
+import { AuthContext } from "./AuthContext.js";
 
-export function AuthProvider({ children }) {
+function AuthProvider({ children }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const login = () => setIsLoggedIn(true);
@@ -13,3 +13,5 @@ export function AuthProvider({ children }) {
     </AuthContext.Provider>
   );
 }
+
+export { AuthProvider };
