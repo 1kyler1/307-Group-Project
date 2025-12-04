@@ -21,9 +21,9 @@ Cloud database: MongoDB Atlas
 .env file on everyone's local machines containing the MongoDB URI  
 Prior to pushing please run the command "npm run lint" in both the frontend and backend  
 If there are issues please run "npm run lint:fix"  
-When pushing please use the comment format "feat: what you push does"
-Image Cloud: Cloudinary
-npm i cloudinary
+When pushing please use the comment format "feat: what you push does"  
+Image Cloud: Cloudinary  
+npm i cloudinary  
 
 #### Documentation:
 
