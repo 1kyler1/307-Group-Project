@@ -49,7 +49,7 @@ export default function ListingDetailPage() {
             <strong>Location:</strong> {item.location}
           </p>
           <p>
-            <strong>Price:</strong> ${item.price}
+            <strong>Price:</strong>${item.price}
           </p>
           <p>
             <strong>Tags:</strong> {item.tags.join(", ")}
