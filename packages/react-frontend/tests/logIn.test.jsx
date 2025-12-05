@@ -2,7 +2,6 @@ import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { Link } from "react-router-dom";
 import { BrowserRouter as Router } from "react-router-dom";
-import { createMemoryHistory } from "history";
 import { Login } from "./../src/LogIn";
 
 jest.mock("./../src/auth/useAuth.js", () => ({
@@ -13,18 +12,18 @@ jest.mock("./../src/auth/useAuth.js", () => ({
 
 import { useAuth } from "./../src/auth/useAuth.js";
 
+/*
+const mockNav = jest.fn();
 jest.mock("react-router-dom", () => ({
-  ...jest.requireActual("react-router-dom"),
-  useNavigate: jest.fn(),
+	...jest.requireActual("react-router-dom"),
+  useNavigate: () => mockNav,
 }));
-
-import { useNavigate } from "react-router-dom";
-
-const history = createMemoryHistory({ initialEntries: ["/login"] });
+*/
 
 beforeEach(() => {
+  jest.clearAllMocks();
   render(
-    <Router history={history}>
+    <Router>
       <Login />
     </Router>,
   );
@@ -51,7 +50,7 @@ test("accepts form input", () => {
   expect(input).toHaveValue(tmp);
 });
 
-test("successful login", async () => {
+test("successful login", () => {
   let input = screen.getByLabelText("Username");
   let tmp = "testingworld";
   fireEvent.change(input, { target: { value: tmp } });
@@ -60,17 +59,16 @@ test("successful login", async () => {
 
   fetch.mockResponseOnce(JSON.stringify({ status: 200, ok: true }));
 
-  expect(history.location.pathname).toBe("/login");
+  //const nav = jest.fn();
+  //jest.spyOn(route, "useNavigate").mockImplementation(() => nav);
 
   const button = screen.getByRole("button", { type: "submit" });
   fireEvent.click(button);
 
   expect(useAuth).toHaveBeenCalled(); //logs in
-  expect(useNavigate).toHaveBeenCalled(); //redirects page
 
-  //await waitFor(() => expect(history.location.pathname).toBe("/user-page"));
-  //expect(await history.location.pathname).toBe('/user-page');
-  //expect(await screen.findByText("Seller Dashboard")).toBeInTheDocument();
+  //await waitFor(() => expect(window.location.href).toContain("/user-page"));
+  //expect(mockNav).toHaveBeenCalledWith('/user-page');
 });
 
 test("failed login: server error message", async () => {

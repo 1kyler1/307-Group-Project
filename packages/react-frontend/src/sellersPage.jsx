@@ -40,7 +40,7 @@ export default function SellersPage() {
     }
 
     loadMyListings();
-  }, []);
+  }, [logout]);
 
   async function handleDeleteListing(itemId) {
     const token = localStorage.getItem("token");
