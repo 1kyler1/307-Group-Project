@@ -1,8 +1,8 @@
 import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { Link } from "react-router-dom";
 import { BrowserRouter as Router } from "react-router-dom";
-import { createMemoryHistory } from "history";
+import * as route from "react-router";
 import { Login } from "./../src/LogIn";
 
 jest.mock("./../src/auth/useAuth.js", () => ({
@@ -13,18 +13,17 @@ jest.mock("./../src/auth/useAuth.js", () => ({
 
 import { useAuth } from "./../src/auth/useAuth.js";
 
-jest.mock("react-router-dom", () => ({
-  ...jest.requireActual("react-router-dom"),
-  useNavigate: jest.fn(),
-}));
+//jest.mock("react-router-dom", () => ({
+//  ...jest.requireActual("react-router-dom"),
+//  useNavigate: jest.fn(),
+//}));
 
-import { useNavigate } from "react-router-dom";
-
-const history = createMemoryHistory({ initialEntries: ["/login"] });
+//import { useNavigate } from "react-router";
 
 beforeEach(() => {
+  //useNavigate.mockClear();
   render(
-    <Router history={history}>
+    <Router>
       <Login />
     </Router>,
   );
@@ -60,17 +59,20 @@ test("successful login", async () => {
 
   fetch.mockResponseOnce(JSON.stringify({ status: 200, ok: true }));
 
-  expect(history.location.pathname).toBe("/login");
+  const nav = jest.fn();
+  jest.spyOn(route, "useNavigate").mockImplementation(() => nav);
 
   const button = screen.getByRole("button", { type: "submit" });
   fireEvent.click(button);
 
   expect(useAuth).toHaveBeenCalled(); //logs in
-  expect(useNavigate).toHaveBeenCalled(); //redirects page
 
-  //await waitFor(() => expect(history.location.pathname).toBe("/user-page"));
-  //expect(await history.location.pathname).toBe('/user-page');
-  //expect(await screen.findByText("Seller Dashboard")).toBeInTheDocument();
+  await waitFor(() => expect(window.location.href).toContain("/user-page"));
+
+  //expect(useAuth).toHaveBeenCalledWith("");
+  //expect(useNavigate).toHaveBeenCalled(); //redirects page
+  //expect(useNavigate).toHaveBeenCalledWith("/user-page");
+  //expect(nav).toHaveBeenCalledWith('/user-page');
 });
 
 test("failed login: server error message", async () => {
