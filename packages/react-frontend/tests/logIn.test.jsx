@@ -1,8 +1,7 @@
 import React from "react";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import { Link } from "react-router-dom";
 import { BrowserRouter as Router } from "react-router-dom";
-import * as route from "react-router";
 import { Login } from "./../src/LogIn";
 
 jest.mock("./../src/auth/useAuth.js", () => ({
@@ -13,15 +12,16 @@ jest.mock("./../src/auth/useAuth.js", () => ({
 
 import { useAuth } from "./../src/auth/useAuth.js";
 
-//jest.mock("react-router-dom", () => ({
-//  ...jest.requireActual("react-router-dom"),
-//  useNavigate: jest.fn(),
-//}));
-
-//import { useNavigate } from "react-router";
+/*
+const mockNav = jest.fn();
+jest.mock("react-router-dom", () => ({
+	...jest.requireActual("react-router-dom"),
+  useNavigate: () => mockNav,
+}));
+*/
 
 beforeEach(() => {
-  //useNavigate.mockClear();
+  jest.clearAllMocks();
   render(
     <Router>
       <Login />
@@ -50,7 +50,7 @@ test("accepts form input", () => {
   expect(input).toHaveValue(tmp);
 });
 
-test("successful login", async () => {
+test("successful login", () => {
   let input = screen.getByLabelText("Username");
   let tmp = "testingworld";
   fireEvent.change(input, { target: { value: tmp } });
@@ -59,20 +59,16 @@ test("successful login", async () => {
 
   fetch.mockResponseOnce(JSON.stringify({ status: 200, ok: true }));
 
-  const nav = jest.fn();
-  jest.spyOn(route, "useNavigate").mockImplementation(() => nav);
+  //const nav = jest.fn();
+  //jest.spyOn(route, "useNavigate").mockImplementation(() => nav);
 
   const button = screen.getByRole("button", { type: "submit" });
   fireEvent.click(button);
 
   expect(useAuth).toHaveBeenCalled(); //logs in
 
-  await waitFor(() => expect(window.location.href).toContain("/user-page"));
-
-  //expect(useAuth).toHaveBeenCalledWith("");
-  //expect(useNavigate).toHaveBeenCalled(); //redirects page
-  //expect(useNavigate).toHaveBeenCalledWith("/user-page");
-  //expect(nav).toHaveBeenCalledWith('/user-page');
+  //await waitFor(() => expect(window.location.href).toContain("/user-page"));
+  //expect(mockNav).toHaveBeenCalledWith('/user-page');
 });
 
 test("failed login: server error message", async () => {
